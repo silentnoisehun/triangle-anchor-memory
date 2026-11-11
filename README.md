@@ -14,16 +14,31 @@ futtatás előtt rögzítve, döntési szabályai utólag nem módosíthatók.
 ## Állapot: 0. fázis készül
 
 - [x] Repo-váz (ez a fájl, `.gitignore`, `data/` megjelölve nem-ignoroltnak)
-- [x] `preregistration/PLAN_v1.0.md` — a terv szó szerinti másolata
+- [x] `preregistration/PLAN_v1.0.md` — a terv szó szerinti másolata (SHA-256: `12b22f18c468f05ab5ca10ed0bbb0819ed85e21564f3a3780b51c25508e38775`)
 - [x] `src/` csomag: `config`, `circuits`, `sim`, `analysis`, `run` (beküldő), `freeze` (0. fázis fagyasztó)
 - [x] `dryrun.py` — QPU nélkül minden végigfuttatható
-- [ ] 0. fázis szimuláció (zajtalan + zajos, MINTA zajparaméterekkel) — a végrehajtás után frissítve
-- [ ] `preregistration/frozen_params.json` — φ, K, csúcs-keresési ablakok, várt görbék, hash-el lezárva
+- [x] 0. fázis szimuláció lezajlott (zajtalan + zajos, **MINTA** zajparaméterekkel)
+- [x] `preregistration/frozen_params.json` — φ = π/16, K = 32, csúcs-keresési ablakok, várt görbék, hash-el lezárva
 - [ ] QPU-futtatás (1. fázis) — **NEM az agent dolga**: a Control Agent végzi audit után
 
 **A QPU-futtatás még nem történt meg.** A token soha nem kerül fájlba; a
 `src/run.py` a tokent kizárólag az `IBM_QUANTUM_TOKEN` környezeti változóból
 olvassa. A `data/` mappa szándékosan NINCS `.gitignore`-ban.
+
+### A 0. fázis eredménye (szimuláció, nem hardver!)
+
+- **Zajtalan:** a preregisztrált szabály szerint TEXTBOOK-MEGEROSITVE (P1: 16/11/9 lépés,
+  arányok 1.00 / 0.6875 / 0.5625 a `1 : 0.71 : 0.58 ±20%` sávban; P2: CI-alsó ≈ +0.95;
+  P3: a `cut` 2 lépéssel eltolódva, CI = [2.00, 2.00]).
+- **Pozitív kontroll (csatolások kikapcsolva):** NULL — az elemző helyesen ismeri fel.
+- **Zajos (MINTA T1/T2/ε, NEM chip-pillanatfelvétel!):** TEXTBOOK-MEGEROSITVE jött ki a
+  minta-paraméterekkel; a minta T2/t_össz ~ 0,3, így a zaj csekély. A leendő
+  snapshot.json behelyettesítése után ez megváltozhat; hardver-eredményként **soha**
+  nem közölhető.
+- **frozen_params.json SHA-256:** `e1d7a78888c531ba8ae7e5f84ed090649f5156774eabd763c8772d5d02d09429`
+  (ellenőrzés: `src/analysis.py` minden futtatáskor; a hash-fájl: `preregistration/frozen_params.sha256`)
+
+A koherencia-ág eredményeit a `dryrun.py` külön, „MÁSODLAGOS" jelöléssel írja ki — a fő ítéletbe nem számítanak bele.
 
 ## Gyors indítás (0. fázis, QPU nélkül)
 

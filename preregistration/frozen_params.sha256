@@ -1,0 +1,6 @@
+# triangle-anchor-memory — preregisztrált hashek
+# létrehozva (UTC): 2026-11-11T20:02:12+00:00
+# integritás-ellenőrzés: src/analysis.py:verify_frozen_params
+# (A döntési szabály forrása a frozen_params.json — módosítás csak 'amended' verzióval!)
+e1d7a78888c531ba8ae7e5f84ed090649f5156774eabd763c8772d5d02d09429  frozen_params.json
+12b22f18c468f05ab5ca10ed0bbb0819ed85e21564f3a3780b51c25508e38775  PLAN_v1.0.md
