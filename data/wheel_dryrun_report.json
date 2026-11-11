@@ -1,0 +1,114 @@
+{
+  "kind": "AER/NOISELESS SZIMULACIO — NEM HARDWARE",
+  "shots_per_circuit": 512,
+  "seed": 20261111,
+  "checks": [
+    {
+      "name": "frozen integrity (sha256 + ci_level + holm + claim-család + routing)",
+      "pass": true,
+      "detail": "ci=0.99, holm, ['W1', 'W2', 'W4_secondary', 'sotetallapot']"
+    },
+    {
+      "name": "W3-verdikt befagyasztva (SZÉTESŐ → nincs teljes QPU-job)",
+      "pass": true,
+      "detail": "W3 SZETESO — a teljes QPU-job NEM tervezhető; csak a kis kuszöb-job (gyuru önmag…"
+    },
+    {
+      "name": "zajtalan: az alone kar S-tartása = 1.0 minden ellenponton",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "zajtalan: a wheel oszcillál (van k, ahol P(S=1) < 0.5)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Aer-megfigyelés: a verdikt nem ANOMALIA (a modell önmaga ellen nem az)",
+      "pass": true,
+      "detail": "verdikt = TEXTBOOK"
+    },
+    {
+      "name": "pozitív kontroll: az elemző KIMUTATJA a beépített hatást (z > 4)",
+      "pass": true,
+      "detail": "z = 5.6, diff = +0.054"
+    },
+    {
+      "name": "negatív kontroll (cut): nem jobb a wheelnél a megtartásban",
+      "pass": true,
+      "detail": "cut AUC ≈ 0.441, wheel ≈ 0.465"
+    },
+    {
+      "name": "a claim-család mind a négy tagja értelmezve (W1, W2, W4_secondary, sotetallapot)",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "verdict": "TEXTBOOK",
+  "analysis": {
+    "label": "dryrun_routed_observed",
+    "aucs": {
+      "wheel": 0.4654202473958333,
+      "wheel_rev": 0.4803861762152778,
+      "static": 0.47196549479166666,
+      "ring_only": 0.7313820529513889,
+      "alone": 0.7326677517361111,
+      "alone_DD": 0.8117178819444445,
+      "pump_blind": 0.46354481336805553,
+      "pump_dir": 0.47245290798611117,
+      "pump_wrong": 0.4745441623263889,
+      "cut": 0.4406294487847222,
+      "dark_m1": 0.4655888671875,
+      "dark_m0": 0.4919690755208333,
+      "dark_mm1": 0.4802600911458333
+    },
+    "claims": {
+      "W1": {
+        "p_static": 1.0,
+        "p_ring_only": 1.0,
+        "holm": {
+          "p_raw": 1.0,
+          "holm_threshold": 0.010000000000000009,
+          "significant": false
+        }
+      },
+      "W2": {
+        "p_raw": 0.1,
+        "holm": {
+          "p_raw": 0.1,
+          "holm_threshold": 0.0025000000000000022,
+          "significant": false
+        }
+      },
+      "W4_secondary": {
+        "p_raw": 0.23,
+        "holm": {
+          "p_raw": 0.23,
+          "holm_threshold": 0.003333333333333336,
+          "significant": false
+        }
+      },
+      "sotetallapot": {
+        "p_m1_vs_m0": 0.9975,
+        "p_mm1_vs_m0": 0.8905,
+        "holm": {
+          "p_raw": 0.9975,
+          "holm_threshold": 0.0050000000000000044,
+          "significant": false
+        }
+      }
+    },
+    "verdict": "TEXTBOOK"
+  },
+  "positive_control": {
+    "auc_pc": 0.5198612196180555,
+    "auc_plain": 0.46587738715277777,
+    "mean_diff": 0.053983832465277784,
+    "se_diff": 0.009645258861314357,
+    "z": 5.596929355810096,
+    "detected": true,
+    "bootstrap_p_le_0": 0.0,
+    "note": "ha detected == False, az elemző vak a beépített hatásra -> az elemző érvénytelen (nem a fizika)"
+  },
+  "all_pass": true
+}

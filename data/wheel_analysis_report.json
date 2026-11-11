@@ -1,0 +1,65 @@
+{
+  "label": "/tmp/observed_selftest.json",
+  "aucs": {
+    "wheel": 0.4629519585503472,
+    "wheel_rev": 0.4740323079427084,
+    "static": 0.46940673828125,
+    "ring_only": 0.7254883355034721,
+    "alone": 0.7253936903211805,
+    "alone_DD": 0.8111935492621528,
+    "pump_blind": 0.4642473958333333,
+    "pump_dir": 0.47111268446180554,
+    "pump_wrong": 0.4682564019097222,
+    "cut": 0.43721714952256946,
+    "dark_m1": 0.4630381944444444,
+    "dark_m0": 0.48445174153645837,
+    "dark_mm1": 0.4740295681423611
+  },
+  "claims": {
+    "W1": {
+      "p_static": 1.0,
+      "p_ring_only": 1.0,
+      "holm": {
+        "p_raw": 1.0,
+        "holm_threshold": 0.0050000000000000044,
+        "significant": false
+      }
+    },
+    "W2": {
+      "p_raw": 0.018,
+      "holm": {
+        "p_raw": 0.018,
+        "holm_threshold": 0.0025000000000000022,
+        "significant": false
+      }
+    },
+    "W4_secondary": {
+      "p_raw": 0.0405,
+      "holm": {
+        "p_raw": 0.0405,
+        "holm_threshold": 0.003333333333333336,
+        "significant": false
+      }
+    },
+    "sotetallapot": {
+      "p_m1_vs_m0": 1.0,
+      "p_mm1_vs_m0": 0.983,
+      "holm": {
+        "p_raw": 1.0,
+        "holm_threshold": 0.010000000000000009,
+        "significant": false
+      }
+    }
+  },
+  "verdict": "TEXTBOOK",
+  "positive_control": {
+    "auc_pc": 0.5219045952690972,
+    "auc_plain": 0.46301589626736106,
+    "mean_diff": 0.058888699001736114,
+    "se_diff": 0.004820124280800697,
+    "z": 12.217257392366196,
+    "detected": true,
+    "bootstrap_p_le_0": 0.0,
+    "note": "ha detected == False, az elemző vak a beépített hatásra -> az elemző érvénytelen (nem a fizika)"
+  }
+}

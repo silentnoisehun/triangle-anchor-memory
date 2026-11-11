@@ -1,0 +1,39 @@
+{
+  "kind": "W3 flux-locking kuszob — AER/SNAPSHOT-szamolas, NEM hardver-eredmeny",
+  "k_steps": 32,
+  "t_circuit_us": 173.056,
+  "flux_lock": {
+    "J_per_2pi_Hz": 459558.82352941175,
+    "ramsey_bound_Hz": {
+      "A1": 1409.3464485146844,
+      "A2": 2151.6595242226763,
+      "A3": 923.3141469331919
+    },
+    "ratio": 213.5834310009783,
+    "pass": true,
+    "note": "a Ramsey-szórás KÖTÖTT érték (frequency_hz nincs a snapshotban) — a valódi szórás lehet kisebb"
+  },
+  "gate_error_budget": {
+    "ideal_per_circuit_xy_accounting": 0.433598058550535,
+    "ideal_native_estimate": 0.86719611710107,
+    "routed_per_circuit_cz_accounting": 1.0502216861054536,
+    "routed_pairs": {
+      "117-125": 236,
+      "124-125": 232,
+      "125-126": 232
+    },
+    "pass_ideal": true,
+    "pass_ideal_native": false,
+    "pass_routed": false,
+    "note": "ideal-XY: minden XY ≈ 2 natív CZ (ideal_native = 2×ideal); routed: a CZ-k közvetlenül számolva (nincs szorzás). KÜSZÖB: 0.5 várható 2Q-hiba / teljes áramkör; a küszöb 0.5 várható 2Q-hiba / teljes áramkör"
+  },
+  "storage_floor": {
+    "S": 0.6216266114267367,
+    "A1": 0.565302241973788,
+    "A2": 0.5450870753563416,
+    "A3": 0.5098549658450791
+  },
+  "pass_storage": true,
+  "verdict": "SZETESO",
+  "active_branch": "W3 SZETESO — a teljes QPU-job NEM tervezhető; csak a kis kuszöb-job (gyuru onmagaban, nehany lepes) johet szoba; a kerek-allitas a kovetkezo, erosebb csatolasu qubit-negyesre vagy javitott routingra var"
+}

@@ -146,3 +146,44 @@ A `data/raw_counts.json` várt sémáját a [`data/README.md`](data/README.md) r
 3. `data/` sosem kerül `.gitignore`-ba.
 4. Szimulációs eredmény soha nem kap „HARDWARE" címkét.
 5. A 0. fázis eredményéig (φ, K, ablakok, görbék) a `frozen_params.json` lezárja a paramétereket.
+
+## A Kerék-menet (forgó gyűrű által tartott középpont)
+
+**Állapot: terv + 0. fázis — QPU még nem futott.** A Kerék-menet külön,
+v1.1 amended tervre és saját fagyasztásra épül; a csillag- és a gyűrű-
+anyaghoz nem nyúl.
+
+- **Terv:** [`preregistration/PLAN_WHEEL_v1.0.md`](preregistration/PLAN_WHEEL_v1.0.md)
+  (transport) és [`preregistration/PLAN_WHEEL_v1.1.md`](preregistration/PLAN_WHEEL_v1.1.md)
+  (**amended**, a fagyasztás alapja; a v1.0 változatlanul hagyva — soha nem
+  fagyott le; a v1.1 az első és eddigi egyetlen fagyasztott Kerék-verzió).
+- **Fagyasztott paraméterek:** [`preregistration/frozen_wheel_params.json`](preregistration/frozen_wheel_params.json)
+  (SHA-256: `frozen_wheel_params.sha256`, ellenőrzés: `src/wheel/analysis.py:check_frozen`).
+  `ci_level = 0.99`, `correction = "holm"`, állítás-család:
+  **W1, W2, W4-másodlagos, sötétállapot-teszt**.
+- **Kód:** `src/wheel/` (áramkörök, snapshot-zajmodell, szimuláció, elemző,
+  W3-számítás, kaputilus-tábla generátor); `dryrun_wheel.py` a gyökérnél.
+- **A 0. fázis nettó üzenete (Aer/zajtalan szimuláció, NEM hardware):**
+  - az ibm_kingston heavy-hex rácsban NINCS háromszög (0 db 3-klik; a
+    125-ös középpont körül a gyűrű csak SWAP-hálózattal routolható,
+    a csillag-menet layoutján — routing a tényeleges transzpilált
+    áramkörökből, opt=0 mellett, minden karra azonos 700 CZ);
+  - **W3 = SZÉTESŐ**: a várható 2Q-hiba 1.05 / teljes áramkör (küszöb 0.5);
+    a tárolási padló (0.51–0.62) és a flux-lock (arány 214) teljesül.
+    **A teljes QPU-job NEM tervezhető**; csak a kis kuszöb-job (gyűrű
+    önmagában, néhány lépés) jöhet szóba — és az is kizárólag a
+    tulajdonos/Control Agent beküldésével; a kerék-állitas a következő,
+    erősebb csatolású qubit-négyesre vagy javított routingra vár;
+  - a szimuláció a Maya-előrejelzés (küllők kioltják egymást; W1/W2
+    várhatóan NULL) oldalára hajlik, és ezt a várakozást a terv és a
+    fagyasztott fájl is rögzíti a tulajdonos erős várakozása mellett —
+    a mérés dönt, ha mérés lesz;
+  - a pozitív kontroll (beépített Ry-stabilizáló hatás) az elemző által
+    kimutatható; a `cut` (kitört gyűrű) negatív kontrollként NULL-t ad.
+- **Szimulációs eredmény sosem hardware-eredmény; a QPU nem futott; az agent
+  QPU-t nem indított és nem fog.**
+
+```bash
+.venv/bin/python dryrun_wheel.py   # QPU nélkül: zajtalan + Aer-routolt "mérés",
+                                    # pozitív/negatív kontroll, W3-verdikt → elvárt: PASS
+```
