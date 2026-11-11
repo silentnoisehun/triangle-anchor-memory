@@ -167,6 +167,42 @@ def build_pswap_calibration_circuit(arm: str = "n1", k_rounds: int = 1) -> Quant
     return build_arm_circuit("n1", k_rounds, config.BRANCH_POPULATION, "1")
 
 
+def build_pair_pswap_circuit(
+    anchor: str,
+    k_rounds: int,
+    init_state: str = "1",
+    coupling_scale: float = 1.0,
+    measure: bool = True,
+) -> QuantumCircuit:
+    """Egyetlen S–Ai pár PSWAP-oszcillációja — φ_eff kalibráció (terv 3.3).
+
+    2-qubitos áramkör (qv0 = S, qv1 = Ai): x(S) ha init_state == '1';
+    k_rounds × PSWAP(φ); Z-mérés. A csere-oszcilláció periódusából a 2. fázisban
+    tényleges φ_eff nyerhető minden S–Ai párra (ha a három pár 15%-nál jobban
+    eltér, azt a preregisztrált elemzésnek a szimmetria-állításnál jeleznie
+    kell — utólagos „szimmetrizálás" tilos).
+    """
+    if anchor not in ANCHOR_TO_QUBIT:
+        raise ValueError(f"anchor ∈ {{'A1','A2','A3'}}, kapott: {anchor}")
+    if init_state not in ("0", "1"):
+        raise ValueError("init_state ∈ {'0','1'}")
+    if not 0 <= k_rounds <= config.K:
+        raise ValueError(f"k_rounds tartománya 0..{config.K}")
+    phi = config.PHI * float(coupling_scale)
+    qc = QuantumCircuit(2, 2, name=f"phi_eff_{anchor}_k{k_rounds}")
+    if init_state == "1":
+        qc.x(0)
+    for _ in range(k_rounds):
+        if coupling_scale != 0.0:
+            qc.append(_pswap_gate(phi), [0, 1])
+        else:
+            qc.id(0)
+            qc.id(1)
+    if measure:
+        qc.measure(range(2), range(2))
+    return qc
+
+
 def all_circuits() -> list[QuantumCircuit]:
     """Összes mérési áramkör (kalibráció nélkül), mind a két ágban, k = 0..K.
 

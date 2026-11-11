@@ -37,8 +37,73 @@ olvassa. A `data/` mappa szándékosan NINCS `.gitignore`-ban.
   nem közölhető.
 - **frozen_params.json SHA-256:** `e1d7a78888c531ba8ae7e5f84ed090649f5156774eabd763c8772d5d02d09429`
   (ellenőrzés: `src/analysis.py` minden futtatáskor; a hash-fájl: `preregistration/frozen_params.sha256`)
+- [x] Control Agent audit (2026-11-11) — a run.py/kalibráció/snapshot kellékek kódbeli javításai elkészültek (lásd „1. fázis előkészítése"); QPU-hívást továbbra sem indítunk
+- [x] `preregistration/ERRATA.md` — a PLAN_v1.0.md 195. sorának dokumentált eltérése (a fájlt nem módosítottuk)
 
 A koherencia-ág eredményeit a `dryrun.py` külön, „MÁSODLAGOS" jelöléssel írja ki — a fő ítéletbe nem számítanak bele.
+
+## 1. fázis előkészítése (Control Agent audit, 2026-11-11)
+
+Az audit kizárólag kódbeli javításokat kért; QPU-hívás nem történt és nem is történhet innen.
+
+1. **Backend- és qubit-választás (`src/run.py`):** valódi, `operational` Heron-backendek
+   a futtató környezetből, csatorna `ibm_quantum_platform`. S kiválasztása a terv 3.1
+   pontozása szerint — `min(T1,T2)/(1+20ε)` µs-ben, **ε = a qubit incidens 2Q-kapu-hibáinak
+   maximuma** (dokumentált döntés; az `eps_readout` külön kerül a snapshotba, a pontozásnak
+   nem része) —, S-nek ≥3 fizikai szomszédja kell legyen; pontszám = S-pont ×
+   min(három horgony-pont). A rendszer rangsort ad (top 10) és a legjobbat választja;
+   `IBM_QUANTUM_BACKEND` csak a rangsorolt Heron-backendek között engedélyezett felülbírálás.
+   A végleges elrendezés a `transpile(..., initial_layout=[S,A1,A2,A3], optimization_level=0)`
+   lépésben rögzítve — a 0. szint szándékos (az üres időrések időzítése nem optimalizálható el).
+2. **Kalibráció ugyanabban a jobban, a karok ELÉ:** T1, Hahn-T2 és kiolvasás mind a 4
+   qubitre (késleltetések: 0, 20, 50, 100, 150, 200, 300 µs) + φ_eff minden S–Ai párra
+   (k = 0…32) = **163 kalibrációs áramkör**, utánuk a 594 kar seedelt shuffle-lel
+   (SHUFFLE_SEED = 20261111) → **összesen 757 áramkör egy jobban** (terv: egyetlen job,
+   egyetlen napi kalibráció).
+3. **Pillanatkép a beküldéskor:** a `data/snapshot.json` a job indítása ELŐTT íródik —
+   T1/T2/ε mind a 4 érintett qubitre, `dt_s`, teljes `coupling_map`, 2Q-párok hibái,
+   kapuidők, backend-név és a kiválasztási rangsor. A fájl a `sim.validate_snapshot()`-en
+   megy át beküldés előtt, tehát **egy az egyben behelyettesíthető** a zajmodellbe
+   (`src/sim.py: load_noise_snapshot('data/snapshot.json')`).
+4. **`fetch_raw_counts()` ténylegesen kiolvassa** a SamplerV2 countsait a job_meta
+   `order` listájával azonos sorrendben, név szerint (`t1|S|d100us`, `phi_eff|A2|k9`,
+   `n3|population|1|k17` …), teljességet ellenőriz (a 594 kar-slot mindegyike feltöltött?),
+   `data/raw_counts.json`-t ír (atomikusan), és a hash-t `data/raw_counts.sha256`-ba.
+   A `job_meta.json`-t SOHA nem írja újra. Üres helyőrző NINCS — hibás/szinkronvesztett
+   eredmény esetén a szkript leáll, adatot nem ír.
+5. **Új forrásfájl:** `src/circuits.py` → `build_pair_pswap_circuit()` (φ_eff kalibráció).
+
+### Futásidő-becslés (757 áramkör × shots) — és hogy fér-e egy jobba
+
+Az átlagos kapu-/mérési idő kar-áramkörönként, a 0. fázis minta-időtartamaival
+(PSWAP/kitöltő slot = 0,3 µs, 1Q = 0,05 µs, kiolvasás ≈ 0,8–1 µs):
+
+| rész | áramkörök | átlagos mélység* | lövés | kapuidő-összeg |
+|---|---|---|---|---|
+| Karok (6 kar × (2·33 + 33)) | 594 | ≈ 0,9 µs × E[k=16] + ≈ 1,3 µs ≈ **15,7 µs** | 4096 | ≈ 38 s |
+| T1/Hahn-T2 (4 qubit × 7 késleltetés × 2) | 56 | Σ késleltetés = 820 µs/lövés/qubit | 4096 | ≈ 27 s |
+| φ_eff (3 pár × 33 k) | 99 | Σ ≈ 158 µs/pár/lövés | 4096 | ≈ 2 s |
+| Kiolvasás (8) | 8 | ≈ 1 µs | 4096 | < 1 s |
+| **Összesen (tiszta kvantumidő)** | **757** | | | **≈ 67–70 s** |
+
+Ez egy **alsó korlát** — nem tartalmazza a per-lövés állandó overhead-et (kiolvasási
+befejezés, reset, átvitel, job-validáció). Ha a tényleges futásidejű overhead `α`
+másodperc lövésenként, akkor a végrehajtási idő ≈ `70 s + 757 × 4096 × α`. Például
+`α = 20 µs` → **≈ 2 perc**; `α = 100 µs` → **≈ 6,2 perc**; `α = 300 µs` →
+**≈ 17 perc** (a sorban állás és a QPU napi kalibrációja szándékosan nincs benne; azt
+előre nem lehet megbecsülni).
+
+**Egy jobba fér?** Igen, a terv ezt követeli, és az áramkörszám (757) triviálisan a
+szokásos per-job korlátok alatt van. A lövésszám × időtartam azonban **fiók/előfizetés-
+függő**, és beküldés előtt a Control Agentnek ellenőriznie kell (IBM Quantum fiók-limits:
+kör/job, lövés/job, végrehajtási falidő/job). **Ha nem fér: a karok maradnak EGY jobban,
+és egyedül a shots csökkenthető (4096 → 2048/1024 — a futásidő lineárisan arányos,
+statisztikai erő csökken).** Lövéscsökkentés előtt jelenteni kell a tulajdonosnak —
+az nem a Control Agent vagy az agent önálló döntése.
+
+A fagyasztott `preregistration/frozen_params.json` ettől érintetlen
+(hash: `e1d7a788…`); a `PLAN_v1.0.md` eltérését a
+[`preregistration/ERRATA.md`](preregistration/ERRATA.md) dokumentálja — a fájlt nem írtuk át.
 
 ## Gyors indítás (0. fázis, QPU nélkül)
 
@@ -53,15 +118,16 @@ python3 -m venv .venv
 
 ```
 preregistration/   a terv + a 0. fázis utáni befagyasztott paraméterek (hash-el)
+                   + ERRATA.md (a PLAN_v1.0.md 195. sorának dokumentált eltérése — a fájlt NEM módosítjuk)
 src/config.py      φ, K, karok, referencia-döntési értékek, MINTA zajparaméterek
-src/circuits.py    kar-építők + kalibrációs áramkörök (T1, Hahn-T2, kiolvasás, φ_eff)
+src/circuits.py    kar-építők + kalibrációs áramkörök (T1, Hahn-T2, kiolvasás, φ_eff) + φ_eff párkörök
 src/sim.py         zajtalan + zajos (T1/T2/ε) szimuláció; várt görbék; pozitív kontroll
 src/analysis.py    D(k), BLP, csúcskeresés, bootstrap CI, ítélet — a döntési szabályt
                    a preregistration/frozen_params.json-ból olvassa (hash-ellenőrzéssel)
-src/run.py         beküldő — tokent CSAK környezeti változóból olvas (audit előtt nem futtatható)
+src/run.py         beküldő — tokent CSAK környezeti változóból olvas (Control Agent audit után futtatható)
 src/freeze.py      a 0. fázis fagyasztó-eszköze (egyszer fut le)
 dryrun.py          QPU nélkül minden végigfuttat
-data/              job_meta.json, raw_counts.json (NEM gitignore-olt!)
+data/              job_meta.json, raw_counts.json, snapshot.json, raw_counts.sha256 (NEM gitignore-olt!)
 ```
 
 ## Sémák
