@@ -104,13 +104,16 @@ def heron_candidates(service):
 
 
 def _target_error(target, instruction_name: str, qargs: tuple) -> float | None:
+    # Qiskit >=2.x API: target[name][qargs] -> InstructionProperties
+    # (a regi instruction_properties(name) dict-API mar nem letezik)
     try:
-        props = target.instruction_properties(instruction_name)
+        prop = target[instruction_name][tuple(qargs)]
     except Exception:
-        return None
-    if not props:
-        return None
-    prop = props.get(tuple(qargs))
+        try:
+            props = target.instruction_properties(instruction_name)
+            prop = props.get(tuple(qargs)) if props else None
+        except Exception:
+            return None
     if prop is None:
         return None
     err = getattr(prop, "error", None)
@@ -119,12 +122,13 @@ def _target_error(target, instruction_name: str, qargs: tuple) -> float | None:
 
 def _target_duration(target, instruction_name: str, qargs: tuple) -> float | None:
     try:
-        props = target.instruction_properties(instruction_name)
+        prop = target[instruction_name][tuple(qargs)]
     except Exception:
-        return None
-    if not props:
-        return None
-    prop = props.get(tuple(qargs))
+        try:
+            props = target.instruction_properties(instruction_name)
+            prop = props.get(tuple(qargs)) if props else None
+        except Exception:
+            return None
     if prop is None:
         return None
     dur = getattr(prop, "duration", None)
@@ -148,8 +152,7 @@ def _max_2q_error_incident(target, coupling_edges, qubit: int) -> float | None:
     try:
         two_q_names = [
             name for name in target.operation_names
-            if (props := target.instruction_properties(name))
-            and any(len(qa) == 2 for qa in props)
+            if any(isinstance(qa, tuple) and len(qa) == 2 for qa in target[name])
         ]
     except Exception:
         return None
@@ -224,25 +227,28 @@ def select_backend_and_layout(service, verbose: bool = True):
             per_qubit = {}
             ok = True
             for q in range(num_q):
+                # Egyedi hianyzo kalibracios adat csak az adott qubitet
+                # zarja ki a valasztasbol, nem az egesz backendet.
                 try:
                     t1, t2 = _t1_t2_us(backend, q)
                 except RuntimeError:
-                    ok = False
-                    break
+                    per_qubit[q] = None
+                    continue
                 eps_2q = _max_2q_error_incident(target, edges, q)
                 if eps_2q is None:
-                    ok = False
-                    break
+                    per_qubit[q] = None
+                    continue
                 per_qubit[q] = {"T1_us": t1, "T2_us": t2, "eps_2q": eps_2q, "score": _score_qubit(t1, t2, eps_2q)}
-            if not ok:
-                incomplete.append(getattr(backend, "name", "?"))
-                continue
             for s in range(num_q):
                 neighbors = sorted(adjacency.get(s, set()))
                 if len(neighbors) < 3:
                     continue
+                if per_qubit.get(s) is None:
+                    continue
                 f_s = per_qubit[s]["score"]
                 for triple in combinations(neighbors, 3):
+                    if any(per_qubit.get(a) is None for a in triple):
+                        continue
                     f_anchors = min(per_qubit[a]["score"] for a in triple)
                     ranking.append(
                         {
@@ -313,10 +319,10 @@ def _gate_durations_us(target, s_idx, anchor_indices):
     for ai in anchor_indices:
         for name in target.operation_names:
             try:
-                props = target.instruction_properties(name)
+                qargs_list = list(target[name])
             except Exception:
                 continue
-            if props and any(len(qa) == 2 for qa in props):
+            if any(isinstance(qa, tuple) and len(qa) == 2 for qa in qargs_list):
                 d = _target_duration(target, name, (s_idx, ai)) or _target_duration(target, name, (ai, s_idx))
                 if d is not None:
                     t2q = d * 1e6 if t2q is None else max(t2q, d * 1e6)
