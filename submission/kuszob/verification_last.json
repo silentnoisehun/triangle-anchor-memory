@@ -1,0 +1,246 @@
+{
+  "checks": [
+    {
+      "check": "circuit_count == 17",
+      "pass": true,
+      "detail": "17"
+    },
+    {
+      "check": "kuszob_cut_k2 qasm sha256",
+      "pass": true,
+      "detail": "fajl-hosszak hashelve"
+    },
+    {
+      "check": "kuszob_cut_k4 qasm sha256",
+      "pass": true,
+      "detail": "fajl-hosszak hashelve"
+    },
+    {
+      "check": "kuszob_cut_k8 qasm sha256",
+      "pass": true,
+      "detail": "fajl-hosszak hashelve"
+    },
+    {
+      "check": "kuszob_m+1_k0 qasm sha256",
+      "pass": true,
+      "detail": "fajl-hosszak hashelve"
+    },
+    {
+      "check": "kuszob_m+1_k2 qasm sha256",
+      "pass": true,
+      "detail": "fajl-hosszak hashelve"
+    },
+    {
+      "check": "kuszob_m+1_k4 qasm sha256",
+      "pass": true,
+      "detail": "fajl-hosszak hashelve"
+    },
+    {
+      "check": "kuszob_m+1_k8 qasm sha256",
+      "pass": true,
+      "detail": "fajl-hosszak hashelve"
+    },
+    {
+      "check": "kuszob_m-1_k0 qasm sha256",
+      "pass": true,
+      "detail": "fajl-hosszak hashelve"
+    },
+    {
+      "check": "kuszob_m-1_k2 qasm sha256",
+      "pass": true,
+      "detail": "fajl-hosszak hashelve"
+    },
+    {
+      "check": "kuszob_m-1_k4 qasm sha256",
+      "pass": true,
+      "detail": "fajl-hosszak hashelve"
+    },
+    {
+      "check": "kuszob_m-1_k8 qasm sha256",
+      "pass": true,
+      "detail": "fajl-hosszak hashelve"
+    },
+    {
+      "check": "kuszob_m0_k0 qasm sha256",
+      "pass": true,
+      "detail": "fajl-hosszak hashelve"
+    },
+    {
+      "check": "kuszob_m0_k2 qasm sha256",
+      "pass": true,
+      "detail": "fajl-hosszak hashelve"
+    },
+    {
+      "check": "kuszob_m0_k4 qasm sha256",
+      "pass": true,
+      "detail": "fajl-hosszak hashelve"
+    },
+    {
+      "check": "kuszob_m0_k8 qasm sha256",
+      "pass": true,
+      "detail": "fajl-hosszak hashelve"
+    },
+    {
+      "check": "kuszob_pc_k0 qasm sha256",
+      "pass": true,
+      "detail": "fajl-hosszak hashelve"
+    },
+    {
+      "check": "kuszob_pc_k4 qasm sha256",
+      "pass": true,
+      "detail": "fajl-hosszak hashelve"
+    },
+    {
+      "check": "kuszob_m+1_k0 rebuild deterministic",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "kuszob_m+1_k2 rebuild deterministic",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "kuszob_m+1_k4 rebuild deterministic",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "kuszob_m+1_k8 rebuild deterministic",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "kuszob_m-1_k0 rebuild deterministic",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "kuszob_m-1_k2 rebuild deterministic",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "kuszob_m-1_k4 rebuild deterministic",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "kuszob_m-1_k8 rebuild deterministic",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "kuszob_m0_k0 rebuild deterministic",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "kuszob_m0_k2 rebuild deterministic",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "kuszob_m0_k4 rebuild deterministic",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "kuszob_m0_k8 rebuild deterministic",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "kuszob_pc_k0 rebuild deterministic",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "kuszob_pc_k4 rebuild deterministic",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "kuszob_cut_k2 rebuild deterministic",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "kuszob_cut_k4 rebuild deterministic",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "kuszob_cut_k8 rebuild deterministic",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "m+1 k=0 exact == 1.0",
+      "pass": true,
+      "detail": "0.9999999999999993"
+    },
+    {
+      "check": "m-1 k=0 exact == 1.0",
+      "pass": true,
+      "detail": "1.0"
+    },
+    {
+      "check": "m0 k=0 exact == 1.0",
+      "pass": true,
+      "detail": "0.9999999999999996"
+    },
+    {
+      "check": "pc k=0 exact == 7/9 (analitikus)",
+      "pass": true,
+      "detail": "0.7777777777777773"
+    },
+    {
+      "check": "cut k=8 << m+1 k=8 (exact)",
+      "pass": true,
+      "detail": "cut=0.2460 vs m+1=0.8384"
+    },
+    {
+      "check": "max exp_2q_error ≤ 0.5 (a W3-küszöb)",
+      "pass": true,
+      "detail": "0.12573712466774378"
+    },
+    {
+      "check": "minden CZ a három snapshot-élen fut",
+      "pass": true,
+      "detail": "['117-125', '124-125', '125-126']"
+    },
+    {
+      "check": "storage_min_factor ≥ 0.9",
+      "pass": true,
+      "detail": "0.9371133114359481"
+    },
+    {
+      "check": "snapshot sha256 == job_meta.json snapshot_sha256",
+      "pass": true,
+      "detail": "2acfda2e1fcaea483fbc638ed8259ef52041d8fe0d5005ebb985e60830d4e67e"
+    },
+    {
+      "check": "frozen_wheel_params.json hash érintetlen",
+      "pass": true,
+      "detail": "52f84bc61556de13c7d05e2bee38ba8d212b44121e5abf088088dc2f7dbae948"
+    },
+    {
+      "check": "Aer m+1 k=0 ≥ 0.70 (gép-egészség)",
+      "pass": true,
+      "detail": "0.90380859375"
+    },
+    {
+      "check": "Aer pc k=0 < m+1 k=0 (PC kimutatható)",
+      "pass": true,
+      "detail": "0.69970703125"
+    },
+    {
+      "check": "Aer cut k=8 < 0.70 (a negatív kontroll irányt tart)",
+      "pass": true,
+      "detail": "0.17724609375"
+    }
+  ],
+  "all_pass": true,
+  "summary": "PASS"
+}

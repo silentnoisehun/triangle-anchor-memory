@@ -187,3 +187,20 @@ anyaghoz nem nyúl.
 .venv/bin/python dryrun_wheel.py   # QPU nélkül: zajtalan + Aer-routolt "mérés",
                                     # pozitív/negatív kontroll, W3-verdikt → elvárt: PASS
 ```
+
+## Küszöb-job (Ring-Ramsey) — ELŐKÉSZÍTVE, NEM BEKÜLDVE
+
+A Kerék W3 = SZÉTESŐ ágán (a teljes Kerék-QPU-job NEM tervezhető ezen a
+négyesen) az egyetlen szóba jövő futtatás a küszöb-job; a csomagja és a
+terve elkészült:
+
+- **Terv:** [`preregistration/PLAN_KUSZOB_v1.0.md`](preregistration/PLAN_KUSZOB_v1.0.md)
+  (Ring-Ramsey echo: prep → Peierls-körök → prep†; `P_return = P(000)`;
+  döntési szabály 99% CI-vel; automatikus HALASZTÁS-triggerek).
+- **Csomag:** [`submission/kuszob/`](submission/kuszob/) — builder
+  (`build_kuszob.py`), 17 routolt áramkör (`circuits/`, QASM),
+  kaputilus-tábla, `job_meta.draft.json` (`job_ids: []`), agent-oldali
+  ellenőrző (`verify_kuszob.py`, jelenleg **PASS 48/48 + 3 Aer-próba**).
+- **A beküldést az agent SOSEM végzi el** — tulajdonosi/Control Agent
+  felülvizsgálat és külön döntés szükséges. A Kerék-menet zárolva marad;
+  a küszöb-job kimenete nem írja át a Kerék fagyasztott verdiktjeit.

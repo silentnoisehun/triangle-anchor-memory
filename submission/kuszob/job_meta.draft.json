@@ -1,0 +1,84 @@
+{
+  "status": "ELŐKÉSZÍTVE — NEM BEKÜLDVE",
+  "warning": "BEKÜLDÉS TILOS ezen státussal. A beküldésről külön tulajdonosi/Control Agent döntés szól (PLAN_KUSZOB_v1.0 §8). Az agent nem küld be, tokent nem kap.",
+  "prepared_utc": "2026-11-11T23:38:20Z",
+  "prepared_by": "agent (Arena) — előkészítés; NEM felülvizsgálat",
+  "backend": "ibm_kingston",
+  "channel": "ibm_quantum_platform",
+  "shots": 4096,
+  "circuit_count": 17,
+  "chunks": [
+    {
+      "job_id": null,
+      "from": 0,
+      "to": 17,
+      "note": "egyetlen darab; max_experiments=300 bőven elég; a job_ids az ELSO BEKÜLDÉSKOR töltődik ki"
+    }
+  ],
+  "layout": {
+    "S": 125,
+    "A1": 117,
+    "A2": 124,
+    "A3": 126
+  },
+  "routing": {
+    "initial_layout": [
+      125,
+      117,
+      124,
+      126
+    ],
+    "optimization_level": 0,
+    "seed_transpiler": 1234,
+    "basis_gates": [
+      "cz",
+      "rz",
+      "sx",
+      "x",
+      "delay",
+      "id"
+    ],
+    "coupling_map_source": "data/snapshot.json"
+  },
+  "selection_policy_ref": "a csillag-menet választási politikája (data/job_meta.json: min(T1,T2)/(1+20*eps_2q)); a layout MAGASZTRAKT — nem újraértékelve, a fagyasztott Kerék-layout exportálja",
+  "shuffle_seed": null,
+  "order_note": "a 'order' az id-rendezett lista; VALÓDI suffling NEM alkalmazott — a beküldésnél a tulajdonos dönt (a csillag-menet 20261111-et használt)",
+  "order": [
+    "kuszob_cut_k2",
+    "kuszob_cut_k4",
+    "kuszob_cut_k8",
+    "kuszob_m+1_k0",
+    "kuszob_m+1_k2",
+    "kuszob_m+1_k4",
+    "kuszob_m+1_k8",
+    "kuszob_m-1_k0",
+    "kuszob_m-1_k2",
+    "kuszob_m-1_k4",
+    "kuszob_m-1_k8",
+    "kuszob_m0_k0",
+    "kuszob_m0_k2",
+    "kuszob_m0_k4",
+    "kuszob_m0_k8",
+    "kuszob_pc_k0",
+    "kuszob_pc_k4"
+  ],
+  "payload_sha256": "6194ef7adbc74901c57682408b9d421b373c148d67c9389c7de467487dacdb4e",
+  "payload_hash_note": "a 17 darab QASM-hash konkatenációjának SHA-256-ja (a csillag-menet kanonikus payload-hashének NEM azonos számítási módja); a beküldéskori, backend-normalizált payload-hasht a TULAJDONOS számolja újra",
+  "snapshot_file": "data/snapshot.json",
+  "snapshot_sha256": "2acfda2e1fcaea483fbc638ed8259ef52041d8fe0d5005ebb985e60830d4e67e",
+  "snapshot_note": "egyezik a csillag data/job_meta.json snapshot_sha256 mezőjével — ellenőrizve 2026-11-11",
+  "job_ids": [],
+  "auto_halaszt_triggers": [
+    "verify_kuszob.py bármely kapuja bukik (jelenleg: PASS)",
+    "gép-egészség: P(m+1,k=0) < 0.70 vagy a három kar k=0-értéke egymástól > 0.10-nel eltér",
+    "PC vak: P(pc,k=0) nem marad 99%-osan m+1 k=0 alatt",
+    "cut k=8 ≥ m+1 k=8 (a negatív kontroll nem tart)",
+    "snapshot sha256 eltérés / frozen_wheel_params.json integritás sérül",
+    "backend vagy coupling_map változás / a routing befagyasztott beállításai nem tarthatók"
+  ],
+  "expected_from_aer": {
+    "m+1_k8_raw": 0.61,
+    "note": "Aer-zaj modell; a döntést a VALÓDI számlálók döntik, ha mérés lesz"
+  },
+  "record_first_note": "ha beküldés lesz: a beadott-állapot commitja MEGELŐZI az eredményt; NULL is record-first"
+}
