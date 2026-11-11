@@ -1,0 +1,9 @@
+# Szükséges csomagok a 0. fázishoz (szimuláció + száraz futás).
+# A QPU-beküldés (src/run.py) ezen felül a qiskit-ibm-runtime csomagot igényli,
+# de az a futtató környezet dolga — a 0. fázishoz nem kell, és QPU-futtatás
+# itt nem történik.
+numpy>=1.26
+qiskit>=1.0
+qiskit-aer>=0.14
+# Csak a tényleges QPU-job beküldéséhez (Control Agent, audit után):
+# qiskit-ibm-runtime>=0.20

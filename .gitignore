@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtuális környezet
+.venv/
+venv/
+
+# Titkok — SOHA nem commitoljuk
+.env
+.env.*
+*.token
+secrets.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# FONTOS: a data/ mappa ITT SZÁNDÉKOSAN NINCS — a nyers mérési adatok
+# (job_meta.json, raw_counts.json) verziókezelés alatt állnak, NEM törölhetők.
+# (Korábbi projektben a data/ gitignore-ba vétele adatvesztést okozott.)
