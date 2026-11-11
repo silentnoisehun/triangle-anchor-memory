@@ -204,3 +204,60 @@ terve elkészült:
 - **A beküldést az agent SOSEM végzi el** — tulajdonosi/Control Agent
   felülvizsgálat és külön döntés szükséges. A Kerék-menet zárolva marad;
   a küszöb-job kimenete nem írja át a Kerék fagyasztott verdiktjeit.
+
+## Gyűrű-menet (valós háromszög) — terv + 0. fázis — QPU még NEM futott
+
+A csillag QUEUED menet (lezárandó, kontroll/alapvonal) ÉS a Kerék-/Küszöb-menet
+mellé a VALÓDI háromszögre vonatkozó önálló, új menet: a három gyűrű-qubit
+Peierls-fluxussal kering; az irányt a fázis hordozza, nem a populáció —
+a kérdés az, hogy a keringési irány maga mennyire tárolja a biteket.
+
+- **Terv:** [`preregistration/PLAN_RING_v1.0.md`](preregistration/PLAN_RING_v1.0.md)
+  (kiinduló kép, |k±⟩ sajátállapotok, Loschmidt-echo kiolvasás indoklással,
+  C(k) = P(000;+)−P(000;−) kontraszt, kontrollok a/b/c/NC, pumpa §4, a döntési
+  szabály bootstrap 2000 / **ci = 0.95** / holm a claim-családon
+  [R1, R2, pump, NC]).
+- **Fagyasztott paraméterek:** [`preregistration/frozen_ring_params.json`](preregistration/frozen_ring_params.json)
+  (SHA-256: `frozen_ring_params.sha256`; ellenőrzés: `src/ring/analysis.py:check_frozen`).
+  `K = 32`, rács k ∈ {0,4,…,32}, kipróbálva és fagyasztva mind a 7 pump-pár
+  (0/0.1/0.2/0.3 × φ ∈ {0, π/2}); Ω = 0.1387 rad/kör a kör-spektrumából.
+- **Kód:** `src/ring/` (áramkör-építők — Peierls-élek, prep/echo megosztva a
+  kerék-modullal; szimuláció — exact + snapshot-zajú Aer (native
+  illesztett-gyűrűbeli és heavy-hex-routolt recept); elemző — a fagyasztott
+  fájlból olvassa a döntési szabályt), `dryrun_ring.py` a gyökérnél.
+- **A 0. fázis nettó üzenete (Aer/zajtalan szimuláció, NEM hardware):**
+  - a keringési irány ELKÉSZÍTÉSE és KIOLVASÁSA működik a modellben, de az
+    ideális echo-metrika (P(000)) a fluxust NEM látja a fluxus-mentes
+    referencián (static lapos≈1.0; lone/delayed=1.0; dokumentált, hogy az
+    echo-fluxusvakság miatt a keringési ELŐNY helye a két irány közötti
+    eltérés, C(k), és a valódi T1/T2-keret);
+  - **routing-költség (TÉNYLEGES heavy-hex, S=125 hub, opt=0, seed 1234):
+    k=32 → 341 CZ, várható 2Q-hiba ≈ 0.565 — a W3-jellegű 0.5-ös
+    küszöb FÖLÖTT.** A teljes K=32 gyűrű-QPU-job ezen a négyesen NEM
+    tervezhető koherensen; a k ≤ 16 tartomány (0.291) szóba jöhet; a
+    gridöt NEM szűkítjük csendben — a döntés a tulajdonosé;
+  - **a szimuláció a Maya-előrejelzés oldalára hajlik** (routed Aer:
+    C(32) ≈ 0.21, τ ≈ 2.7 kör; native: C(32) ≈ 0.65, τ ≈ 14 kör) és ezt a
+    terv és a fagyasztott fájl is rögzíti a tulajdonos erős várakozása
+    mellett (a mérés dönt — ha mérés lesz);
+  - **a pumpa-párok NINCSENEK nyereségben**: egyik (m ∈ {0.1…0.3},
+    φ_p ∈ {0, π/2}) pár sem ver pumpa nélküli gyűrűt 95% CI-vel (native
+    Aer; a routed-ban a π/2-fázisú pár kicsit rosszabb; az exact ≤ 0.04
+    stroboszkopikus különbséget mutat) — a saját ára 96 impulzus × 2e-4 ≈
+    0.019, rendben a nyereség nulla alatt; a cáfolati feltétel szerint, ha
+    a hardver ugyanezt hozza, a pumpa-ötlet erre a rendszerre megbukott és
+    további paraméter-keresés TILOS;
+  - a törött gyűrű (NC) és a csillag (visszaáramlás) a szimulációban egyaránt
+    HINTÁZIK (oszcillál) — egyik sem keringési bit; az elemzőnek a
+    broken-karra NULL-t vár (ez a pozitív kontroll).
+- **Szimulációs eredmény sosem hardware-eredmény; a QPU nem futott; az agent
+  QPU-t nem indított és nem fog.** A beküldés a tulajdonos/Control Agent
+  döntése — a gyökér `dryrun_ring.py` PASS esetén sem; a gyűrű-job
+  jelenleg csak ELŐKÉSZÍTÉS stádiumban van, a routing-költség miatt
+  valószínűleg a teljes grid NEM megy QPU-ra.
+
+```bash
+.venv/bin/python dryrun_ring.py   # QPU nélkül: frozen-ellenőrzés + zajtalan +
+                                   # routed Aer "mérés", elemző, NC-kontroll
+                                   # → elvárt: PASS (12/12)
+```
