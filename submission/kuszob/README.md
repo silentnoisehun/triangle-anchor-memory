@@ -16,7 +16,7 @@
 > A beküldés a Control Agent futásával történt (tulajdonosi döntéssel);
 > **az agent QPU-t nem indított és tokent nem kezelt.** Record-first: a
 > `job_id_record.json` és a `job_meta.final.json` a Control Agent futási
-> környezetében keletkezett — a repóba való betöltésük még nem történt meg.
+> környezetében keletkezett — a repóba való betöltésük megtörtént (commit e325f14).
 > A Kerék-menet W3 = SZÉTESŐ ágán a teljes QPU-job NEM tervezhető; ez a
 > csomag volt a szóba jövő lépés (Ring-Ramsey fáziszár-teszt, 17 áramkör,
 > 69 632 shot, 1 job-darab). Az `analyze_kuszob.py` lefagyasztva marad;
