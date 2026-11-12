@@ -1,0 +1,52 @@
+{
+  "kind": "KUSZOB SUBMIT MANIFEST v1.2 — kiegészítő manifeszt (a PLAN_KUSZOB_v1.2.md az érvényes hivatkozás erre a fájlra; a PLAN_KUSZOB_v1.1.md NEM módosítva, történeti)",
+  "created_utc": "2026-11-12T14:44:56Z",
+  "plan_ref": "preregistration/PLAN_KUSZOB_v1.2.md",
+  "supersedes": "submission/kuszob/submit_manifest_v1.1.json (v1.1 — byte-ra változatlan, csak történeti)",
+  "submit_script": {
+    "path": "submission/kuszob/submit_kuszob.py",
+    "sha256": "62ab35bf6be38b6f46dfa9450d8c8628ee2dab014a2d0cf2d5dfd9fc2ee6fdff",
+    "note": "v1.2: a várt seed-hash NEM beégetett konstans, hanem a submit_manifest_v1.2.json-ból olvasódik (keresztellenőrzés: draft.shuffle.seed_sha256); bármely módosítás = új verzió + új hash + külön commit"
+  },
+  "shuffle_seed_sha256": "83f43b94f6ab5f75d26ffec94af9dceafdd56ae2a7592a2571a57a89dee4b31c",
+  "shuffle_seed_sha256_of": "sha256(utf8(hex(seed))), hex",
+  "seed_location": "NINCS a repóban és NINCS az agent munkaterében — a Control Agent őrzi (out-of-tree, chmod 600); az agent a seed ÉRTÉKÉT NEM látta és nem is kellett látnia; a v1.1-es seed (6a68d507…) ÉRVÉNYÉT VESZTETTE",
+  "job_meta_draft_sha256": "b78e5beb273a4c0f5715c3132cf70aba13480cb4e815718be83547857a8feee2",
+  "analyzer_sha256": "6458a64d616d28436429c06075f0ebdaabc482e1d72d405c3f45ce4871636e3d",
+  "circuits_manifest_sha256": "94048f35ab7012f8027170adbc17b7f783e8b738abb1b17f7113d299cdcaf962",
+  "payload_sha256": "6194ef7adbc74901c57682408b9d421b373c148d67c9389c7de467487dacdb4e",
+  "expected_backend": "ibm_kingston",
+  "expected_initial_layout": [
+    117,
+    124,
+    125,
+    126
+  ],
+  "expected_optimization_level": 0,
+  "seed_transpiler": 1234,
+  "validity_chain": "PLAN_KUSZOB_v1.2.md → submit_manifest_v1.2.json (ez a fájl) → (job_meta.draft_v1.2.json, analyze_kuszob.py, circuits_manifest.json); eltérés bármelyik szinten ⇒ HALT",
+  "gates": {
+    "G1_draft_analyzer": "job_meta.draft_v1.2.json betöltése + a draft fájl-hash-e a fenti job_meta_draft_sha256-nal + draft.shuffle.seed_sha256 == fenti shuffle_seed_sha256 + analyze_kuszob.py FAGYASZTOTT hash (6458a64d…) + snapshot sha256; eltérés ⇒ HALT",
+    "G2_manifest": "circuits_manifest.json hash (94048f35…) + payload recompute (6194ef7a…) + 17/17 qasm-hash; eltérés ⇒ HALT",
+    "G4_frozen_wheel": "frozen_wheel_params.json integritás a .sha256 szerint; sérülés ⇒ HALT",
+    "G5_seed": "shuffle seed CSAK env-ből (alap: KUSZOB_SHUFFLE_SEED) vagy REPÓN KÍVÜLI fájlból (--seed-file); a seed sehova nem íródik; sha256(utf8(hex)) == fenti érték; eltérés ⇒ HALT",
+    "G6_backend": "backend KÖTELEZŐEN ibm_kingston (paraméter; --submit módban az ÉLŐ backend .name-je is); más ⇒ HALT",
+    "G7_cz": "a run() hívás ELŐTT: a transzpilált prune-olt áramkörök CZ-száma és CZ-párjai PONTOSAN a circuits_manifest.json-nal (initial_layout [117,124,125,126], opt 0, seed 1234); bármely eltérés ⇒ HALASZTÁS, beküldés NINCS"
+  },
+  "verification_2026-11-12": {
+    "lokalis_canonical_run": "a defaults futása: G6/G1/G2/G4 PASS, majd G5 HALT (exit 3) — VÁRT, mert a seed a Control Agentnél van (nem az agent munkaterében)",
+    "teszt_rig_happy": "teszt-rig (/tmp, külön teszt-seed — NEM a Control Agent seedje): minden gate PASS, G7 proxy PASS (17/17), exit 0 — a kapu-kód végig lefut",
+    "T1_seed_hash_kapu": "rossz seed → HALT exit 3: 'shuffle seed hash mismatch … a v1.2 manifest szerinti'",
+    "T2_cz_kapu": "--test-inject-layout 125,117,124,126 → CZ-KAPU BUKOTT exit 3 (pl. m+1_k8: 95 CZ ≠ 92)",
+    "T3_backend_kapu": "--backend ibm_torino → HALT exit 3"
+  },
+  "versions_dry_run": {
+    "qiskit": "2.6.2",
+    "qiskit_aer": "0.18.2",
+    "qiskit_ibm_runtime": null
+  },
+  "token_handling": "kizárólag az IBM_QUANTUM_TOKEN környezeti változó NÉV szerepel a kódban; a token értéke sehova nem kerül, nem logolódik, nem commitolódik",
+  "submission_policy": "--submit mód CSAK külön tulajdonosi döntéssel, interaktív megerősítéssel ('KUSZOB BEKULDES' gépelve); record-first: job_id_record.json az eredmény letöltése ELŐTT; majd job_meta.final.json (verziók, snapshot, napi kalibráció, order_sha256, backend-normalizált payload-hash). Az agent QPU-t nem indít.",
+  "qpu_executed": false,
+  "marking": "ROGZUL esetén kötelező: 'gep-alkalmassagi kapu, tankonyvi varakozas' — nem memória-teszt"
+}

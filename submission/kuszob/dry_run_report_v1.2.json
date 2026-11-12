@@ -1,0 +1,34 @@
+{
+  "kind": "KUSZOB v1.2 DRY-RUN REKORD — SZIMULÁCIÓ/ELŐKÉSZÍTÉS, NEM HARDWARE; QPU NEM INDULT",
+  "created_utc": "2026-11-12T14:47:15Z",
+  "note_about_this_file": "Ez a rekord AZ AGENT MUNKATEREMÉBEN készült. A kanonikus száraz próba a v1.2 seeddel a Control Agentnél fut (náluk van a seed). A lenti 'teszt_rig' a gate-kód ellenőrzésére szolgált, KÜLÖN teszt-seeddel (/tmp/rig; NEM a Control Agent seedje) — ne keverje a két rekordot.",
+  "canonical_run_2026-11-12": {
+    "invocation": "submit_kuszob.py --dry-run (defaults; a seed NEM az agent munkaterében van)",
+    "result": "G6 PASS → G1 PASS (draft b78e5beb…) → G2 PASS (manifest 94048f35…) → G4 PASS → HALT a G5 seed-kapun (exit 3)",
+    "G5_note": "VÁRT: a shuffle seed a Control Agentnél van; az agent a seed ÉRTÉKÉT NEM látta és nem is kellett látnia. A Control Agent a kanonikus száraz próbát saját munkaterében futtatja.",
+    "G7_note": "a CZ-kapu a seed-kapu után fut — az agent lokális futásában nem ért el ide (várt)"
+  },
+  "teszt_rig_2026-11-12": {
+    "purpose": "a gate-kód végállási ellenőrzése külön teszt-seeddel (/tmp/rig; NEM a Control Agent seedje; a Control Agent seedje ide nem került)",
+    "happy_path": "--dry-run teszt-seeddel: minden gate PASS (G1/G2/G4/G5/G6/G7), exit 0 — a kapu-kód végig lefut (G7 proxy PASS, 17/17)",
+    "T1_seed_hash_kapu": "rossz seed (64×'a') → HALT exit 3: 'shuffle seed hash mismatch … a v1.2 manifest szerinti'",
+    "T2_cz_kapu": "--test-inject-layout 125,117,124,126 → CZ-KAPU BUKOTT exit 3 (pl. m+1_k8: 95 CZ ≠ 92, +3 mindenhol)",
+    "T3_backend_kapu": "--backend ibm_torino → HALT exit 3"
+  },
+  "gates_agent_side": {
+    "G1_draft_analyzer": "PASS",
+    "G2_manifest": "PASS",
+    "G4_frozen_wheel": "PASS",
+    "G6_backend": "PASS",
+    "G5_seed": "HALT (seed a Control Agentnél — várt)",
+    "G7_cz": "nem futott lokálisan (a seed-kapu előrédleges)"
+  },
+  "versions": {
+    "qiskit_version": "2.6.2",
+    "qiskit_aer_version": "0.18.2",
+    "qiskit_ibm_runtime_version": null
+  },
+  "qpu_executed": false,
+  "supersedes_note": "a v1.1 dry_run_report.json (hash 707ef32c…) byte-ra változatlan, a submit_manifest_v1.1.json hivatkozása érvényes",
+  "rogarz_marking": "ROGZUL esetén kötelező: 'gep-alkalmassagi kapu, tankonyvi varakozas' — nem memória-teszt"
+}

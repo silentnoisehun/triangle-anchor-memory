@@ -1,4 +1,4 @@
-# Küszöb-job csomag — ELŐKÉSZÍTVE, NEM BEKÜLDVE (v1.1)
+# Küszöb-job csomag — ELŐKÉSZÍTVE, NEM BEKÜLDVE (v1.2)
 
 > **v1.1 (2026-11-12, Maya beküldés előtti átnézése nyomán):** a v1.0
 > `job_meta.draft.json` initial_layout-ja HIBÁS volt ([125,117,124,126] —
@@ -12,7 +12,7 @@
 > (a)–(d)); a határ-null próba: hamis ROGZUL 0/2000 (A) és 17/2000 = 0.85% (B)
 > ≤ 1.5% ✓. **A v1.0 fájljai byte-ra változatlanok (történeti).**
 
-> **Állapot: ELŐKÉSZÍTVE — NEM BEKÜLDVE.**
+> **Állapot: v1.2 seed-amendment kész, auditra var (2026-11-12) — NEM BEKÜLDVE.**
 > A Kerék-menet W3 = SZÉTESŐ ágán a teljes QPU-job NEM tervezhető; ez a
 > csomag az egyetlen szóba jövő — és a legolcsóbb — következő lépés
 > (Ring-Ramsey fáziszár-teszt, 17 áramkör, 69 632 shot, 1 job-darab).
@@ -22,8 +22,8 @@
 > Ha az agent-oldali ellenőrzés bármely kapuja bukna, a csomag státusza
 > automatikusan **HALASZTOTT — a kerek ezen a négyesen vár**.
 
-Terv és döntési szabály (v1.1, AMENDED): [`preregistration/PLAN_KUSZOB_v1.1.md`](../../preregistration/PLAN_KUSZOB_v1.1.md)
-(a v1.0: [`PLAN_KUSZOB_v1.0.md`](../../preregistration/PLAN_KUSZOB_v1.0.md) — történeti, beküldésre NEM használható)
+Terv és döntési szabály (**v1.2, AMENDED — seed-hash; mérés előtt**): [`preregistration/PLAN_KUSZOB_v1.2.md`](../../preregistration/PLAN_KUSZOB_v1.2.md)
+(a v1.1: [`PLAN_KUSZOB_v1.1.md`](../../preregistration/PLAN_KUSZOB_v1.1.md) — superseded, történeti; a v1.0: [`PLAN_KUSZOB_v1.0.md`](../../preregistration/PLAN_KUSZOB_v1.0.md) — történeti; mindkettő beküldésre NEM használható)
 
 ## Mit tartalmaz
 
@@ -39,7 +39,8 @@ Terv és döntési szabály (v1.1, AMENDED): [`preregistration/PLAN_KUSZOB_v1.1.
 | `analyze_kuszob.py` | **LEFAGYASZTOTT elemző (v1.1)** — PLAN §2 (a)–(d) Wilson 99%, fail-closed (ERVENYTELEN), kötelező ROGZUL-jelölés; `--null-probe 2000` |
 | `submit_kuszob.py` | **BEKÜLDŐ-szkript v1.1 — ELŐKÉSZÍTVE; QPU-t NEM indít** (dry-run gate-ek IBM nélkül; 3 negatív teszt HALT; `--submit` csak tulajdonosi döntéssel, interaktív) |
 | `submit_manifest_v1.1.json` | a beküldő-szkript hash-e + kapu-leírások + a 3 negatív teszt rögzítése (a PLAN_KUSZOB_v1.1 NEM módosítva) |
-| `dry_run_report.json` | a 2026-11-12-i száraz próba rekordja (minden gate PASS; SEED és nyers sorrend nincs benne) |
+| `dry_run_report.json` | a 2026-11-12-i száraz próba rekordja (minden gate PASS; SEED és nyers sorrend nincs benne) — v1.1, változatlan |
+| `dry_run_report_v1.2.json` | a v1.2 seed-amendment száraz próba-rekordja (kanonikus run: seed-kapu HALT, a seed a Control Agentnél; a kapu-kód teszt-rig teszt-seeddel végigzöld; SEED és nyers sorrend nincs benne) |
 | `verify_kuszob.py` | agent-oldali ellenőrző (NEM független!); v1.1: **CZ-kapu** (minden áramkör CZ-száma/párjai pontosan a manifesttel; eltérés ⇒ kilépési kód 1 ⇒ HALASZTÁS); `--aer` kapcsolóval zaj-próbával |
 | `verification_last.json` | az utolsó agent-oldali ellenőrzés teljes rekordja (2026-11-12, --aer: **82/82 PASS**) |
 

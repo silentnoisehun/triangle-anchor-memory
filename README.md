@@ -219,12 +219,13 @@ A Kerék W3 = SZÉTESŐ ágán (a teljes Kerék-QPU-job NEM tervezhető ezen a
 négyesen) az egyetlen szóba jövő futtatás a küszöb-job; a csomagja és a
 terve elkészült:
 
-- **Terv:** [`preregistration/PLAN_KUSZOB_v1.1.md`](preregistration/PLAN_KUSZOB_v1.1.md)
-  (v1.1 AMENDED, 2026-11-12, Maya beküldés előtti átnézése: a v1.0
+- **Terv:** [`preregistration/PLAN_KUSZOB_v1.2.md`](preregistration/PLAN_KUSZOB_v1.2.md)
+  (v1.2 AMENDED, 2026-11-12, mérés ELŐTT: új shuffle-seed-hash `83f43b94…`; minden egyéb a v1.1-ből öröklődik).
+  (a v1.1 AMENDED, 2026-11-12, Maya átnézése: a v1.0
   `initial_layout` [125,117,124,126] hibája javítva → **[117,124,125,126]**,
   `optimization_level = 0`; a döntési szabály (99% Wilson, (a)–(d)) nem
-  változott, most már lefagyasztott elemzőben él; a v1.0-t nem használhatja
-  senki beküldésre). Ring-Ramsey echo: prep → Peierls-körök → prep†;
+  változott, azóta is lefagyasztott elemzőben él; a v1.0-t és v1.1-et sem
+  használhatja senki beküldésre). Ring-Ramsey echo: prep → Peierls-körök → prep†;
   `P_return = P(000)`; automatikus HALASZTÁS-triggerek.
 - **Csomag:** [`submission/kuszob/`](submission/kuszob/) — builder
   (`build_kuszob.py`), 17 routolt áramkör (`circuits/`, QASM — v1.0, bitre
@@ -241,10 +242,14 @@ terve elkészült:
 - **A beküldést az agent SOSEM végzi el** — tulajdonosi/Control Agent
   felülvizsgálat és külön döntés szükséges. A Kerék-menet zárolva marad;
   a küszöb-job kimenete nem írja át a Kerék fagyasztott verdiktjeit.
-- **2026-11-12 (v1.1 óta):** a v1.0 metadatumok beküldésre érvénytelenek
-  (initial_layout); a v1.1 csomag átnézésre vár — semmilyen QPU-futtatás nem
-  indítható, amíg Maya/Control Agent át nem nézi és a tulajdonos külön
-  nem dönt. A küszöb-csomag döntési szabályai 99% CI-sek (PLAN_KUSZOB_v1.1,
+- **2026-11-12 (v1.2 seed-amendment kész, auditra vár):** a v1.1
+  shuffle-seed érvényét vesztette (a seed-átadás körülményei; mérés nem
+  történt, adat nem keletkezett); a mérés ELŐTT kiadott v1.2 amendment
+  új seedet rögzít (hash: `83f43b94f6ab5f75d26ffec94af9dceafdd56ae2a7592a2571a57a89dee4b31c`;
+  az érték a Control Agentnél van és az agent SOSEM látta). A beküldés a
+  Control Agentnél lévő seeddel, külön tulajdonosi döntéssel lehetséges —
+  semmilyen QPU-futtatás nem indítható, amíg az átnézés/audit és a külön
+  tulajdonosi döntés meg nem történik. A küszöb-csomag döntési szabályai 99% CI-sek (PLAN_KUSZOB_v1.1,
   Wilson, egyoldalú; a 95%-szerű találatok forgásszögek, nem küszöbök; a
   `storage_ge_095_check` nevű mező valójában 0.9-os gép-egészség-előkapu,
   nem döntési szabály; a `dip_frac: 0.95` nem CI-döntés). A ROGZUL ítélet

@@ -1,0 +1,106 @@
+{
+  "status": "ELŐKÉSZÍTVE — NEM BEKÜLDVE",
+  "warning": "BEKÜLDÉS TILOS ezen státussal. A beküldésről külön tulajdonosi/Control Agent döntés szól (PLAN_KUSZOB_v1.2 §7). Az agent nem küld be, tokent nem kap. v1.2: csak a shuffle-seed hash változik (új seed a Control Agentnél; a v1.1-es seed érvényét vesztette; mérés nem történt — mérés előtti amendment). Layout változatlan: [117,124,125,126], opt 0.",
+  "prepared_utc": "2026-11-12T14:42:10Z",
+  "prepared_by": "agent (Arena) — v1.2 seed-amendment (mérés előtt; a seed a Control Agentnél, értékét az agent nem látta és nem is kellett látnia); NEM felülvizsgálat",
+  "backend": "ibm_kingston",
+  "channel": "ibm_quantum_platform",
+  "shots": 4096,
+  "circuit_count": 17,
+  "chunks": [
+    {
+      "job_id": null,
+      "from": 0,
+      "to": 17,
+      "note": "egyetlen darab; max_experiments=300 bőven elég; a job_ids az ELSO BEKÜLDÉSKOR töltődik ki"
+    }
+  ],
+  "layout": {
+    "S": 125,
+    "A1": 117,
+    "A2": 124,
+    "A3": 126
+  },
+  "routing": {
+    "initial_layout": [
+      117,
+      124,
+      125,
+      126
+    ],
+    "initial_layout_note": "a QASM-ok MÁR ROUTOLtak: a prune-olt q0..q3 = a használt fizikai qubitek NÖVEKVŐ sorrendje = [117,124,125,126] (a manifest used_physical_ids is ezt adja; CZ-párok: 117-125, 124-125, 125-126). A v1.0 [125,117,124,126]-ja rossz — az beküldéskor újra-topológiázna és áramkörönként +3 CZ-t adna (pl. m+1_k8: 92 → 95).",
+    "optimization_level": 0,
+    "seed_transpiler": 1234,
+    "basis_gates": [
+      "cz",
+      "rz",
+      "sx",
+      "x",
+      "delay",
+      "id"
+    ],
+    "coupling_map_source": "data/snapshot.json"
+  },
+  "selection_policy_ref": "a csillag-menet választási politikája (data/job_meta.json: min(T1,T2)/(1+20*eps_2q)); a layout MAGASZTRAKT — nem újraértékelve, a fagyasztott Kerék-layout exportálja",
+  "shuffle_seed": null,
+  "order_note": "a 'order' az id-rendezett lista; VALÓDI keverést a beküldéskor alkalmaz a tulajdonos a fenti titkos seeddel (a sorrend a beküldött jobban már nem id-rendezett)",
+  "order": [
+    "kuszob_cut_k2",
+    "kuszob_cut_k4",
+    "kuszob_cut_k8",
+    "kuszob_m+1_k0",
+    "kuszob_m+1_k2",
+    "kuszob_m+1_k4",
+    "kuszob_m+1_k8",
+    "kuszob_m-1_k0",
+    "kuszob_m-1_k2",
+    "kuszob_m-1_k4",
+    "kuszob_m-1_k8",
+    "kuszob_m0_k0",
+    "kuszob_m0_k2",
+    "kuszob_m0_k4",
+    "kuszob_m0_k8",
+    "kuszob_pc_k0",
+    "kuszob_pc_k4"
+  ],
+  "payload_sha256": "6194ef7adbc74901c57682408b9d421b373c148d67c9389c7de467487dacdb4e",
+  "payload_hash_note": "VÁLTOZATLAN a v1.0-ról (a QASM-ok és a manifest nem változtak); a 17 QASM-hash konkatenációjának SHA-256-ja; a beküldéskori, backend-normalizált payload-hasht a TULAJDONOS számolja újra",
+  "snapshot_file": "data/snapshot.json",
+  "snapshot_sha256": "2acfda2e1fcaea483fbc638ed8259ef52041d8fe0d5005ebb985e60830d4e67e",
+  "snapshot_note": "egyezik a csillag data/job_meta.json snapshot_sha256 mezőjével — ellenőrizve 2026-11-11",
+  "job_ids": [],
+  "auto_halaszt_triggers": [
+    "verify_kuszob.py bármely kapuja bukik (v1.1-ben: 82 kapu, köztük a 34 CZ-kapu) → HALASZTÁS",
+    "CZ-kapu bukik: bármely áramkör CZ-száma/CZ-párjai eltér a manifesttől → HALASZTÁS",
+    "gép-egészség: P(m+1,k=0) < 0.70 vagy a három kar k=0-értéke egymástól > 0.10-nel eltér → HALASZTÁS",
+    "PC vak: P(pc,k=0) nem marad 99%-osan m+1 k=0 alatt → SZÉTESŐ",
+    "cut k=8 ≥ m+1 k=8 (a negatív kontroll nem tart) → SZÉTESŐ",
+    "elemző fail-closed: NaN/hiányzó/eltérő-shots számláló → ERVENYTELEN (nincs fizikai állítás)",
+    "snapshot sha256 eltérés / frozen_wheel_params.json integritás sérül",
+    "backend vagy coupling_map változás / a routing befagyasztott beállításai nem tarthatók"
+  ],
+  "expected_from_aer": {
+    "m+1_k8_raw": 0.61,
+    "note": "Aer-zaj modell; a döntést a VALÓDI számlálók döntik, ha mérés lesz"
+  },
+  "record_first_note": "ha beküldés lesz: a beadott-állapot commitja MEGELŐZI az eredményt; NULL is record-first",
+  "supersedes": "submission/kuszob/job_meta.draft_v1.1.json (v1.1 — byte-ra változatlan, csak történeti; sha256 0f6c66298e488ef08305907167f2ef21dadf4e41c93613c5180f351f2d4dedc8)",
+  "shuffle": {
+    "policy": "rögzített, de TITKOS seed — a Control Agent munkaterében generálva (chmod 600); az agent a seed ÉRTÉKÉT NEM látta; hash-e ELŐRE publikus (PLAN_KUSZOB_v1.2.md)",
+    "seed_sha256": "83f43b94f6ab5f75d26ffec94af9dceafdd56ae2a7592a2571a57a89dee4b31c",
+    "seed_sha256_of": "sha256(utf8(hex(seed))), hex",
+    "seed_location": "NINCS a repóban és NINCS az agent munkaterében — a Control Agent őrzi (out-of-tree); a nyers seed a beküldés/unblinding időpontjában kerül elő",
+    "algorithm": "ids = sorted(order); rng = random.Random(int(seed_hex, 16)); rng.shuffle(ids)",
+    "unblinding": "az eredmények beérkezése után a seed közzétehető — bárki visszaellenőrizheti: sha256(seed_hex) == fenti hash, és a kevert sorrend reprodukálható",
+    "v1_1_seed_note": "a v1.1 seed (hash 6a68d507…) ÉRVÉNYÉT VESZTETTE — a seed-átadás körülményei miatt a Control Agent új seedet generált a saját munkaterében; mérés nem történt; lásd PLAN_KUSZOB_v1.2.md"
+  },
+  "analysis_freeze": {
+    "path": "submission/kuszob/analyze_kuszob.py",
+    "sha256": "6458a64d616d28436429c06075f0ebdaabc482e1d72d405c3f45ce4871636e3d",
+    "rule_source": "PLAN_KUSZOB_v1.2 §2 (a)-(d) — változatlan a v1.1-hez képest, Wilson one-sided 99%, fail-closed ERVENYTELEN",
+    "marking_mandatory": "ROGZUL ítélet mellett: 'gep-alkalmassagi kapu, tankonyvi varakozas' — NEM memória-teszt",
+    "note": "a lefagyasztott elemző NEM változott a v1.1 óta"
+  },
+  "verification_note": "v1.2: a lokális kapu-ellenőrzés a v1.1-gyel egyező eredményű (G1 draft+elemző, G2 manifest, G4 Kerék-integritás, G6 backend: PASS); a seed-kapu (G5) és a száraz próba a Control Agentnél fut (náluk van a seed) — a lokális dry-run a G5-ön áll meg (várt viselkedés). A negatív próbák (rossz seed-hash; injektált [125,117,124,126] CZ-kapu; rossz backend) továbbra is HALT; lásd dry_run_report.json + PLAN_KUSZOB_v1.2.md.",
+  "plan_ref": "preregistration/PLAN_KUSZOB_v1.2.md"
+}

@@ -1,15 +1,23 @@
 #!/usr/bin/env python3
-"""Küszöb-job BEKÜLDŐ (v1.1) — ELŐKÉSZÍTVE; NEM KÜLD BE SEMMIT.
+"""Küszöb-job BEKÜLDŐ (v1.2) — ELŐKÉSZÍTVE; NEM KÜLD BE SEMMIT.
 
-Forrás: Maya beküldési feltételei (2026-11-12 14:15 UTC §B és 14:17 UTC).
+Forrás: Maya beküldési feltételei (2026-11-12 14:15 UTC §B és 14:17 UTC) +
+seed-amendment v1.2 (a seed a Control Agentnél; precedencia: PLAN_KUSZOB_v1.2.md).
 Ez a szkript a beküldés *eljárását* rögzíti; a beküldésről a TULAJDONOS
-dönt külön (PLAN_KUSZOB_v1.1 §7). Az agent SQPU-t nem indít; a tokenhez
+dönt külön (PLAN_KUSZOB_v1.2 §7). Az agent QPU-t nem indít; a tokenhez
 SEHOGYA nem fér hozzá (csak az IBM_QUANTUM_TOKEN környezeti változó
 NÉV szerepel itt).
 
+v1.2-ben a várt shuffle-seed-hash a submit_manifest_v1.2.json-ból (ill. a
+job_meta.draft_v1.2.json-ból, keresztellenőrzéssel) olvasódik — NINCS
+beégetett konstans; a v1.1-es seed (hash 6a68d507…) ÉRVÉNYÉT VESZTETTE.
+Kanonikus hivatkozás-lánc: PLAN_KUSZOB_v1.2.md → submit_manifest_v1.2.json →
+(job_meta.draft_v1.2.json, analyze_kuszob.py, circuits_manifest.json);
+bármilyen eltérés ⇒ HALT.
+
 MIT TUD (a jővőbeli, külön tulajdonosi döntéssel indított --submit mód):
   1. Gate-ek (mindegyik fail-closed ⇒ a folyamat MEGÁLL, beküldés NÉLKÜL):
-     G1  draft/elemző hash-kapu: a job_meta.draft_v1.1.json betöltése + az
+     G1  draft/elemző hash-kapu: a job_meta.draft_v1.2.json betöltése + az
          analyze_kuszob.py FAGYASZTOTT hash-e (6458a64d…) — eltérés ⇒ HALT;
      G2  manifest integritás-kapu: circuits_manifest.json hash (94048f35…)
          + payload recompute + minden QASM hash-e a manifesttel — eltérés ⇒ HALT;
@@ -20,9 +28,8 @@ MIT TUD (a jővőbeli, külön tulajdonosi döntéssel indított --submit mód):
      G5  seed-kapu: a shuffle seed KIZÁRÓLAG env-ből (alapértelmezett név
          KUSZOB_SHUFFLE_SEED, --seed-env átnevezhető) vagy egy
          REPÓN KÍVÜLI fájlból (--seed-file) olvasható; a seed értéke SEHOVA
-         nem íródik (nincs log/commit/job_meta); hash ==
-         6a68d507df95063181a461b988e8b88ae3563a4b766e1c94eb14a5a7ef478f2f
-         — eltérés ⇒ HALT;
+         nem íródik (nincs log/commit/job_meta); hash == a v1.2 manifest/draft
+         szerinti érték (83f43b94…) — eltérés ⇒ HALT;
      G6  backend-kapu: a backend KÖTELEZŐEN ibm_kingston — más ⇒ HALT
          (--submit módban az ÉLŐ backend .name-jét is ellenőrzi);
      G7  CZ-kapu (a beküldéskor, a run() hívás ELŐTT): az ÉLŐ ibm_kingston
@@ -68,11 +75,10 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 HERE = Path(__file__).resolve().parent
 
-ANALYZER_SHA256 = "6458a64d616d28436429c06075f0ebdaabc482e1d72d405c3f45ce4871636e3d"
-SEED_SHA256 = "6a68d507df95063181a461b988e8b88ae3563a4b766e1c94eb14a5a7ef478f2f"
-MANIFEST_SHA256 = "94048f35ab7012f8027170adbc17b7f783e8b738abb1b17f7113d299cdcaf962"
-PAYLOAD_SHA256 = "6194ef7adbc74901c57682408b9d421b373c148d67c9389c7de467487dacdb4e"
-DRAFT_SHA256 = "0f6c66298e488ef08305907167f2ef21dadf4e41c93613c5180f351f2d4dedc8"
+ANALYZER_SHA256 = "6458a64d616d28436429c06075f0ebdaabc482e1d72d405c3f45ce4871636e3d"  # keresztellenőrzve a v1.2 manifesttel
+MANIFEST_SHA256 = "94048f35ab7012f8027170adbc17b7f783e8b738abb1b17f7113d299cdcaf962"  # keresztellenőrzve
+PAYLOAD_SHA256 = "6194ef7adbc74901c57682408b9d421b373c148d67c9389c7de467487dacdb4e"  # keresztellenőrzve
+CANONICAL_DEFAULT = HERE / "submit_manifest_v1.2.json"
 EXPECTED_BACKEND = "ibm_kingston"
 EXPECTED_LAYOUT = [117, 124, 125, 126]
 EXPECTED_OPT_LEVEL = 0
@@ -119,6 +125,33 @@ def load_json(path: Path):
         raise Halt(f"érvénytelen JSON ({path}): {exc}")
 
 
+def load_canonical(path: Path) -> dict:
+    """A v1.2 submit-manifest betöltése fail-closed módon."""
+    c = load_json(path)
+    required = ["shuffle_seed_sha256", "job_meta_draft_sha256", "analyzer_sha256",
+                "circuits_manifest_sha256", "payload_sha256",
+                "expected_backend", "expected_initial_layout",
+                "expected_optimization_level", "seed_transpiler"]
+    missing = [k for k in required if k not in c]
+    if missing:
+        raise Halt(f"a submit-manifest ({path.name}) hiányzó mezői: {missing} — HALT")
+    if c["expected_backend"] != EXPECTED_BACKEND:
+        raise Halt("a submit-manifest expected_backend nem ibm_kingston — HALT")
+    if list(c["expected_initial_layout"]) != EXPECTED_LAYOUT:
+        raise Halt("a submit-manifest expected_initial_layout nem [117,124,125,126] — HALT")
+    if int(c["expected_optimization_level"]) != EXPECTED_OPT_LEVEL:
+        raise Halt("a submit-manifest expected_optimization_level nem 0 — HALT")
+    if int(c["seed_transpiler"]) != SEED_TRANSPILER:
+        raise Halt("a submit-manifest seed_transpiler nem 1234 — HALT")
+    if c["analyzer_sha256"] != ANALYZER_SHA256:
+        raise Halt("a submit-manifest analyzer_sha256 nem a fagyasztott elemző-hash — HALT")
+    if c["circuits_manifest_sha256"] != MANIFEST_SHA256:
+        raise Halt("a submit-manifest circuits_manifest_sha256 nem 94048f35… — HALT")
+    if c["payload_sha256"] != PAYLOAD_SHA256:
+        raise Halt("a submit-manifest payload_sha256 nem 6194ef7a… — HALT")
+    return c
+
+
 def versions() -> dict:
     import qiskit
     import qiskit_aer
@@ -132,7 +165,7 @@ def versions() -> dict:
 
 
 # ---------- G1: draft + elemző hash-kapu ----------
-def gate_draft_and_analyzer(draft_path: Path):
+def gate_draft_and_analyzer(draft_path: Path, canonical: dict):
     draft = load_json(draft_path)
     if draft.get("job_ids") != []:
         raise Halt("a draft job_ids nem üres — már beküldött/módosított állapot; HALT")
@@ -145,15 +178,19 @@ def gate_draft_and_analyzer(draft_path: Path):
         raise Halt("seed_transpiler != 1234 — HALT")
     if draft.get("backend") != EXPECTED_BACKEND:
         raise Halt(f"backend {draft.get('backend')!r} != {EXPECTED_BACKEND} — HALT")
-    # a DRAFT hash-e (ha a kanonikus v1.1 fájlról van szó)
+    # a DRAFT fájl-hash-e a v1.2 manifest szerinti értékkel egyezzen
     actual_draft = sha256_file(draft_path)
-    if draft_path.name == "job_meta.draft_v1.1.json" and actual_draft != DRAFT_SHA256:
-        raise Halt(f"a draft hash-e nem egyezik a v1.1 hash-sel ({DRAFT_SHA256[:12]}…) — HALT")
-    # elemző: fájl-hash == draft-érték == kanonikus fagyasztott érték
+    if actual_draft != canonical["job_meta_draft_sha256"]:
+        raise Halt(f"a draft hash-e ({actual_draft[:12]}…) nem a v1.2 manifest szerinti érték — HALT")
+    # a seed-hash a manifest és a draft között keresztellenőrzve
+    draft_seed = (draft.get("shuffle") or {}).get("seed_sha256")
+    if draft_seed != canonical["shuffle_seed_sha256"]:
+        raise Halt("a draft és a v1.2 manifest shuffle seed hash-e eltér — HALT")
+    # elemző: fájl-hash == draft-érték == manifest-érték == fagyasztott érték
     analyzer = HERE / "analyze_kuszob.py"
     actual = sha256_file(analyzer)
     pinned = (draft.get("analysis_freeze") or {}).get("sha256")
-    if pinned != ANALYZER_SHA256:
+    if pinned != ANALYZER_SHA256 or pinned != canonical["analyzer_sha256"]:
         raise Halt("a draft analysis_freeze.sha256 nem a kanonikus fagyasztott érték — HALT")
     if actual != ANALYZER_SHA256:
         raise Halt(f"analyze_kuszob.py hash-e ({actual[:12]}…) != fagyasztott 6458a64d… — HALT")
@@ -167,12 +204,11 @@ def gate_draft_and_analyzer(draft_path: Path):
 
 
 # ---------- G2: manifest integritás + QASM-hashek ----------
-def gate_manifest(manifest_path: Path):
+def gate_manifest(manifest_path: Path, canonical: dict):
     man = load_json(manifest_path)
     actual = sha256_file(manifest_path)
-    canonical = manifest_path.name == "circuits_manifest.json"
-    if canonical and actual != MANIFEST_SHA256:
-        raise Halt(f"circuits_manifest.json hash-e ({actual[:12]}…) != 94048f35… — HALT")
+    if actual != canonical["circuits_manifest_sha256"]:
+        raise Halt(f"circuits_manifest.json hash-e ({actual[:12]}…) != a v1.2 manifest szerinti 94048f35… — HALT")
     if man.get("payload_sha256") != PAYLOAD_SHA256:
         raise Halt("a manifest payload_sha256 nem 6194ef7a… — HALT")
     if man.get("circuit_count") != 17 or len(man.get("circuits", [])) != 17:
@@ -205,7 +241,7 @@ def gate_frozen_wheel():
 
 
 # ---------- G5: seed-kapu (a seed értéke sehova nem íródik) ----------
-def read_seed(args) -> str:
+def read_seed(args, canonical: dict) -> str:
     if args.seed_file:
         p = Path(args.seed_file).resolve()
         if ROOT in p.parents or p == ROOT:
@@ -222,10 +258,11 @@ def read_seed(args) -> str:
     if len(seed) != 64 or any(c not in "0123456789abcdef" for c in seed):
         raise Halt("a seed nem 64-karakteres kisbetűs hex — HALT")
     digest = hashlib.sha256(seed.encode("utf-8")).hexdigest()
-    if digest != SEED_SHA256:
+    expected = canonical["shuffle_seed_sha256"]
+    if digest != expected:
         # FIGYELEM: a seed értéket SOHA nem írjuk ki — csak a hash-eltérést jelezzük.
-        raise Halt(f"shuffle seed hash mismatch ({origin}); elvárt 6a68d507… — HALT")
-    ok(f"G5 seed-kapu zöld ({origin}; hash 6a68d507… egyezik; a seed értéke NEM kerül kiírásra)")
+        raise Halt(f"shuffle seed hash mismatch ({origin}); elvárt {expected[:12]}… (a v1.2 manifest szerinti) — HALT")
+    ok(f"G5 seed-kapu zöld ({origin}; hash {expected[:12]}… egyezik; a seed értéke NEM kerül kiírásra)")
     return seed  # csak memóriában él tovább
 
 
@@ -316,7 +353,7 @@ def gate_cz(transpiled, manifest) -> None:
 
 
 # ---------- --submit: a valódi beküldési utak (MOST SOSEM FUT LE) ----------
-def do_submit(args, draft, manifest):
+def do_submit(args, draft, manifest, canonical):
     token = os.environ.get("IBM_QUANTUM_TOKEN")
     if not token:
         raise Halt("IBM_QUANTUM_TOKEN nincs a környezetben — a token a tulajdonosé; a szkript nem kéri és nem tárolja — HALT")
@@ -334,7 +371,7 @@ def do_submit(args, draft, manifest):
         raise Halt(f"az élő backend nem {EXPECTED_BACKEND} — HALT")
     ok(f"G6 élő backend-kapu zöld: {backend.name}")
 
-    seed = read_seed(args)  # G5
+    seed = read_seed(args, canonical)  # G5
     transpiled = transpile_circuits(EXPECTED_LAYOUT, backend=backend)
     gate_cz(transpiled, manifest)  # G7 — run() ELŐTT; bukás ⇒ HALASZTÁS, beküldés NINCS
 
@@ -390,13 +427,15 @@ def _load_snapshot_coupling():
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Küszöb-job beküldő v1.1 — ELŐKÉSZÍTVE; QPU-t most nem indít")
+    ap = argparse.ArgumentParser(description="Küszöb-job beküldő v1.2 — ELŐKÉSZÍTVE; QPU-t most nem indít")
     mode = ap.add_mutually_exclusive_group(required=True)
     mode.add_argument("--dry-run", action="store_true",
                       help="minden gate lefut IBM-kapcsolat NÉLKÜL; beküldés NINCS")
     mode.add_argument("--submit", action="store_true",
                       help="VALÓDI beküldés (CSAK külön tulajdonosi döntéssel; interaktív megerősítés; token az IBM_QUANTUM_TOKEN env-ből)")
-    ap.add_argument("--draft", default=str(HERE / "job_meta.draft_v1.1.json"))
+    ap.add_argument("--draft", default=str(HERE / "job_meta.draft_v1.2.json"))
+    ap.add_argument("--submit-manifest", default=str(CANONICAL_DEFAULT),
+                    help="a v1.2 submit-manifest (ennek seed/draft/elemző/manifest hash értékei a kanonikusak)")
     ap.add_argument("--manifest", default=str(HERE / "circuits_manifest.json"))
     ap.add_argument("--backend", default=EXPECTED_BACKEND,
                     help="csak ibm_kingston érvényes — bármi más ⇒ HALT (T3 teszt)")
@@ -415,10 +454,11 @@ def main() -> int:
             raise Halt(f"G6 backend-kapu: {args.backend!r} nem {EXPECTED_BACKEND} — HALT")
         ok(f"G6 backend-kapu zöld (paraméter: {args.backend})" + ("" if not args.submit else " (+ élő ellenőrzés alább)"))
 
-        draft = gate_draft_and_analyzer(Path(args.draft))   # G1
-        manifest = gate_manifest(Path(args.manifest))       # G2
+        canonical = load_canonical(Path(args.submit_manifest))  # v1.2 manifest — a várt hashek forrása
+        draft = gate_draft_and_analyzer(Path(args.draft), canonical)   # G1
+        manifest = gate_manifest(Path(args.manifest), canonical)       # G2
         gate_frozen_wheel()                                 # G4
-        seed = read_seed(args)                              # G5
+        seed = read_seed(args, canonical)                              # G5
         order = shuffled_order(draft["order"], seed)        # keverés (seed NEM íródik ki)
         log("[shuffle] 17 áramkör keverve (seed csak memóriában; a nyers sorrend nem kerül kiírásra — csak az order_sha256)")
 
@@ -427,7 +467,8 @@ def main() -> int:
             # a proxy-transzpilációt NEM írjuk a repóba; csak a CZ-kaput futtatjuk
             gate_cz(transpiled, manifest)                     # G7 (proxy)
             report = {
-                "kind": "KUSZOB v1.1 DRY-RUN — SZIMULÁCIÓ/ELŐKÉSZÍTÉS, NEM HARDWARE; QPU NEM INDULT",
+                "kind": "KUSZOB v1.2 DRY-RUN — SZIMULÁCIÓ/ELŐKÉSZÍTÉS, NEM HARDWARE; QPU NEM INDULT",
+                "submit_manifest": Path(args.submit_manifest).name,
                 "created_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
                 "backend_param": args.backend,
                 "layout_used_for_check": layout,
@@ -448,7 +489,7 @@ def main() -> int:
             return 0
 
         # --submit: VALÓDI út — MOST SOSEM FUT LE (külön tulajdonosi döntés, interaktív)
-        do_submit(args, draft, manifest)
+        do_submit(args, draft, manifest, canonical)
         return 0
     except Halt as exc:
         log(f"HALT — a folyamat MEGÁLL, beküldés NÉLKÜL: {exc}")
