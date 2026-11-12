@@ -219,22 +219,33 @@ A Kerék W3 = SZÉTESŐ ágán (a teljes Kerék-QPU-job NEM tervezhető ezen a
 négyesen) az egyetlen szóba jövő futtatás a küszöb-job; a csomagja és a
 terve elkészült:
 
-- **Terv:** [`preregistration/PLAN_KUSZOB_v1.0.md`](preregistration/PLAN_KUSZOB_v1.0.md)
-  (Ring-Ramsey echo: prep → Peierls-körök → prep†; `P_return = P(000)`;
-  döntési szabály 99% CI-vel; automatikus HALASZTÁS-triggerek).
+- **Terv:** [`preregistration/PLAN_KUSZOB_v1.1.md`](preregistration/PLAN_KUSZOB_v1.1.md)
+  (v1.1 AMENDED, 2026-11-12, Maya beküldés előtti átnézése: a v1.0
+  `initial_layout` [125,117,124,126] hibája javítva → **[117,124,125,126]**,
+  `optimization_level = 0`; a döntési szabály (99% Wilson, (a)–(d)) nem
+  változott, most már lefagyasztott elemzőben él; a v1.0-t nem használhatja
+  senki beküldésre). Ring-Ramsey echo: prep → Peierls-körök → prep†;
+  `P_return = P(000)`; automatikus HALASZTÁS-triggerek.
 - **Csomag:** [`submission/kuszob/`](submission/kuszob/) — builder
-  (`build_kuszob.py`), 17 routolt áramkör (`circuits/`, QASM),
-  kaputilus-tábla, `job_meta.draft.json` (`job_ids: []`), agent-oldali
-  ellenőrző (`verify_kuszob.py`, jelenleg **PASS 48/48 + 3 Aer-próba**).
+  (`build_kuszob.py`), 17 routolt áramkör (`circuits/`, QASM — v1.0, bitre
+  változatlan), kaputilus-tábla, `job_meta.draft_v1.1.json`
+  (`job_ids: []`; titkos shuffle seed — a repóban csak a sha256 hash-e:
+  `6a68d507…`), lefagyasztott elemző (`analyze_kuszob.py`), agent-oldali
+  ellenőrző (`verify_kuszob.py`, **PASS 82/82 + 3 Aer-próba**, 2026-11-12 —
+  v1.1-ben új CZ-kapu: minden áramkör CZ-száma/CZ-párjai pontosan a
+  manifesttel, eltérés ⇒ HALASZTÁS).
 - **A beküldést az agent SOSEM végzi el** — tulajdonosi/Control Agent
   felülvizsgálat és külön döntés szükséges. A Kerék-menet zárolva marad;
   a küszöb-job kimenete nem írja át a Kerék fagyasztott verdiktjeit.
-- **2026-11-12 óta:** semmilyen QPU-futtatás nem indítható a küszöb-csomaggal
-  sem, amíg a 99% CI + Holm amendment át nincs nézve (Maya) és a tulajdonos
-  külön nem dönt. A küszöb-csomag (4e63157) döntési szabályai már 99% CI-sek
-  (PLAN_KUSZOB_v1.0.md §5; Wilson/binomiális, egyoldalú; a 95%-szerű találatok
-  forgásszögek, nem küszöbök; a `storage_ge_095_check` nevű mező valójában
-  0.9-os gép-egészség-előkapu, nem döntési szabály).
+- **2026-11-12 (v1.1 óta):** a v1.0 metadatumok beküldésre érvénytelenek
+  (initial_layout); a v1.1 csomag átnézésre vár — semmilyen QPU-futtatás nem
+  indítható, amíg Maya/Control Agent át nem nézi és a tulajdonos külön
+  nem dönt. A küszöb-csomag döntési szabályai 99% CI-sek (PLAN_KUSZOB_v1.1,
+  Wilson, egyoldalú; a 95%-szerű találatok forgásszögek, nem küszöbök; a
+  `storage_ge_095_check` nevű mező valójában 0.9-os gép-egészség-előkapu,
+  nem döntési szabály; a `dip_frac: 0.95` nem CI-döntés). A ROGZUL ítélet
+  kötelező jelölése: „gep-alkalmassagi kapu, tankonyvi varakozas” —
+  nem memória-teszt.
 
 ## Gyűrű-menet (valós háromszög) — v1.1 AMENDED — terv + 0. fázis — QPU még NEM futott
 

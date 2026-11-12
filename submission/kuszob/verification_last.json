@@ -211,6 +211,176 @@
       "detail": "['117-125', '124-125', '125-126']"
     },
     {
+      "check": "kuszob_cut_k2 CZ-szám == manifest (n_cz=29)",
+      "pass": true,
+      "detail": "qasm=29"
+    },
+    {
+      "check": "kuszob_cut_k2 CZ-párok == manifest ({'124-125': 3, '117-125': 12, '125-126': 14})",
+      "pass": true,
+      "detail": "qasm={'124-125': 3, '117-125': 12, '125-126': 14}"
+    },
+    {
+      "check": "kuszob_cut_k4 CZ-szám == manifest (n_cz=50)",
+      "pass": true,
+      "detail": "qasm=50"
+    },
+    {
+      "check": "kuszob_cut_k4 CZ-párok == manifest ({'124-125': 3, '117-125': 21, '125-126': 26})",
+      "pass": true,
+      "detail": "qasm={'124-125': 3, '117-125': 21, '125-126': 26}"
+    },
+    {
+      "check": "kuszob_cut_k8 CZ-szám == manifest (n_cz=92)",
+      "pass": true,
+      "detail": "qasm=92"
+    },
+    {
+      "check": "kuszob_cut_k8 CZ-párok == manifest ({'117-125': 3, '124-125': 44, '125-126': 45})",
+      "pass": true,
+      "detail": "qasm={'117-125': 3, '124-125': 44, '125-126': 45}"
+    },
+    {
+      "check": "kuszob_m+1_k0 CZ-szám == manifest (n_cz=11)",
+      "pass": true,
+      "detail": "qasm=11"
+    },
+    {
+      "check": "kuszob_m+1_k0 CZ-párok == manifest ({'124-125': 3, '117-125': 4, '125-126': 4})",
+      "pass": true,
+      "detail": "qasm={'124-125': 3, '117-125': 4, '125-126': 4}"
+    },
+    {
+      "check": "kuszob_m+1_k2 CZ-szám == manifest (n_cz=29)",
+      "pass": true,
+      "detail": "qasm=29"
+    },
+    {
+      "check": "kuszob_m+1_k2 CZ-párok == manifest ({'124-125': 3, '117-125': 12, '125-126': 14})",
+      "pass": true,
+      "detail": "qasm={'124-125': 3, '117-125': 12, '125-126': 14}"
+    },
+    {
+      "check": "kuszob_m+1_k4 CZ-szám == manifest (n_cz=50)",
+      "pass": true,
+      "detail": "qasm=50"
+    },
+    {
+      "check": "kuszob_m+1_k4 CZ-párok == manifest ({'124-125': 3, '117-125': 21, '125-126': 26})",
+      "pass": true,
+      "detail": "qasm={'124-125': 3, '117-125': 21, '125-126': 26}"
+    },
+    {
+      "check": "kuszob_m+1_k8 CZ-szám == manifest (n_cz=92)",
+      "pass": true,
+      "detail": "qasm=92"
+    },
+    {
+      "check": "kuszob_m+1_k8 CZ-párok == manifest ({'117-125': 3, '124-125': 44, '125-126': 45})",
+      "pass": true,
+      "detail": "qasm={'117-125': 3, '124-125': 44, '125-126': 45}"
+    },
+    {
+      "check": "kuszob_m-1_k0 CZ-szám == manifest (n_cz=11)",
+      "pass": true,
+      "detail": "qasm=11"
+    },
+    {
+      "check": "kuszob_m-1_k0 CZ-párok == manifest ({'124-125': 3, '117-125': 4, '125-126': 4})",
+      "pass": true,
+      "detail": "qasm={'124-125': 3, '117-125': 4, '125-126': 4}"
+    },
+    {
+      "check": "kuszob_m-1_k2 CZ-szám == manifest (n_cz=29)",
+      "pass": true,
+      "detail": "qasm=29"
+    },
+    {
+      "check": "kuszob_m-1_k2 CZ-párok == manifest ({'124-125': 3, '117-125': 12, '125-126': 14})",
+      "pass": true,
+      "detail": "qasm={'124-125': 3, '117-125': 12, '125-126': 14}"
+    },
+    {
+      "check": "kuszob_m-1_k4 CZ-szám == manifest (n_cz=50)",
+      "pass": true,
+      "detail": "qasm=50"
+    },
+    {
+      "check": "kuszob_m-1_k4 CZ-párok == manifest ({'124-125': 3, '117-125': 21, '125-126': 26})",
+      "pass": true,
+      "detail": "qasm={'124-125': 3, '117-125': 21, '125-126': 26}"
+    },
+    {
+      "check": "kuszob_m-1_k8 CZ-szám == manifest (n_cz=92)",
+      "pass": true,
+      "detail": "qasm=92"
+    },
+    {
+      "check": "kuszob_m-1_k8 CZ-párok == manifest ({'117-125': 3, '124-125': 44, '125-126': 45})",
+      "pass": true,
+      "detail": "qasm={'117-125': 3, '124-125': 44, '125-126': 45}"
+    },
+    {
+      "check": "kuszob_m0_k0 CZ-szám == manifest (n_cz=11)",
+      "pass": true,
+      "detail": "qasm=11"
+    },
+    {
+      "check": "kuszob_m0_k0 CZ-párok == manifest ({'124-125': 3, '117-125': 4, '125-126': 4})",
+      "pass": true,
+      "detail": "qasm={'124-125': 3, '117-125': 4, '125-126': 4}"
+    },
+    {
+      "check": "kuszob_m0_k2 CZ-szám == manifest (n_cz=29)",
+      "pass": true,
+      "detail": "qasm=29"
+    },
+    {
+      "check": "kuszob_m0_k2 CZ-párok == manifest ({'124-125': 3, '117-125': 12, '125-126': 14})",
+      "pass": true,
+      "detail": "qasm={'124-125': 3, '117-125': 12, '125-126': 14}"
+    },
+    {
+      "check": "kuszob_m0_k4 CZ-szám == manifest (n_cz=50)",
+      "pass": true,
+      "detail": "qasm=50"
+    },
+    {
+      "check": "kuszob_m0_k4 CZ-párok == manifest ({'124-125': 3, '117-125': 21, '125-126': 26})",
+      "pass": true,
+      "detail": "qasm={'124-125': 3, '117-125': 21, '125-126': 26}"
+    },
+    {
+      "check": "kuszob_m0_k8 CZ-szám == manifest (n_cz=92)",
+      "pass": true,
+      "detail": "qasm=92"
+    },
+    {
+      "check": "kuszob_m0_k8 CZ-párok == manifest ({'117-125': 3, '124-125': 44, '125-126': 45})",
+      "pass": true,
+      "detail": "qasm={'117-125': 3, '124-125': 44, '125-126': 45}"
+    },
+    {
+      "check": "kuszob_pc_k0 CZ-szám == manifest (n_cz=11)",
+      "pass": true,
+      "detail": "qasm=11"
+    },
+    {
+      "check": "kuszob_pc_k0 CZ-párok == manifest ({'124-125': 3, '117-125': 4, '125-126': 4})",
+      "pass": true,
+      "detail": "qasm={'124-125': 3, '117-125': 4, '125-126': 4}"
+    },
+    {
+      "check": "kuszob_pc_k4 CZ-szám == manifest (n_cz=50)",
+      "pass": true,
+      "detail": "qasm=50"
+    },
+    {
+      "check": "kuszob_pc_k4 CZ-párok == manifest ({'124-125': 3, '117-125': 21, '125-126': 26})",
+      "pass": true,
+      "detail": "qasm={'124-125': 3, '117-125': 21, '125-126': 26}"
+    },
+    {
       "check": "storage_min_factor ≥ 0.9",
       "pass": true,
       "detail": "0.9371133114359481"

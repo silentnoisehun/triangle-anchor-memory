@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Küszöb-job — ÜGYNÖK-OLDALI (nem független!) ellenőrző.
+"""Küszöb-job — ÜGYNÖK-OLDALI (nem független!) ellenőrző (v1.1: + CZ-kapu).
 
 Ez NEM helyettesíti a tulajdonosi/Control Agent felülvizsgálatot; a
 beküldés előtti kötelező ellenőrzések előszűrése. Ha BÁRMELYIK kapu bukik,
@@ -14,6 +14,7 @@ import hashlib
 import json
 import math
 import os
+import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -75,6 +76,28 @@ def main():
         pairs_used |= set(c["cz_pairs"].keys())
     allowed = {"125-117", "125-124", "125-126", "117-125", "124-125", "126-125"}
     check("minden CZ a három snapshot-élen fut", pairs_used <= allowed, sorted(pairs_used))
+
+    # --- 4b) v1.1 CZ-kapu: minden QASM CZ-száma és CZ-párjai PONTOSAN a manifesttel
+    # (Maya 2026-11-12 09:05 review: az initial_layout a QASM q0..q3 sorrendjének
+    # megfelelő [117,124,125,126] kell legyen — lásd PLAN_KUSZOB_v1.1.md. Bármely
+    # eltérés ⇒ FAIL ⇒ kilépési kód 1 ⇒ automatikus HALASZTÁS.)
+    for cid, entry in sorted(circuits.items()):
+        path = os.path.join(HERE, entry["qasm_file"])
+        raw = open(path, encoding="utf-8").read()
+        used = entry["used_physical_ids"]
+        pairs = {}
+        n_cz = 0
+        for m in re.finditer(r"cz\s+q\[(\d+)\]\s*,\s*q\[(\d+)\]\s*;", raw):
+            idxs = sorted((int(m.group(1)), int(m.group(2))))
+            pa, pb = int(used[idxs[0]]), int(used[idxs[1]])
+            key = f"{pa}-{pb}"
+            pairs[key] = pairs.get(key, 0) + 1
+            n_cz += 1
+        check(f"{cid} CZ-szám == manifest (n_cz={entry['n_cz']})",
+              n_cz == entry["n_cz"], f"qasm={n_cz}")
+        same = pairs == entry["cz_pairs"]
+        check(f"{cid} CZ-párok == manifest ({entry['cz_pairs']})",
+              same, f"qasm={pairs}")
 
     # --- 5) tárolási padló (T1): min faktor ≥ 0.9 az összes áramkörre
     worst_storage = min(c["storage_min_factor"] for c in circuits.values())
