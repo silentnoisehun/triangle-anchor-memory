@@ -1,0 +1,8 @@
+# triangle-anchor-memory — preregisztrált hashek (Csillag-menet, v1.2 AMENDED)
+# létrehozva (UTC): 2026-11-12T07:58:13+00:00
+# integritás-ellenőrzés: src/analysis.py:load_frozen_params
+# A v1.2 FELULIRJA (superseded) a frozen_params.json / frozen_params.sha256 (v1.0)-t;
+# a v1.0 byte-ra változatlanul megmarad a történet részeként (PLAN_v1.0.md / PLAN_v1.1.md-vel együtt).
+# (a döntési szabály forrása a frozen_params_v1.2.json — módosítás csak verziózott 'amended' verzióban)
+a6506444fa661f3f9ce638811346951c460dc008a1fd4274390695514768a0cb  PLAN_v1.2.md
+06e7fe0a34a53967d8217d2de1550feac8151007ed7a0c2cb7f46552c980c2b4  frozen_params_v1.2.json

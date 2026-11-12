@@ -15,6 +15,14 @@ módosítás csak verziószámozott, „amended" kiegészítéssel lehetséges).
 A létrehozott fájlt SHA-256-mal zárjuk: a hash a
 preregistration/frozen_params.sha256 fájlba kerül (a PLAN_v1.0.md hashével együtt);
 integrity: src/analysis.py:verify_frozen_params.
+
+FIGYELEM (2026-11-12, v1.2 AMENDED): ez a szkript a v1.0 fagyasztó — NEM
+újrafuttatható a v1.2 döntési paramétereinek előállítására; a jelenleg irányadó,
+99% CI + Holm-ot tartalmazó fagyasztott fájl a frozen_params_v1.2.json
+(PLAN_v1.2.md AMENDED; a módosítás a döntési szabályt érintette, nem a várt
+görbéket — a szimuláció-alapú cellák változatlanok). A v1.0 fájlok byte-ra
+változatlanok; új fagyasztás csak verziószámozott, „amended” kiegészítéssel,
+külön committal lehetséges.
 """
 from __future__ import annotations
 

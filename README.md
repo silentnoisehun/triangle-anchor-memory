@@ -11,7 +11,22 @@ gyorsul-e. A teljes, kötelező érvényű tervet lásd:
 A kísérlettervet **Máté Róbert** ötlete alapján a Control Agent szigorította;
 futtatás előtt rögzítve, döntési szabályai utólag nem módosíthatók.
 
-## Állapot: 0. fázis készül
+## Állapot: BEKÜLDVE ÉS VISSZAVONVA (mérés nem történt)
+
+**Beküldve 2026-11-11 20:52 UTC; 2026-11-12 tulajdonosi döntéssel
+visszavonva (mind a 4 job CANCELLED); mérési adat nem keletkezett; az
+állítás eldöntetlen; újraküldés csak külön tulajdonosi döntéssel.**
+
+A négy job (dbqdaupabdes73fo2jrg, dbqdav7v5hds73dfs6mg,
+dbqdavhabdes73fo2jug, dbqdavgk09pc73at2da0; ibm_kingston, S=125,
+horgonyok 117/124/126; see `data/job_meta.json`) soha nem futott le —
+**a mért eredmény nem létezik; semmilyen fizikai állítás nem fogalmazható
+meg mérés alapján.** Az újraküldés a tulajdonos külön döntése, kedvezőbb
+időpontban, lehetőleg időben tagolva (fair-share); az agent QPU-ra nem
+küld. **Semmilyen QPU-futtatás nem indítható az újraküldési döntésig.**
+
+A 0. fázis (szimuláció, ELŐZETES) lezárult; az eredményei Aer/zajtalan
+szimulációk — nem hardver-eredmények:
 
 - [x] Repo-váz (ez a fájl, `.gitignore`, `data/` megjelölve nem-ignoroltnak)
 - [x] `preregistration/PLAN_v1.0.md` — a terv szó szerinti másolata (SHA-256: `12b22f18c468f05ab5ca10ed0bbb0819ed85e21564f3a3780b51c25508e38775`)
@@ -19,11 +34,12 @@ futtatás előtt rögzítve, döntési szabályai utólag nem módosíthatók.
 - [x] `dryrun.py` — QPU nélkül minden végigfuttatható
 - [x] 0. fázis szimuláció lezajlott (zajtalan + zajos, **MINTA** zajparaméterekkel)
 - [x] `preregistration/frozen_params.json` — φ = π/16, K = 32, csúcs-keresési ablakok, várt görbék, hash-el lezárva
-- [ ] QPU-futtatás (1. fázis) — **NEM az agent dolga**: a Control Agent végzi audit után
+- [~] QPU-futtatás (1. fázis) — **2026-11-11 20:52 UTC-kor beküldve, 2026-11-12-én visszavonva**; mérés nem történt; újraküldés külön tulajdonosi döntéssel
 
-**A QPU-futtatás még nem történt meg.** A token soha nem kerül fájlba; a
-`src/run.py` a tokent kizárólag az `IBM_QUANTUM_TOKEN` környezeti változóból
-olvassa. A `data/` mappa szándékosan NINCS `.gitignore`-ban.
+**A QPU-futtatás ÉRVÉNYTELEN (mind a 4 job CANCELLED); mérési adat nem
+keletkezett.** A token soha nem kerül fájlba; a `src/run.py` a tokent
+kizárólag az `IBM_QUANTUM_TOKEN` környezeti változóból olvassa.
+A `data/` mappa szándékosan NINCS `.gitignore`-ban.
 
 ### A 0. fázis eredménye (szimuláció, nem hardver!)
 
@@ -35,8 +51,12 @@ olvassa. A `data/` mappa szándékosan NINCS `.gitignore`-ban.
   minta-paraméterekkel; a minta T2/t_össz ~ 0,3, így a zaj csekély. A leendő
   snapshot.json behelyettesítése után ez megváltozhat; hardver-eredményként **soha**
   nem közölhető.
-- **frozen_params.json SHA-256:** `e1d7a78888c531ba8ae7e5f84ed090649f5156774eabd763c8772d5d02d09429`
-  (ellenőrzés: `src/analysis.py` minden futtatáskor; a hash-fájl: `preregistration/frozen_params.sha256`)
+- **frozen_params.json SHA-256 (v1.0, superseded, változatlan):** `e1d7a78888c531ba8ae7e5f84ed090649f5156774eabd763c8772d5d02d09429`
+- **Jelenleg irányadó (v1.2 AMENDED, 99% CI + Holm, 2026-11-12):** `frozen_params_v1.2.json` — SHA-256 a
+  `frozen_params_v1.2.sha256`-ben (ellenőrzés: `src/analysis.py` minden futtatáskor; a v1.0 fájlok byte-ra változatlanok)
+- A v1.2 a 0. fázis szimulációit nem érinti — csak a döntési magasságot emeli (a csapat döntési szabálya
+  minden kísérletre: ANOMALIA csak 99% CI + Holm után). A v1.2 dryrun-ja: **PASS** (zajtalan →
+  TEXTBOOK-MEGEROSITVE; φ=0 kontroll → NULL; null-próba 0/300 hamis ANOMALIA és 0/300 hamis TEXTBOOK)
 - [x] Control Agent audit (2026-11-11) — a run.py/kalibráció/snapshot kellékek kódbeli javításai elkészültek (lásd „1. fázis előkészítése"); QPU-hívást továbbra sem indítunk
 - [x] `preregistration/ERRATA.md` — a PLAN_v1.0.md 195. sorának dokumentált eltérése (a fájlt nem módosítottuk)
 
@@ -101,9 +121,10 @@ kör/job, lövés/job, végrehajtási falidő/job). **Ha nem fér: a karok marad
 statisztikai erő csökken).** Lövéscsökkentés előtt jelenteni kell a tulajdonosnak —
 az nem a Control Agent vagy az agent önálló döntése.
 
-A fagyasztott `preregistration/frozen_params.json` ettől érintetlen
+A fagyasztott `preregistration/frozen_params.json` (v1.0, történeti) ettől érintetlen
 (hash: `e1d7a788…`); a `PLAN_v1.0.md` eltérését a
 [`preregistration/ERRATA.md`](preregistration/ERRATA.md) dokumentálja — a fájlt nem írtuk át.
+(A jelenleg irányadó fagyasztott fájl: `frozen_params_v1.2.json`, lásd fent.)
 
 ## Gyors indítás (0. fázis, QPU nélkül)
 
@@ -123,7 +144,7 @@ src/config.py      φ, K, karok, referencia-döntési értékek, MINTA zajparam�
 src/circuits.py    kar-építők + kalibrációs áramkörök (T1, Hahn-T2, kiolvasás, φ_eff) + φ_eff párkörök
 src/sim.py         zajtalan + zajos (T1/T2/ε) szimuláció; várt görbék; pozitív kontroll
 src/analysis.py    D(k), BLP, csúcskeresés, bootstrap CI, ítélet — a döntési szabályt
-                   a preregistration/frozen_params.json-ból olvassa (hash-ellenőrzéssel)
+                   a preregistration/frozen_params_v1.2.json-ből olvassa (hash-ellenőrzéssel; fail-closed, v1.2 kötelező)
 src/run.py         beküldő — tokent CSAK környezeti változóból olvas (Control Agent audit után futtatható)
 src/freeze.py      a 0. fázis fagyasztó-eszköze (egyszer fut le)
 dryrun.py          QPU nélkül minden végigfuttat
@@ -145,7 +166,7 @@ A `data/raw_counts.json` várt sémáját a [`data/README.md`](data/README.md) r
 2. A döntési szabály a preregisztrált fájlból olvasódik; utólag nem módosítható.
 3. `data/` sosem kerül `.gitignore`-ba.
 4. Szimulációs eredmény soha nem kap „HARDWARE" címkét.
-5. A 0. fázis eredményéig (φ, K, ablakok, görbék) a `frozen_params.json` lezárja a paramétereket.
+5. A 0. fázis eredményéig (φ, K, ablakok, görbék) a `frozen_params_v1.2.json` lezárja a paramétereket (v1.2 AMENDED: 99% CI + Holm; a v1.0 superseded).
 
 ## A Kerék-menet (forgó gyűrű által tartott középpont)
 
@@ -222,7 +243,8 @@ terve elkészült:
 (Maya) és a tulajdonos külön nem dönt** — az átnézésig TILOS. A csomag
 „ELŐKÉSZÍTVE — NEM BEKÜLDVE".
 
-A csillag QUEUED menet (lezárandó, kontroll/alapvonal) ÉS a Kerék-/Küszöb-menet
+A csillag-menet (**2026-11-12-én tulajdonosi döntéssel visszavonva — semmilyen mérési
+adat nem keletkezett; lásd fent**) és a Kerék-/Küszöb-menet
 mellé a VALÓDI háromszögre vonatkozó önálló, új menet: a három gyűrű-qubit
 Peierls-fluxussal kering; az irányt a fázis hordozza, nem a populáció —
 a kérdés az, hogy a keringési irány maga mennyire tárolja a biteket.

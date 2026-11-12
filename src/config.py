@@ -3,8 +3,9 @@
 FONTOS SZABÁLYOK (a preregisztrált terv 7. pontjából):
 - A döntési küszöbök (P1/P2/P3, bootstrap, CI-szint, csúcs-keresési ablakok)
   NEM innen élnek a futtatás során: a preregisztrált
-  ``preregistration/frozen_params.json``-ból olvasandók (ld. src/analysis.py),
-  integritását ``preregistration/frozen_params.sha256`` ellenőrzi.
+  ``preregistration/frozen_params_v1.2.json``-ból olvasandók (ld. src/analysis.py),
+  integritását ``preregistration/frozen_params_v1.2.sha256`` ellenőrzi.
+  (A v1.0/v1.1 most superseded — a v1.2 AMENDED: 99% CI + Holm.)
   Az itt található DECISION_* értékek CSAK referencia-másolatok a terv 4. fejezetéből.
 - A ``SNAPSHOT_SAMPLE`` alábbi zajparaméterei DOKUMENTÁLT MINTAÉRTÉKEK,
   NEM a Heron chip mért pillanatképei. A chip-pillanatkép (snapshot.json) később,
@@ -113,12 +114,12 @@ relaxációs csatornaként (qiskit_aer.noise.thermal_relaxation_error) kerül az
 DECISION_REFERENCE = {
     "p1_expected_ratios": {"n1": 1.0, "n2": 0.71, "n3": 0.58},  # 1 : 0.71 : 0.58
     "p1_ratio_tol_rel": 0.20,
-    "p2_ci_level": 0.95,        # A_vissza(n3) ≥ A_vissza(n1) az n3 első csúcsánál, 95% CI
+    "p2_ci_level": 0.99,        # A_vissza(n3) ≥ A_vissza(n1) az n3 első csúcsánál, 99% CI (v1.2, Holm)
     "p3_height_rel": 0.20,      # cut ≥ 20%-kal alacsonyabb VAGY
     "p3_shift_min_steps": 2,    # ≥ 2 lépéssel eltolódik n3-hoz képest
-    "p3_ci_level": 0.95,
+    "p3_ci_level": 0.99,
     "bootstrap_n": 2000,
-    "dip_frac": 0.95,           # D-nek ezalatt kell esnie, mielőtt a visszatérési csúcsot keressük
+    "dip_frac": 0.95,           # D-nek ezalatt kell esnie, mielőtt a visszatérési csúcsot keressük (nem CI-döntés)
 }
 
 ARMS = tuple(ARM_NAMES)

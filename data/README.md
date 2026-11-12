@@ -29,6 +29,6 @@ NEM keletkezik itt adat; a fájlformátumok mégis előre rögzítve vannak.
    adhatók hozzá.
 2. A QPU-futtatást a Control Agent végzi a tulajdonos rövid életű tokenjével;
    a token SEMMILYEN formában nem kerülhet ide.
-3. A döntési szabály a `preregistration/frozen_params.json`-ból olvasandó
-   (és a hozzá tartozó `frozen_params.sha256`-nal ellenőrizendő), nem a
+3. A döntési szabály a `preregistration/frozen_params_v1.2.json`-ból olvasandó
+   (és a hozzá tartozó `frozen_params_v1.2.sha256`-nal ellenőrizendő), nem a
    kódba égetve.

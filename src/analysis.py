@@ -1,11 +1,14 @@
 """Elemző — D(k), BLP, csúcskeresés, bootstrap CI, ítélet (terv 4. fejezet).
 
-A DÖNTÉSI SZABÁLY FORRÁSA: ``preregistration/frozen_params.json``
-(hash: ``preregistration/frozen_params.sha256``). A kód NEM tartalmaz az
-ítéletet befolyásoló küszöböt "beégetve": minden küszöb (P1 1:0.71:0.58 ±20%,
-P2/P3 95% CI, dip_frac, ablakok, várt görbék, anomália-határ, bootstrap
+A DÖNTÉSI SZABÁLY FORRÁSA: ``preregistration/frozen_params_v1.2.json``
+(hash: ``preregistration/frozen_params_v1.2.sha256``). A v1.2 AMENDED —
+a v1.0/v1.1 (95% CI) ELÉRVÉNYTELEN; minden döntési küszöb 99% CI + Holm.
+A kód NEM tartalmaz az ítéletet befolyásoló küszöböt "beégetve": minden
+küszöb (P1 1:0.71:0.58 ±20%, P2/P3/anomália 99% CI + Holm a claim-családon
+[P2, P3, anomaly], dip_frac, ablakok, várt görbék, anomália-határ, bootstrap
 paraméterek) a fagyasztott fájlból olvasódik. Hash-eltérés esetén az elemzés
-NEM fut le (RuntimeError).
+NEM fut le (RuntimeError) — FAIL-CLOSED, a v1.2 mezőire (version/correction/
+ci_level/claim_family) is.
 
 Verdict-értékek: ``TEXTBOOK-MEGEROSITVE`` | ``NULL`` | ``ANOMALIA``.
 A koherencia-ág SOHA nem része a fő ítéletnek (terv 3.2) — külön blokkban
@@ -26,8 +29,8 @@ import numpy as np
 from . import config
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-FROZEN_PARAMS_PATH = REPO_ROOT / "preregistration" / "frozen_params.json"
-FROZEN_SHA256_PATH = REPO_ROOT / "preregistration" / "frozen_params.sha256"
+FROZEN_PARAMS_PATH = REPO_ROOT / "preregistration" / "frozen_params_v1.2.json"
+FROZEN_SHA256_PATH = REPO_ROOT / "preregistration" / "frozen_params_v1.2.sha256"
 RAW_COUNTS_PATH = REPO_ROOT / "data" / "raw_counts.json"
 
 VERDICT_TEXTBOOK = "TEXTBOOK-MEGEROSITVE"
@@ -79,10 +82,26 @@ def verify_frozen_params(frozen_path: Path = FROZEN_PARAMS_PATH, sha_path: Path 
     return actual
 
 
+def verify_frozen_fields(frozen: dict) -> None:
+    """v1.2 módosítás-kötelező mezői — eltérés = RuntimeError (fail-closed)."""
+    if frozen.get("version") != "1.2":
+        raise RuntimeError("frozen_params_v1.2.json: version != '1.2' — a v1.0/v1.1 (95%) érvénytelen.")
+    if frozen.get("correction") != "holm":
+        raise RuntimeError("correction != 'holm' — a fagyasztott fájl nem egyezik.")
+    if list(frozen.get("claim_family", [])) != ["P2", "P3", "anomaly"]:
+        raise RuntimeError("claim_family nem [P2, P3, anomaly].")
+    if float(frozen.get("bootstrap", {}).get("ci_level")) != 0.99:
+        raise RuntimeError("bootstrap.ci_level != 0.99.")
+    if float(frozen.get("tolerances", {}).get("ci_level")) != 0.99:
+        raise RuntimeError("tolerances.ci_level != 0.99.")
+
+
 def load_frozen_params(frozen_path: Path = FROZEN_PARAMS_PATH, sha_path: Path = FROZEN_SHA256_PATH) -> tuple[dict, str]:
     actual = verify_frozen_params(frozen_path, sha_path)
     with frozen_path.open("r", encoding="utf-8") as f:
-        return json.load(f), actual
+        frozen = json.load(f)
+    verify_frozen_fields(frozen)
+    return frozen, actual
 
 
 # ---------------------------------------------------------------------------
@@ -189,6 +208,34 @@ def analyze_branch_point(D: np.ndarray, windows, dip_frac):
 
 
 # ---------------------------------------------------------------------------
+# Holm-korrekció (v1.2: claim-család [P2, P3, anomaly], α = 0.01)
+# ---------------------------------------------------------------------------
+def holm_adjust(pvals: dict, alpha: float = 0.01):
+    items = sorted(pvals.items(), key=lambda kv: kv[1])
+    m = len(items)
+    out = {}
+    still = True
+    for i, (name, p) in enumerate(items):
+        thr = alpha / (m - i)
+        ok = (p <= thr) and still
+        if not ok:
+            still = False
+        out[name] = {"p_raw": float(p), "holm_threshold": thr, "significant": bool(ok)}
+    return out
+
+
+def _p_le_or_ge(samples: np.ndarray, bound: float, side: str) -> float:
+    """Bootstrap p-érték egy oldalra; samples = bootstrap A-szerű eloszlás."""
+    samples = np.asarray(samples, dtype=float)
+    samples = samples[np.isfinite(samples)]
+    if samples.size == 0:
+        return 1.0
+    if side == "le":
+        return float((samples <= bound).mean())
+    return float((samples >= bound).mean())
+
+
+# ---------------------------------------------------------------------------
 # Bootstrap (2000×, seed-elt) — a verdict-CI-k forrása
 # ---------------------------------------------------------------------------
 def _boot_draws(rng: np.random.Generator, tot: np.ndarray, p_hat: np.ndarray, n: int) -> np.ndarray:
@@ -264,8 +311,8 @@ def analyze_dataset(dataset: dict, frozen: dict) -> dict:
     boot_ci = {}
     for arm in config.ARM_NAMES:
         boot_ci[arm] = {
-            "t_vissza_ci95": _ci(boot[arm]["t"], q, 1 - q),
-            "A_vissza_ci95": _ci(boot[arm]["A"], q, 1 - q),
+            "t_vissza_ci99": _ci(boot[arm]["t"], q, 1 - q),
+            "A_vissza_ci99": _ci(boot[arm]["A"], q, 1 - q),
         }
 
     # --- P1: arányok (pontbecslés, ±20% tűrés a fagyasztott fájlból) ---
@@ -282,13 +329,14 @@ def analyze_dataset(dataset: dict, frozen: dict) -> dict:
         p1_details[arm] = {"t_vissza": t, "expected_ratio": exp, "ratio_vs_n1": ratio, "ok": ok}
         p1_ok = p1_ok and ok
 
-    # --- P2: A_vissza(n3) ≥ A_vissza(n1) az n3 első csúcsánál, 95% CI ---
+    # --- P2: A_vissza(n3) ≥ A_vissza(n1) az n3 első csúcsánál, 99% CI (v1.2) ---
     k3_star = point_pop["n3"]["t_vissza"]
     p2_detail = {"k3_star": k3_star}
+    p2_p = 1.0
     if k3_star is None:
         p2_ok = False
         p2_detail["reason"] = "n3 t_vissza nem található"
-        p2_detail["ci95_diff"] = None
+        p2_detail["ci99_diff"] = None
     else:
         d_n3 = boot["n3"]["D"][0]  # (n_boot, K+1)
         d_n1 = boot["n1"]["D"][0]
@@ -299,11 +347,12 @@ def analyze_dataset(dataset: dict, frozen: dict) -> dict:
         diff = a3 - a1
         diff = diff[np.isfinite(diff)]
         ci_lo = float(np.percentile(diff, 100 * q)) if diff.size else float("nan")
-        p2_ok = bool(np.isfinite(ci_lo) and ci_lo >= 0.0)
+        p2_p = float((diff <= 0.0).mean()) if diff.size else 1.0
         p2_detail.update({
             "A_vissza_n3_at_k3": point_pop["n3"]["A_vissza"],
             "A_vissza_n1_at_k3": float(D_pop["n1"][k3_star] / D_pop["n1"][0]),
-            "ci95_diff": (ci_lo, float(np.percentile(diff, 100 * (1 - q)))) if diff.size else None,
+            "ci99_diff": (ci_lo, float(np.percentile(diff, 100 * (1 - q)))) if diff.size else None,
+            "p_boot": p2_p,
         })
 
     # --- P3: cut vs n3 — vagy ≥20%-kal alacsonyabb (CI), vagy ≥2 lépés eltolódás (CI) ---
@@ -324,19 +373,27 @@ def analyze_dataset(dataset: dict, frozen: dict) -> dict:
     height_ci = (float(np.percentile(height_samples, 100 * q)), float(np.percentile(height_samples, 100 * (1 - q)))) if height_samples.size else (float("nan"), float("nan"))
     shift_ok = bool(shift_samples.size and np.isfinite(shift_ci[0]) and shift_ci[0] >= p3_shift_min)
     height_ok = bool(height_samples.size and np.isfinite(height_ci[1]) and height_ci[1] <= 0.0)
-    p3_ok = shift_ok or height_ok
+    # a "cut ≥ +2 lépés / ≥ 20%-kal alacsonyabb" esemény bootstrap-p-értéke:
+    # kicsi p ⇒ az eltolodás ELÉRI a p3_shift_min-t / a magasság eléri a 0.8·A_n3-at
+    p3_p_shift = float((shift_samples < p3_shift_min).mean()) if shift_samples.size else 1.0
+    p3_p_height = float((height_samples > 0.0).mean()) if height_samples.size else 1.0
+    p3_p = min(1.0, 2.0 * min(p3_p_shift, p3_p_height))  # Bonferroni a 2 ág között
+    p3_ok = shift_ok or height_ok  # provisional — a végleges döntés Holm után
     p3_detail = {
         "t_cut": t_cut, "t_n3": t_n3, "shift_steps": (t_cut - t_n3) if (t_cut is not None and t_n3 is not None) else None,
-        "shift_ci95": shift_ci, "shift_ok": shift_ok,
+        "shift_ci99": shift_ci, "shift_ok": shift_ok,
         "A_cut": point_pop["cut"]["A_vissza"], "A_n3": point_pop["n3"]["A_vissza"],
-        "height_margin_ci95": height_ci, "height_ok": height_ok,
+        "height_margin_ci99": height_ci, "height_ok": height_ok,
         "p3_min_shift_steps": p3_shift_min, "p3_height_rel": p3_height_rel,
+        "p_boot_shift": p3_p_shift, "p_boot_height": p3_p_height, "p_boot": p3_p,
     }
 
-    # --- ANOMÁLIA: a visszatérés túllépi-e a zajtalan unitér maximumot, 95% CI-val ---
+    # --- ANOMÁLIA: a visszatérés túllépi-e a zajtalan unitér maximumot, 99% CI-val ---
     anon_ref = frozen.get("anomaly_reference", {}).get("population", {})
     anomaly_details = {}
     anomalia = False
+    anom_p_parts = []
+    n_checked = 0
     for arm in config.ARM_NAMES:
         bound = anon_ref.get(arm)
         if bound is None:
@@ -348,16 +405,25 @@ def analyze_dataset(dataset: dict, frozen: dict) -> dict:
             continue
         ci_lo = float(np.percentile(samples, 100 * q))
         over = ci_lo > float(bound)
-        anomaly_details[arm] = {"checked": True, "bound": float(bound), "ci95_lo": ci_lo, "anomaly": over}
+        anom_p_parts.append(float((samples <= float(bound)).mean()))
+        n_checked += 1
+        anomaly_details[arm] = {"checked": True, "bound": float(bound), "ci99_lo": ci_lo, "anomaly": over}
         anomalia = anomalia or over
+    anom_p = min(1.0, (min(anom_p_parts) if anom_p_parts else 1.0) * max(n_checked, 1))  # Bonferroni a karok között
+
+    # --- Holm a claim-családon [P2, P3, anomaly] (α = 0.01) — v1.2 ---
+    holm = holm_adjust({"P2": p2_p, "P3": p3_p, "anomaly": anom_p}, alpha=1.0 - float(tol["ci_level"]))
+    p2_ok = bool(holm["P2"]["significant"])
+    p3_ok = bool(holm["P3"]["significant"])
+    anom_sig = bool(holm["anomaly"]["significant"])
 
     # --- Ítélet (csak a populációs ág!) ---
-    if anomalia:
+    if anom_sig:
         verdict = VERDICT_ANOMALIA
-        verdict_reason = "valamely kar A_vissza-je 95% CI-val túllépi a zajtalan unitér maximumot"
+        verdict_reason = "valamely kar A_vissza-je 99% CI-val túllépi a zajtalan unitér maximumot (Holm után szignifikáns)"
     elif p1_ok and p2_ok and p3_ok:
         verdict = VERDICT_TEXTBOOK
-        verdict_reason = "P1, P2 és P3 mind teljesülnek"
+        verdict_reason = "P1, P2 és P3 mind teljesülnek (99% CI + Holm)"
     else:
         verdict = VERDICT_NULL
         missing = [name for name, ok in (("P1", p1_ok), ("P2", p2_ok), ("P3", p3_ok)) if not ok]
@@ -369,7 +435,9 @@ def analyze_dataset(dataset: dict, frozen: dict) -> dict:
         "population": {
             "D": {arm: D_pop[arm].tolist() for arm in config.ARM_NAMES},
             "metrics": point_pop,
-            "bootstrap_ci95": boot_ci,
+            "bootstrap_ci99": boot_ci,
+            "holm": holm,
+            "p_P2": p2_p, "p_P3": p3_p, "p_anomaly": anom_p,
             "P1": {"ok": p1_ok, "details": p1_details},
             "P2": {"ok": p2_ok, **p2_detail},
             "P3": {"ok": p3_ok, **p3_detail},
@@ -379,7 +447,7 @@ def analyze_dataset(dataset: dict, frozen: dict) -> dict:
             "note": "MÁSODLAGOS ág (terv 3.2) — a fő ítéletbe NEM számít bele",
             "D": {arm: D_coh[arm].tolist() for arm in config.ARM_NAMES},
             "metrics": point_coh,
-            "bootstrap_t_ci95": {
+            "bootstrap_t_ci99": {
                 arm: _ci(boot_coh_t[arm], q, 1 - q) for arm in config.ARM_NAMES
             },
         },
@@ -400,19 +468,19 @@ def format_report(results: dict, frozen_hash: str, dataset_label: str) -> str:
     lines.append("=" * 72)
     lines.append("triangle-anchor-memory — elemzés (D(k), bootstrap, preregisztrált ítélet)")
     lines.append(f"adatforrás: {dataset_label}")
-    lines.append(f"frozen_params.json SHA-256: {frozen_hash}")
+    lines.append(f"frozen_params_v1.2.json SHA-256: {frozen_hash}")
     lines.append("=" * 72)
 
     pop = results["population"]
     lines.append("")
-    lines.append("POPULÁCIÓS ÁG (fő) — kar / t_vissza [95% CI] / A_vissza [95% CI] / BLP / D(0)")
+    lines.append("POPULÁCIÓS ÁG (fő) — kar / t_vissza [99% CI] / A_vissza [99% CI] / BLP / D(0)")
     for arm in config.ARM_NAMES:
         m = pop["metrics"][arm]
-        ci = pop["bootstrap_ci95"][arm]
+        ci = pop["bootstrap_ci99"][arm]
         t = _fmt(m["t_vissza"], 0)
         lines.append(
-            f"  {arm:>5}: t = {t:>2} [{_fmt(ci['t_vissza_ci95'][0],2)}, {_fmt(ci['t_vissza_ci95'][1],2)}]"
-            f"   A = {_fmt(m['A_vissza'])} [{_fmt(ci['A_vissza_ci95'][0])}, {_fmt(ci['A_vissza_ci95'][1])}]"
+            f"  {arm:>5}: t = {t:>2} [{_fmt(ci['t_vissza_ci99'][0],2)}, {_fmt(ci['t_vissza_ci99'][1],2)}]"
+            f"   A = {_fmt(m['A_vissza'])} [{_fmt(ci['A_vissza_ci99'][0])}, {_fmt(ci['A_vissza_ci99'][1])}]"
             f"   BLP = {_fmt(m['BLP'])}   D0 = {_fmt(m['D0'])}"
         )
 
@@ -428,7 +496,7 @@ def format_report(results: dict, frozen_hash: str, dataset_label: str) -> str:
     lines.append(f"  P1 összességében: {'TELJESÜL' if p1['ok'] else 'NEM TELJESÜL'}")
 
     p2 = pop["P2"]
-    ci2 = p2.get("ci95_diff")
+    ci2 = p2.get("ci99_diff")
     ci2_s = "—" if ci2 is None else f"[{ci2[0]:.4f}, {ci2[1]:.4f}]"
     lines.append("")
     lines.append(
@@ -440,8 +508,8 @@ def format_report(results: dict, frozen_hash: str, dataset_label: str) -> str:
     lines.append("")
     lines.append(
         f"P3 — cut vs n3: shift = {_fmt(p3.get('shift_steps'), 0)} lépés"
-        f" CI = [{p3['shift_ci95'][0]:.2f}, {p3['shift_ci95'][1]:.2f}] → {'OK' if p3['shift_ok'] else 'nem'};"
-        f"  magasság-CI(A_cut−0.8·A_n3) = [{p3['height_margin_ci95'][0]:.4f}, {p3['height_margin_ci95'][1]:.4f}]"
+        f" CI = [{p3['shift_ci99'][0]:.2f}, {p3['shift_ci99'][1]:.2f}] → {'OK' if p3['shift_ok'] else 'nem'};"
+        f"  magasság-CI(A_cut−0.8·A_n3) = [{p3['height_margin_ci99'][0]:.4f}, {p3['height_margin_ci99'][1]:.4f}]"
         f" → {'OK' if p3['height_ok'] else 'nem'}"
         f"  ⇒ P3: {'TELJESÜL' if p3['ok'] else 'NEM TELJESÜL'}"
     )
@@ -452,7 +520,7 @@ def format_report(results: dict, frozen_hash: str, dataset_label: str) -> str:
         a = pop["anomaly"][arm]
         if a.get("checked"):
             flag = "ANOMÁLIA!" if a["anomaly"] else "ok"
-            lines.append(f"  {arm:>5}: határ = {a['bound']:.4f}, CI alsó = {a['ci95_lo']:.4f} → {flag}")
+            lines.append(f"  {arm:>5}: határ = {a['bound']:.4f}, CI alsó = {a['ci99_lo']:.4f} → {flag}")
         else:
             lines.append(f"  {arm:>5}: nincs ellenőrizve ({a.get('reason')})")
 
