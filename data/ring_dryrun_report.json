@@ -4,9 +4,9 @@
   "seed": 20261113,
   "checks": [
     {
-      "name": "frozen integritás (sha256 + ci_level=0.95 + holm + claim-család)",
+      "name": "frozen integritás v1.1 (sha256 + version=1.1 + ci_level=0.99 + holm + claim-család)",
       "pass": true,
-      "detail": "ci=0.95, holm, ['R1', 'R2', 'pump', 'nc']"
+      "detail": "version=1.1, ci=0.99, holm, ['R1', 'R2', 'pump', 'nc']"
     },
     {
       "name": "zajtalan: lone = 1.0 minden ellenponton",
@@ -44,7 +44,7 @@
       "detail": "τ_broken=1.84, τ_ring=2.28"
     },
     {
-      "name": "NC: a pozitív kontroll beépített predikciója megjelenik (τ_broken ≈ 2.9 kör a native Aer-sávban)",
+      "name": "NC: a pozitív kontroll beépített predikciója megjelenik (τ_broken ≈ 1.8 kör a routed Aer-sávban)",
       "pass": true,
       "detail": "τ_broken=1.84"
     },
@@ -57,11 +57,18 @@
       "name": "routing-költség: k=32 → 341 CZ (a 0.5 W3-jellegű küszöb fölött — a TELJES grid QPU-ra NEM tervezhető)",
       "pass": true,
       "detail": "k=32: 341 CZ"
+    },
+    {
+      "name": "null-próba: 300/300 tankönyvi re-szcenárió — hamis ANOMALIA ≤ 3/300 (1%)",
+      "pass": true,
+      "detail": "hamis ANOMALIA: 0/300"
     }
   ],
+  "null_probe_false_anomaly": "0/300",
   "verdict": "TEXTBOOK",
   "analysis": {
     "label": "dryrun_routed_observed",
+    "model": "routed",
     "metrics": {
       "F_plus": {
         "0": 0.9140625,
@@ -97,24 +104,51 @@
         "32": 0.205078125
       },
       "tau_contrast": 2.2777777777777777,
+      "tau_ring_p": 2.6666666666666665,
+      "tau_static": 5.586206896551724,
+      "tau_broken": 1.8360655737704918,
+      "tau_star": 0.8985507246376812,
+      "tau_lone": Infinity,
+      "tau_delayed": Infinity,
       "mae_vs_routed_aer": {
         "ring_p": 0.013726128472222222,
         "ring_m": 0.015353732638888888
       },
-      "tau_star": 0.8985507246376812,
-      "tau_lone": Infinity,
-      "tau_delayed": Infinity,
-      "tau_broken": 1.8360655737704918
+      "aer_auc": 0.5345594618055556,
+      "aer_var_auc": 1.1784638232195083e-05,
+      "obs_auc": 0.5286458333333334,
+      "anomaly_band": 0.019835562551825815,
+      "d_auc": -0.00591362847222221,
+      "z_995": 2.5758293035489004
     },
     "verdict": "TEXTBOOK",
     "checks": [],
-    "model": "routed",
     "claims": {
-      "R1_ring_beats_star_and_lone": false,
-      "R2_static_weaker_than_flux": false,
-      "nc_broken_not_better": true
+      "family": {
+        "R2": {
+          "p_raw": 0.0,
+          "holm_threshold": 0.0033333333333333335,
+          "significant": true
+        },
+        "nc": {
+          "p_raw": 0.0,
+          "holm_threshold": 0.005,
+          "significant": true
+        },
+        "R1": {
+          "p_raw": 1.0,
+          "holm_threshold": 0.01,
+          "significant": false
+        }
+      },
+      "details": {
+        "R1_star": 0.0005,
+        "R1_lone": 1.0
+      }
     },
-    "verdict_note": "ha az elemző vak lenne (PC/NC megsértve), az verdikt NEM születhet — modell-audit előbb"
+    "nc_violation": false,
+    "any_claim_significant": true,
+    "verdict_note": "v1.1: ANOMALIA csak 99% CI + a binomiális-sávos kapu után; ha az NC szignifikáns, az elemző vak — a verdikt érvénytelen (modell-audit előbb)"
   },
   "exact": {
     "ring_p": {

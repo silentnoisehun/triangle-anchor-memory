@@ -4,7 +4,7 @@ STEP_GRID = tuple(range(0, K + 1, 4))   # 9 ellenpont, a csillag-menet rácsa
 SHOTS = 4096
 BOOTSTRAP_N = 2000
 BOOTSTRAP_SEED = 20261111
-CI_LEVEL = 0.95                          # a gyűrű-meneten 95% (előre rögzítve)
+CI_LEVEL = 0.99                          # csapat-szabály: minden kísérletre 99% (v1.1 amended; v1.0: 0.95)
 CORRECTION = "holm"
 CLAIM_FAMILY = ["R1", "R2", "pump", "nc"]
 

@@ -1,0 +1,8 @@
+# triangle-anchor-memory — preregisztrált hashek (Gyűrű-menet, v1.1 AMENDED)
+# létrehozva (UTC): 2026-11-12T07:41:04+00:00
+# integritás-ellenőrzés: src/ring/analysis.py:check_frozen
+# A v1.1 FELULIRJA (superseded) a frozen_ring_params.json / frozen_ring_params.sha256 (v1.0)-t;
+# a v1.0 byte-ra változatlanul megmarad a történet részeként (PLAN_RING_v1.0.md-vel együtt).
+# (a döntési szabály forrása a frozen_ring_params_v1.1.json — módosítás csak verziózott 'amended' verzióban)
+7353010e468da876ee074956d4bcf40866d9c577a69be36e88fefe9f0d100bdb  PLAN_RING_v1.1.md
+d385d2f89dbe29df9fc03d9db5b0eace0da802128d005a717de708f5f963901e  frozen_ring_params_v1.1.json

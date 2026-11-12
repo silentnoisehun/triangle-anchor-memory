@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
-"""A 0. fázis szimulációs futtatása + frozen_ring_params.json generálása.
+"""A 0. fázis szimulációs futtatása — EGYSZERI történeti szkript.
 
-EGYSZERI alkalommal fut (a fagyasztás egyszeri esemény). QPU-t NEM érint.
-Kimenetek:
+A v1.0 fagyasztás 2026-11-11-én ezzel a szkripttel készült; a v1.1 (AMENDED,
+2026-11-12: 95% → 99% CI + Holm a döntési szabályokban) NEM újrafut a
+szimulációkat — a v1.0 Aer-adatai változatlanok maradtak, csak a döntési
+magasság nőtt (lásd PLAN_RING_v1.1.md és frozen_ring_params_v1.1.json).
+QPU-t nem érint; ezt a szkriptet újrafuttatni NEM kell (a frozen v1.0
+byte-ra változatlan). Kimenetek (történeti):
   data/ring_freeze_data.json  — minden görbe (exact + native-Aer + routed-Aer)
-  preregistration/frozen_ring_params.json (utána .sha256)
+  preregistration/frozen_ring_params.json (utána .sha256) — v1.0 (superseded)
 """
 from __future__ import annotations
 import json, math, os, sys

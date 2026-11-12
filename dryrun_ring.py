@@ -2,15 +2,17 @@
 """A Gyűrű-menet dryrun — QPU NÉLKÜL, végig a fagyasztott protokollon.
 
 Végrehajtás:
-  1. frozen integritás (sha256, ci_level=0.95, holm, claim-család);
+  1. frozen integritás (v1.1; sha256, ci_level=0.99, holm, claim-család);
   2. zajtalan ellenőrzések (sajátállapotok laposak: lone/delayed = 1.0,
      static ≈ 1.0; a ring oszcillál; a broken oszcillál);
   3. AER/NOISELESS "mérés" a gyűrű-karokon (kis shot, fresh seed) →
      az elemző fut; a verdikt nem lehet ANOMALIA;
   4. POZITÍV KONTROLL (NC): a törött gyűrű az irány-előny FÖLÉ tolódó
-     τ-t NEM adhat — az elemzőnek beépített predikciót kell visszaadnia
+     retenciót NEM adhat — az elemzőnek beépített predikciót kell visszaadnia
      (ha nem: az elemző érvénytelen → exit 2);
   5. CSILLAG-kontroll: a csillag nem változtathatja a gyűrű verdiktjét;
+  6. NULL-PRÓBA (v1.1): 300 szintetikus re-szcenárió a routed Aer-modellből
+     @ 4096 shot — a HAMIS ANOMALIA megkövetelt aránya ≤ 1% (≤ 3/300).
   6. a routing-költség bemutatva (k=32 → 341 CZ, 0.565 — a W3-küszöb fölött).
 
 MINDEN eredmény Aer/Statevector szimuláció — SOHA nem "HARDWARE".
@@ -47,8 +49,8 @@ def main():
 
     # 1) frozen integritás
     fz = analysis.check_frozen()
-    check("frozen integritás (sha256 + ci_level=0.95 + holm + claim-család)", True,
-          f"ci={fz['bootstrap']['ci_level']}, {fz['correction']}, {fz['claim_family']}")
+    check("frozen integritás v1.1 (sha256 + version=1.1 + ci_level=0.99 + holm + claim-család)", True,
+          f"version={fz['version']}, ci={fz['bootstrap']['ci_level']}, {fz['correction']}, {fz['claim_family']}")
 
     # 2) zajtalan ellenőrzések
     ideal = {arm: {str(k): exact_reference(arm, k)["p_measure_exact"] for k in STEP_GRID}
@@ -110,6 +112,26 @@ def main():
     check("routing-költség: k=32 → 341 CZ (a 0.5 W3-jellegű küszöb fölött — a TELJES grid QPU-ra NEM tervezhető)",
           cz32 == 341, f"k=32: {cz32} CZ")
 
+    # 6) NULL-PRÓBA: 300 tankönyvi re-szcenárió → a hamis ANOMALIA aránya ≤ 1%
+    import numpy as np
+    grid = fz["step_grid"]
+    mu_rp = [fz["expected_curves"]["routed"]["ring_p"][str(k)] for k in grid]
+    mu_rm = [fz["expected_curves"]["routed"]["ring_m"][str(k)] for k in grid]
+    n_shots = fz["shots_phase0"]
+    rng = np.random.default_rng(20261112)
+    false_anom = 0
+    for _ in range(300):
+        synth = {"ring_p": {str(k): {"000": int(rng.binomial(n_shots, mu_rp[i])), "shots": n_shots}
+                            for i, k in enumerate(grid)},
+                 "ring_m": {str(k): {"000": int(rng.binomial(n_shots, mu_rm[i])), "shots": n_shots}
+                            for i, k in enumerate(grid)}}
+        rep_null = analysis.compare(synth, fz, label="null_probe", model="routed")
+        if rep_null["verdict"] == "ANOMALIA":
+            false_anom += 1
+    check(f"null-próba: 300/300 tankönyvi re-szcenárió — hamis ANOMALIA ≤ 3/300 (1%)",
+          false_anom <= 3, f"hamis ANOMALIA: {false_anom}/300")
+
+    report["null_probe_false_anomaly"] = f"{false_anom}/300"
     report["verdict"] = rep["verdict"]
     report["analysis"] = rep
     report["exact"] = ideal

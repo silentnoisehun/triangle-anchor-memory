@@ -149,9 +149,13 @@ A `data/raw_counts.json` várt sémáját a [`data/README.md`](data/README.md) r
 
 ## A Kerék-menet (forgó gyűrű által tartott középpont)
 
-**Állapot: terv + 0. fázis — QPU még nem futott.** A Kerék-menet külön,
+**Állapot: 0. fázis lefagyasztva, átnézésre vár, beküldés tilos.** A Kerék-menet külön,
 v1.1 amended tervre és saját fagyasztásra épül; a csillag- és a gyűrű-
-anyaghoz nem nyúl.
+anyaghoz nem nyúl. **Semmilyen QPU-futtatás (teljes Kerék-job, küszöb-job,
+gyűrű-job) nem indítható, amíg a 2026-11-12-i 99% CI + Holm amendment és
+Maya (Control Agent) átnézése meg nem történt — az átnézésig TILOS.**
+PLAN_WHEEL v1.2 most NEM készül (csak akkor, ha Maya átnézése hibát talál —
+új hash, külön commit, a v1.1 megtartasávan).
 
 - **Terv:** [`preregistration/PLAN_WHEEL_v1.0.md`](preregistration/PLAN_WHEEL_v1.0.md)
   (transport) és [`preregistration/PLAN_WHEEL_v1.1.md`](preregistration/PLAN_WHEEL_v1.1.md)
@@ -204,23 +208,37 @@ terve elkészült:
 - **A beküldést az agent SOSEM végzi el** — tulajdonosi/Control Agent
   felülvizsgálat és külön döntés szükséges. A Kerék-menet zárolva marad;
   a küszöb-job kimenete nem írja át a Kerék fagyasztott verdiktjeit.
+- **2026-11-12 óta:** semmilyen QPU-futtatás nem indítható a küszöb-csomaggal
+  sem, amíg a 99% CI + Holm amendment át nincs nézve (Maya) és a tulajdonos
+  külön nem dönt. A küszöb-csomag (4e63157) döntési szabályai már 99% CI-sek
+  (PLAN_KUSZOB_v1.0.md §5; Wilson/binomiális, egyoldalú; a 95%-szerű találatok
+  forgásszögek, nem küszöbök; a `storage_ge_095_check` nevű mező valójában
+  0.9-os gép-egészség-előkapu, nem döntési szabály).
 
-## Gyűrű-menet (valós háromszög) — terv + 0. fázis — QPU még NEM futott
+## Gyűrű-menet (valós háromszög) — v1.1 AMENDED — terv + 0. fázis — QPU még NEM futott
+
+**Beküldési tilalom:** a gyűrűcsomag (mint a Kerék és a küszöb-csomag)
+**nem mehet QPU-ra, amíg a 2026-11-12-i 99% CI + Holm amendment át nincs nézve
+(Maya) és a tulajdonos külön nem dönt** — az átnézésig TILOS. A csomag
+„ELŐKÉSZÍTVE — NEM BEKÜLDVE".
 
 A csillag QUEUED menet (lezárandó, kontroll/alapvonal) ÉS a Kerék-/Küszöb-menet
 mellé a VALÓDI háromszögre vonatkozó önálló, új menet: a három gyűrű-qubit
 Peierls-fluxussal kering; az irányt a fázis hordozza, nem a populáció —
 a kérdés az, hogy a keringési irány maga mennyire tárolja a biteket.
 
-- **Terv:** [`preregistration/PLAN_RING_v1.0.md`](preregistration/PLAN_RING_v1.0.md)
-  (kiinduló kép, |k±⟩ sajátállapotok, Loschmidt-echo kiolvasás indoklással,
-  C(k) = P(000;+)−P(000;−) kontraszt, kontrollok a/b/c/NC, pumpa §4, a döntési
-  szabály bootstrap 2000 / **ci = 0.95** / holm a claim-családon
-  [R1, R2, pump, NC]).
-- **Fagyasztott paraméterek:** [`preregistration/frozen_ring_params.json`](preregistration/frozen_ring_params.json)
-  (SHA-256: `frozen_ring_params.sha256`; ellenőrzés: `src/ring/analysis.py:check_frozen`).
-  `K = 32`, rács k ∈ {0,4,…,32}, kipróbálva és fagyasztva mind a 7 pump-pár
-  (0/0.1/0.2/0.3 × φ ∈ {0, π/2}); Ω = 0.1387 rad/kör a kör-spektrumából.
+- **Terv (jelenlegi):** [`preregistration/PLAN_RING_v1.1.md`](preregistration/PLAN_RING_v1.1.md)
+  (**AMENDED**, a v1.0-t felülírja) — kiinduló kép, |k±⟩ sajátállapotok,
+  Loschmidt-echo kiolvasás indoklással, C(k) = P(000;+)−P(000;−) kontraszt,
+  kontrollok a/b/c/NC, pumpa §4, a döntési szabály bootstrap 2000 /
+  **ci = 0.99** / **Holm** a claim-családon [R1, R2, pump, NC]; az ANOMALIA
+  determinisztikus binomiális-sávos (z = Φ⁻¹(0.995) = 2.5758).
+  A v1.0 (`PLAN_RING_v1.0.md`) **byte-ra változatlanul megmarad** — superseded.
+- **Fagyasztott paraméterek (jelenlegi):** [`preregistration/frozen_ring_params_v1.1.json`](preregistration/frozen_ring_params_v1.1.json)
+  (SHA-256: `frozen_ring_params_v1.1.sha256`; ellenőrzés: `src/ring/analysis.py:check_frozen`).
+  `version = 1.1`, bootstrap ci = 0.99; `K = 32`, rács k ∈ {0,4,…,32}, kipróbálva és
+  fagyasztva mind a 7 pump-pár (0/0.1/0.2/0.3 × φ ∈ {0, π/2}); Ω = 0.1387 rad/kör
+  a kör-spektrumából. A v1.0 (`frozen_ring_params.json`) **superseded, változatlan**.
 - **Kód:** `src/ring/` (áramkör-építők — Peierls-élek, prep/echo megosztva a
   kerék-modullal; szimuláció — exact + snapshot-zajú Aer (native
   illesztett-gyűrűbeli és heavy-hex-routolt recept); elemző — a fagyasztott
@@ -241,7 +259,7 @@ a kérdés az, hogy a keringési irány maga mennyire tárolja a biteket.
     terv és a fagyasztott fájl is rögzíti a tulajdonos erős várakozása
     mellett (a mérés dönt — ha mérés lesz);
   - **a pumpa-párok NINCSENEK nyereségben**: egyik (m ∈ {0.1…0.3},
-    φ_p ∈ {0, π/2}) pár sem ver pumpa nélküli gyűrűt 95% CI-vel (native
+    φ_p ∈ {0, π/2}) pár sem ver pumpa nélküli gyűrűt 99% CI-vel + Holm-nal (native
     Aer; a routed-ban a π/2-fázisú pár kicsit rosszabb; az exact ≤ 0.04
     stroboszkopikus különbséget mutat) — a saját ára 96 impulzus × 2e-4 ≈
     0.019, rendben a nyereség nulla alatt; a cáfolati feltétel szerint, ha
@@ -257,7 +275,7 @@ a kérdés az, hogy a keringési irány maga mennyire tárolja a biteket.
   valószínűleg a teljes grid NEM megy QPU-ra.
 
 ```bash
-.venv/bin/python dryrun_ring.py   # QPU nélkül: frozen-ellenőrzés + zajtalan +
-                                   # routed Aer "mérés", elemző, NC-kontroll
-                                   # → elvárt: PASS (12/12)
+.venv/bin/python dryrun_ring.py   # QPU nélkül: frozen-v1.1-ellenőrzés + zajtalan +
+                                   # routed Aer "mérés", elemző, NC-kontroll,
+                                   # null-próba (300×) → elvárt: PASS (13/13)
 ```
