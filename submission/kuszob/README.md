@@ -1,4 +1,4 @@
-# Küszöb-job csomag — első beküldés ERROR 1515 (adat nincs); v1.3 javítás kész, auditra vár; újraküldés külön tulajdonosi döntéssel
+# Küszöb-job csomag — EREDMÉNY: ROGZUL (job `dbr1fl6jjaos73ai51pg`, DONE 2026-11-12 19:51 UTC)
 
 > **v1.1 (2026-11-12, Maya beküldés előtti átnézése nyomán):** a v1.0
 > `job_meta.draft.json` initial_layout-ja HIBÁS volt ([125,117,124,126] —
@@ -12,7 +12,7 @@
 > (a)–(d)); a határ-null próba: hamis ROGZUL 0/2000 (A) és 17/2000 = 0.85% (B)
 > ≤ 1.5% ✓. **A v1.0 fájljai byte-ra változatlanok (történeti).**
 
-> **Állapot (v1.3): az első beküldés (job `dbqt3q9abdes73fosj8g`, 2026-11-12 14:49 UTC) ERROR 1515-tel végzett 19:16 UTC-kor — adat NEM keletkezett** („Circuits without measurements are not allowed"; szkript-ok: a v1.2 beküldő mérés nélküli áramköröket küldött). **A v1.3 javítás kész** (payload a `with_measurements()` után a backend-transzpilációra; ÚJ G8 mérés-kapu run() ELŐTT; [PLAN_KUSZOB_v1.3.md](../../preregistration/PLAN_KUSZOB_v1.3.md)) — **auditra vár; újraküldés KÜLÖN tulajdonosi/Control Agent döntéssel.**
+# Küszöb-job csomag — EREDMÉNY: ROGZUL (job `dbr1fl6jjaos73ai51pg`, DONE 2026-11-12 19:51 UTC)
 > A beküldés a Control Agent futásával történt (tulajdonosi döntéssel);
 > **az agent QPU-t nem indított és tokent nem kezelt.** Record-first: a
 > `job_id_record.json` és a `job_meta.final.json` a repóban vannak (commit e325f14).
@@ -47,6 +47,8 @@ Terv és döntési szabály (**v1.3, AMENDED — mérés-hiány javítás; a v1.
 | `dry_run_report_v1.3.json` | a v1.3 mérés-hiány javítás száraz próba-rekordja (kanonikus run: seed-kapu HALT (G5); teszt-rig: minden gate PASS + ÚJ G8; T1–T4 HALT; SEED és nyers sorrend nincs benne) |
 | `verify_kuszob.py` | agent-oldali ellenőrző (NEM független!); v1.1: **CZ-kapu** (minden áramkör CZ-száma/párjai pontosan a manifesttel; eltérés ⇒ kilépési kód 1 ⇒ HALASZTÁS); `--aer` kapcsolóval zaj-próbával |
 | `verification_last.json` | az utolsó agent-oldali ellenőrzés teljes rekordja (2026-11-12, --aer: **82/82 PASS**) |
+| `results/raw_counts_dbr1fl6jjaos73ai51pg.json` | **A MÉRÉS NYERS SZÁMLÁLÓI** (job `dbr1fl6jjaos73ai51pg`, DONE 19:51 UTC; sha256 `fe7876b6…`; 17/17 áramkör × 4096 shot) |
+| `results/analysis_dbr1fl6jjaos73ai51pg.json` | **A FAGYASZTOTT ELEMZŐ KIMENETE: ROGZUL** (a Control Agent független újraszámolásával számjegyre egyezve; jelölés: gep-alkalmassagi kapu, tankonyvi varakozas) |
 
 ## A protokoll egy sorban
 

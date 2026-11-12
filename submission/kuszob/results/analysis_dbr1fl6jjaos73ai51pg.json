@@ -1,0 +1,25 @@
+{
+  "verdict": "ROGZUL",
+  "reasons": [
+    "(b) teljesül: L₉₉(P(m+1,k=8)) = 0.6233 ≥ 0.5 ÉS L₉₉(P(m+1,k=8)) − U₉₉(P(cut,k=8)) = +0.3914 > 0"
+  ],
+  "details": {
+    "p_m+1_k0": 0.926025390625,
+    "p_m-1_k0": 0.915283203125,
+    "p_m0_k0": 0.93603515625,
+    "p_pc_k0": 0.708740234375,
+    "p_cut_k8": 0.216552734375,
+    "p_m+1_k8": 0.640869140625,
+    "n_m+1_k8": 4096,
+    "n_cut_k8": 4096,
+    "k0_spread": 0.020751953125,
+    "wilson99_m+1_k0_lower": 0.9159392590785227,
+    "wilson99_pc_k0_upper": 0.7249711923030733,
+    "pc_detectable": true,
+    "wilson99_m+1_k8_lower": 0.6232554151263692,
+    "wilson99_cut_k8_upper": 0.23189359607966162,
+    "diff_lower": 0.3913618190467075
+  },
+  "marking": "gep-alkalmassagi kapu, tankonyvi varakozas",
+  "note": "ROGZUL = gépi alkalmassági kapu tankönyvi várakozáshoz; NEM memória-teszt és NEM a Kerék-állítás."
+}

@@ -213,7 +213,7 @@ PLAN_WHEEL v1.2 most NEM készül (csak akkor, ha Maya átnézése hibát talál
                                     # pozitív/negatív kontroll, W3-verdikt → elvárt: PASS
 ```
 
-## Küszöb-job (Ring-Ramsey) — az első beküldés ERROR 1515 (adat NINCS); v1.3 javítás kész, auditra vár
+## Küszöb-job (Ring-Ramsey) — KUSZOB-ITELET: ROGZUL
 
 A Kerék W3 = SZÉTESŐ ágán (a teljes Kerék-QPU-job NEM tervezhető ezen a
 négyesen) az egyetlen szóba jövő futtatás a küszöb-job; a csomagja és a
@@ -242,7 +242,7 @@ terve elkészült:
 - **A beküldést az agent SOSEM végzi el** — tulajdonosi/Control Agent
   felülvizsgálat és külön döntés szükséges. A Kerék-menet zárolva marad;
   a küszöb-job kimenete nem írja át a Kerék fagyasztott verdiktjeit.
-- **2026-11-12 (v1.3):** az első beküldés (**job `dbqt3q9abdes73fosj8g`, 2026-11-12 14:49 UTC**; ibm_kingston, 17 áramkör, 4096 shot) **19:16 UTC-kor ERROR 1515-tel végzett, adat NÉLKÜL** („Circuits without measurements are not allowed" — a payload mérés nélküli áramköröket tartalmazott; szkript-ok: a v1.2 beküldő a `transpile_pruned()` mérés nélküli áramköreit küldte a `SamplerV2.run()`-nak). **A v1.3 javítás kész** (a payload a `build_kuszob.with_measurements()` után megy a backend-transzpilációra; ÚJ G8 mérés-kapu a run() ELŐTT, mind dry-run, mind submit úton; [PLAN_KUSZOB_v1.3](preregistration/PLAN_KUSZOB_v1.3.md)) — **auditra vár; újraküldés KÜLÖN tulajdonosi/Control Agent döntéssel**. Az agent QPU-t nem indított; tokent nem kezelt; a record-first rekordok (commit `e325f14`) megőrződnek. A v1.2 seed-amendment (hash `83f43b94f6ab5f75d26ffec94af9dceafdd56ae2a7592a2571a57a89dee4b31c`) változatlan érvényű. A küszöb-csomag döntési szabályai 99% CI-sek (PLAN_KUSZOB_v1.3,
+- **2026-11-12 19:51 UTC (újraküldés után) — KUSZOB-ITELET: ROGZUL** — job `dbr1fl6jjaos73ai51pg`, DONE 2026-11-12 19:51 UTC (ibm_kingston, 17 áramkör, 4096 shot). **KÖTELEZŐ JELÖLÉS: gep-alkalmassagi kapu, tankonyvi varakozas — NEM memória-teszt; a Kerék-állításra nincs hatással.** A fagyasztott elemző (`analyze_kuszob.py`) ítélete ROGZUL, a Control Agent a nyers számlálókból függetlenül újraszámolta — számjegyre egyezik; P(m+1,k=8) = 0.6409 (Wilson 99% alsó: 0.6233 ≥ 0.5), P(cut,k=8) = 0.2166 (felső: 0.2319), különbség-becslés alsó +0.3914 > 0. Az eredmény rekordja: `submission/kuszob/results/raw_counts_dbr1fl6jjaos73ai51pg.json` (sha256 `fe7876b6…`) és `analysis_dbr1fl6jjaos73ai51pg.json` (agent-oldali újra-ellenőrzés: az összesített P és Wilson-határok számjegyre egyeznek; a fagyasztott elemző ezen a fájlon újrafuttatva is ROGZUL-t adott). A Kerek-ut feltetele teljesult, a Kerek-csomag kulon dontessel indul. Előtörténet: az első beküldés (job `dbqt3q9abdes73fosj8g`) ERROR 1515-tel (adat nincs); ennek javítása v1.3 (G8 mérés-kapu; [PLAN_KUSZOB_v1.3](preregistration/PLAN_KUSZOB_v1.3.md)); a v1.2→v1.3 amendment mérést nem érintett. A döntési szabály 99% CI-sek (PLAN_KUSZOB_v1.3,
   Wilson, egyoldalú; a 95%-szerű találatok forgásszögek, nem küszöbök; a
   `storage_ge_095_check` nevű mező valójában 0.9-os gép-egészség-előkapu,
   nem döntési szabály; a `dip_frac: 0.95` nem CI-döntés). A ROGZUL ítélet
