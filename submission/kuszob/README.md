@@ -1,5 +1,3 @@
-# Küszöb-job csomag — EREDMÉNY: ROGZUL (job `dbr1fl6jjaos73ai51pg`, DONE 2026-11-12 19:51 UTC)
-
 > **v1.1 (2026-11-12, Maya beküldés előtti átnézése nyomán):** a v1.0
 > `job_meta.draft.json` initial_layout-ja HIBÁS volt ([125,117,124,126] —
 > a QASM-ok routoltak, q0..q3 = fizikai [117,124,125,126]; a v1.0 layouttal
@@ -13,6 +11,7 @@
 > ≤ 1.5% ✓. **A v1.0 fájljai byte-ra változatlanok (történeti).**
 
 # Küszöb-job csomag — EREDMÉNY: ROGZUL (job `dbr1fl6jjaos73ai51pg`, DONE 2026-11-12 19:51 UTC)
+**Időbélyeg-őszinteség:** az újraküldés rekordja a beküldés pillanatában (2026-11-12 19:47:33 UTC) a Control Agentnél keletkezett (`kuszob_run/`); ez a repo-commit az eredmény (19:51 UTC) UTÁN viszi fel a rekordot — NEM visszadátumozva. Az ítéletet ez nem érinti: a fagyasztott elemző és a döntési szabály a beküldés előtt már a repoban volt.
 > A beküldés a Control Agent futásával történt (tulajdonosi döntéssel);
 > **az agent QPU-t nem indított és tokent nem kezelt.** Record-first: a
 > `job_id_record.json` és a `job_meta.final.json` a repóban vannak (commit e325f14).
