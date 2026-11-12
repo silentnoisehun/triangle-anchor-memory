@@ -233,7 +233,11 @@ terve elkészült:
   `6a68d507…`), lefagyasztott elemző (`analyze_kuszob.py`), agent-oldali
   ellenőrző (`verify_kuszob.py`, **PASS 82/82 + 3 Aer-próba**, 2026-11-12 —
   v1.1-ben új CZ-kapu: minden áramkör CZ-száma/CZ-párjai pontosan a
-  manifesttel, eltérés ⇒ HALASZTÁS).
+  manifesttel, eltérés ⇒ HALASZTÁS). Beküldő-szkript is **előkészítve**
+  (`submit_kuszob.py` — dry-run: minden gate PASS; a 3 negatív teszt
+  (seed-hash / CZ / backend-kapu) mind HALT-ot ad; `--submit` csak külön
+  tulajdonosi döntéssel, interaktív megerősítéssel; **QPU nem indult**;
+  hash + kapu-rögzítés: `submit_manifest_v1.1.json`).
 - **A beküldést az agent SOSEM végzi el** — tulajdonosi/Control Agent
   felülvizsgálat és külön döntés szükséges. A Kerék-menet zárolva marad;
   a küszöb-job kimenete nem írja át a Kerék fagyasztott verdiktjeit.

@@ -1,0 +1,38 @@
+{
+  "kind": "KUSZOB SUBMIT SUPPLEMENT v1.1 — kiegészítő manifeszt (a PLAN_KUSZOB_v1.1 NEM módosítva; fagyasztott)",
+  "created_utc": "2026-11-12T14:26:38Z",
+  "plan_ref": "preregistration/PLAN_KUSZOB_v1.1.md",
+  "submit_script": {
+    "path": "submission/kuszob/submit_kuszob.py",
+    "sha256": "171b42a33bf33708f7ec97da7ee13d0242c6ea6a9b495375f8a1de00baa4b662",
+    "note": "a tervbe foglalva fagyasztott: bármely módosítás = új verzió + új hash + külön commit + amended terv/kiegészítő"
+  },
+  "dry_run_report": {
+    "path": "submission/kuszob/dry_run_report.json",
+    "sha256": "707ef32ce15212f22ca0b6c3de5bb770a572509752fbff33c9914fd1c1915eba",
+    "note": "SZIMULÁCIÓ/ELŐKÉSZÍTÉS — NEM HARDWARE; QPU nem indult; mind a 6 gate PASS (G1/G2/G4/G5/G6/G7)"
+  },
+  "gates": {
+    "G1_draft_analyzer": "job_meta.draft_v1.1.json betöltése + analyze_kuszob.py FAGYASZTOTT hash (6458a64d…) + snapshot sha256; eltérés ⇒ HALT",
+    "G2_manifest": "circuits_manifest.json hash (94048f35…) + payload recompute (6194ef7a…) + 17/17 qasm-hash; eltérés ⇒ HALT",
+    "G4_frozen_wheel": "frozen_wheel_params.json integritás a .sha256 szerint; sérülés ⇒ HALT",
+    "G5_seed": "shuffle seed CSAK env-ből (alap: KUSZOB_SHUFFLE_SEED vagy --seed-env) vagy REPÓN KÍVÜLI fájlból (--seed-file); a seed sehova nem íródik; sha256(utf8(hex)) == 6a68d507…; eltérés ⇒ HALT",
+    "G6_backend": "backend KÖTELEZŐEN ibm_kingston (paraméter; --submit módban az ÉLŐ backend .name-je is); más ⇒ HALT",
+    "G7_cz": "a run() hívás ELŐTT: az (élő backenden vagy dry-run proxyként a snapshot coupling_mapjén) transzpilált prune-olt áramkörök CZ-száma és CZ-párjai PONTOSAN a circuits_manifest.json-nal (initial_layout [117,124,125,126], opt 0, seed 1234); bármely eltérés ⇒ HALASZTÁS, beküldés NINCS"
+  },
+  "negative_tests_2026-11-12": {
+    "T1_seed_hash_kapu": "rossz seed (/tmp, 64×'a') → HALT exit 3: 'shuffle seed hash mismatch (fájl: /tmp/wrong_seed.txt); elvárt 6a68d507…'",
+    "T2_cz_kapu": "--test-inject-layout 125,117,124,126 (Maya v1.0 hibája) → CZ-KAPU BUKOTT exit 3 (pl. m+1_k8: 95 CZ ≠ 92; minden kör +3 CZ) — minden más gate PASS volt; beküldés NINCS",
+    "T3_backend_kapu": "--backend ibm_torino → HALT exit 3: \"G6 backend-kapu: 'ibm_torino' nem ibm_kingston\" — semmi IBM-hez nem ért",
+    "pozitiv_kontroll": "--dry-run helyes seeddel → minden gate PASS; dry_run_report.json megírva; a nyers kevert sorrend NEM kerül a repóba (order_sha256: 1e8e1e89…)"
+  },
+  "versions_dry_run": {
+    "qiskit": "2.6.2",
+    "qiskit_aer": "0.18.2",
+    "qiskit_ibm_runtime": null
+  },
+  "token_handling": "kizárólag az IBM_QUANTUM_TOKEN környezeti változó NÉV szerepel a kódban; a token értéke sehova nem kerül, nem logolódik, nem commitolódik",
+  "submission_policy": "--submit mód CSAK külön tulajdonosi döntéssel, interaktív megerősítéssel ('KUSZOB BEKULDES' gépelve) érhető el; record-first: job_id_record.json mentése a run() visszatérése UTÁN, az eredmény letöltése ELŐTT; majd job_meta.final.json (verziók, snapshot, napi kalibráció, order_sha256, backend-normalizált payload-hash). Az agent QPU-t nem indít.",
+  "qpu_executed": false,
+  "marking": "ROGZUL esetén kötelező: 'gep-alkalmassagi kapu, tankonyvi varakozas' — nem memória-teszt"
+}

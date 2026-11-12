@@ -36,7 +36,10 @@ Terv és döntési szabály (v1.1, AMENDED): [`preregistration/PLAN_KUSZOB_v1.1.
 | `gate_table.json` | páronként a CZ-darabszámok és várható hibák (a W3 számvitellel azonos) |
 | `job_meta.draft.json` | v1.0 job_meta tervezet — **HIBÁS initial_layout; csak történeti, beküldésre TILOS** |
 | `job_meta.draft_v1.1.json` | **v1.1 tervezet — ez használható (átnézés után)**: `initial_layout: [117,124,125,126]`, `optimization_level: 0`, titkos shuffle seed előre publikus hash-e, a lefagyasztott elemző hash-e, `job_ids: []` |
-| `analyze_kuszob.py` | **LEFAGYASZTOTT elemző (v1.1)** — PLAN §5 (a)–(d) Wilson 99%, fail-closed (ERVENYTELEN), kötelező ROGZUL-jelölés; `--null-probe 2000` |
+| `analyze_kuszob.py` | **LEFAGYASZTOTT elemző (v1.1)** — PLAN §2 (a)–(d) Wilson 99%, fail-closed (ERVENYTELEN), kötelező ROGZUL-jelölés; `--null-probe 2000` |
+| `submit_kuszob.py` | **BEKÜLDŐ-szkript v1.1 — ELŐKÉSZÍTVE; QPU-t NEM indít** (dry-run gate-ek IBM nélkül; 3 negatív teszt HALT; `--submit` csak tulajdonosi döntéssel, interaktív) |
+| `submit_manifest_v1.1.json` | a beküldő-szkript hash-e + kapu-leírások + a 3 negatív teszt rögzítése (a PLAN_KUSZOB_v1.1 NEM módosítva) |
+| `dry_run_report.json` | a 2026-11-12-i száraz próba rekordja (minden gate PASS; SEED és nyers sorrend nincs benne) |
 | `verify_kuszob.py` | agent-oldali ellenőrző (NEM független!); v1.1: **CZ-kapu** (minden áramkör CZ-száma/párjai pontosan a manifesttel; eltérés ⇒ kilépési kód 1 ⇒ HALASZTÁS); `--aer` kapcsolóval zaj-próbával |
 | `verification_last.json` | az utolsó agent-oldali ellenőrzés teljes rekordja (2026-11-12, --aer: **82/82 PASS**) |
 
@@ -109,6 +112,9 @@ snapshot-élen; tárolás ≥ 0.937; **a snapshot SHA-256 egyezik a csillag
 1. Átnézni ezt a csomagot és a PLAN_KUSZOB_v1.1-et (fogalmak, küszöbök, kontrollok);
 2. ellenőrizni a `snapshot_sha256`-t és a backend-tokent a SZOKÁSOS módon (a repo
    szabályai szerint; az agent tokent nem kezel);
+   (opcionális száraz próba: `.venv/bin/python submission/kuszob/submit_kuszob.py --dry-run
+   --seed-file <out-of-tree>` — minden gate lefut IBM nélkül; a beküldéskor a
+   `--submit` módban a CZ-kapu az ÉLŐ backenden transzpilált áramköröket vizsgálja);
 3. futtatni saját gépen a `verify_kuszob.py --aer`-t — ha nem PASS, **HALASZTÁS**;
 4. döntést hozni: **beküldés** (record-first: a beadott-állapot commitja megelőzi
    az eredményeket; NULL is record-first) **vagy halasztás**;

@@ -1,0 +1,26 @@
+{
+  "kind": "KUSZOB v1.1 DRY-RUN — SZIMULÁCIÓ/ELŐKÉSZÍTÉS, NEM HARDWARE; QPU NEM INDULT",
+  "created_utc": "2026-11-12T14:26:14Z",
+  "backend_param": "ibm_kingston",
+  "layout_used_for_check": [
+    117,
+    124,
+    125,
+    126
+  ],
+  "layout_note": "dry-run: a CZ-kapu a SNAPSHOT coupling_mapjével transzpilálva fut (proxy; nem élő backend)",
+  "gates": {
+    "G1_draft_analyzer": "PASS",
+    "G2_manifest": "PASS",
+    "G4_frozen_wheel": "PASS",
+    "G5_seed": "PASS",
+    "G6_backend": "PASS",
+    "G7_cz_proxy": "PASS"
+  },
+  "shuffled_order_sha256": "1e8e1e89768f47e6ce51282f46fe6b7b735cc87904cc0b503111cd4499a4c701",
+  "note": "a nyers kevert sorrend NEM kerül a repóba — unblindingkor a seedből reprodukálható",
+  "qiskit_version": "2.6.2",
+  "qiskit_aer_version": "0.18.2",
+  "qiskit_ibm_runtime_version": null,
+  "qpu_executed": false
+}
