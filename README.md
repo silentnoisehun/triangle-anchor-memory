@@ -213,14 +213,14 @@ PLAN_WHEEL v1.2 most NEM készül (csak akkor, ha Maya átnézése hibát talál
                                     # pozitív/negatív kontroll, W3-verdikt → elvárt: PASS
 ```
 
-## Küszöb-job (Ring-Ramsey) — BEKÜLDVE (2026-11-12 14:49 UTC), job `dbqt3q9abdes73fosj8g`
+## Küszöb-job (Ring-Ramsey) — az első beküldés ERROR 1515 (adat NINCS); v1.3 javítás kész, auditra vár
 
 A Kerék W3 = SZÉTESŐ ágán (a teljes Kerék-QPU-job NEM tervezhető ezen a
 négyesen) az egyetlen szóba jövő futtatás a küszöb-job; a csomagja és a
 terve elkészült:
 
-- **Terv:** [`preregistration/PLAN_KUSZOB_v1.2.md`](preregistration/PLAN_KUSZOB_v1.2.md)
-  (v1.2 AMENDED, 2026-11-12, mérés ELŐTT: új shuffle-seed-hash `83f43b94…`; minden egyéb a v1.1-ből öröklődik).
+- **Terv:** [`preregistration/PLAN_KUSZOB_v1.3.md`](preregistration/PLAN_KUSZOB_v1.3.md)
+  (v1.3 AMENDED, 2026-11-12: mérés-hiány javítás — új G8 mérés-kapu; minden egyéb a v1.2-ből öröklődik, ideértve a seed-hash `83f43b94…`-t).
   (a v1.1 AMENDED, 2026-11-12, Maya átnézése: a v1.0
   `initial_layout` [125,117,124,126] hibája javítva → **[117,124,125,126]**,
   `optimization_level = 0`; a döntési szabály (99% Wilson, (a)–(d)) nem
@@ -242,7 +242,7 @@ terve elkészült:
 - **A beküldést az agent SOSEM végzi el** — tulajdonosi/Control Agent
   felülvizsgálat és külön döntés szükséges. A Kerék-menet zárolva marad;
   a küszöb-job kimenete nem írja át a Kerék fagyasztott verdiktjeit.
-- **2026-11-12 14:49 UTC — BEKÜLDVE (tulajdonosi döntéssel; a Control Agent futott, az agent QPU-t nem indított):** job `dbqt3q9abdes73fosj8g` (ibm_kingston, 17 áramkör, 4096 shot). **Eredmény még nincs; ítéletet a fagyasztott `analyze_kuszob.py` mond, a Control Agent független újraszámolása után.** Record-first: a `job_id_record.json` és a `job_meta.final.json` a Control Agent futási környezetében keletkezett; a repóba való betöltésük megtörtént (commit e325f14). A v1.2 seed-amendment (2026-11-12, mérés előtti, hash `83f43b94f6ab5f75d26ffec94af9dceafdd56ae2a7592a2571a57a89dee4b31c`) előzte meg a beküldést. A küszöb-csomag döntési szabályai 99% CI-sek (PLAN_KUSZOB_v1.2,
+- **2026-11-12 (v1.3):** az első beküldés (**job `dbqt3q9abdes73fosj8g`, 2026-11-12 14:49 UTC**; ibm_kingston, 17 áramkör, 4096 shot) **19:16 UTC-kor ERROR 1515-tel végzett, adat NÉLKÜL** („Circuits without measurements are not allowed" — a payload mérés nélküli áramköröket tartalmazott; szkript-ok: a v1.2 beküldő a `transpile_pruned()` mérés nélküli áramköreit küldte a `SamplerV2.run()`-nak). **A v1.3 javítás kész** (a payload a `build_kuszob.with_measurements()` után megy a backend-transzpilációra; ÚJ G8 mérés-kapu a run() ELŐTT, mind dry-run, mind submit úton; [PLAN_KUSZOB_v1.3](preregistration/PLAN_KUSZOB_v1.3.md)) — **auditra vár; újraküldés KÜLÖN tulajdonosi/Control Agent döntéssel**. Az agent QPU-t nem indított; tokent nem kezelt; a record-first rekordok (commit `e325f14`) megőrződnek. A v1.2 seed-amendment (hash `83f43b94f6ab5f75d26ffec94af9dceafdd56ae2a7592a2571a57a89dee4b31c`) változatlan érvényű. A küszöb-csomag döntési szabályai 99% CI-sek (PLAN_KUSZOB_v1.3,
   Wilson, egyoldalú; a 95%-szerű találatok forgásszögek, nem küszöbök; a
   `storage_ge_095_check` nevű mező valójában 0.9-os gép-egészség-előkapu,
   nem döntési szabály; a `dip_frac: 0.95` nem CI-döntés). A ROGZUL ítélet

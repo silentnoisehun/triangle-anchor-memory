@@ -1,0 +1,38 @@
+{
+  "kind": "KUSZOB v1.3 DRY-RUN REKORD — SZIMULÁCIÓ/ELŐKÉSZÍTÉS, NEM HARDWARE; QPU NEM INDULT",
+  "created_utc": "2026-11-12T19:38:19Z",
+  "note_about_this_file": "Ez a rekord AZ AGENT MUNKATEREMÉBEN készült a v1.3 mérés-hiány javítás ellenőrzésére. A kanonikus száraz próba a v1.3 seeddel a Control Agentnél fut (náluk van a seed). Az alábbi 'teszt_rig' a gate-kód ellenőrzésére szolgált, KÜLÖN teszt-seeddel (/tmp/rig; NEM a Control Agent seedje) — ne keverje a kettőt.",
+  "background": "a 2026-11-12 14:49 UTC-kor beadott dbqt3q9abdes73fosj8g job 19:16 UTC-kor ERROR 1515-tel végzett (adat nincs; 'Circuits without measurements are not allowed'). v1.3: payload with_measurements() után a backend-transzpilációra; új G8 mérés-kapu.",
+  "canonical_run_2026-11-12": {
+    "invocation": "submit_kuszob.py --dry-run (defaults; a seed NEM az agent munkaterében van)",
+    "result": "G6 PASS → G1 PASS (draft 3e86195a…) → G2 PASS (manifest 94048f35…) → G4 PASS → HALT a G5 seed-kapun (exit 3)",
+    "G5_note": "VÁRT: a shuffle seed a Control Agentnél van; az agent a seed ÉRTÉKÉT NEM látta. A Control Agent a kanonikus száraz próbát saját munkaterében futtatja.",
+    "G7_G8_note": "a CZ- és mérés-kapu a seed-kapu után fut — az agent lokális futásában nem ért el ezekig (várt)"
+  },
+  "teszt_rig_2026-11-12": {
+    "purpose": "a gate-kód végállási ellenőrzése külön teszt-seeddel (/tmp/rig; NEM a Control Agent seedje)",
+    "happy_path": "--dry-run teszt-seeddel: minden gate PASS — G1/G2/G4/G5/G6 + G7 CZ-proxy 17/17 + ÚJ G8 (17/17 áramkör pontosan 3 mérés, c0/c1/c2), exit 0",
+    "T1_seed_hash_kapu": "rossz seed (64×'a') → HALT exit 3",
+    "T2_cz_kapu": "--test-inject-layout 125,117,124,126 → CZ-KAPU BUKOTT exit 3 (pl. m+1_k8: 95 CZ ≠ 92)",
+    "T3_backend_kapu": "--backend ibm_torino → HALT exit 3",
+    "T4_meres_kapu": "ÚJ — --test-strip-measurements (mérés nélküli payload; az 1515 hiba reprodukciója) → G8 MÉRÉS-KAPU BUKOTT exit 3 (17/17 áramkör mérés nélkül; HALT) — run() NEM hívható"
+  },
+  "payload_with_measurements_rebuild_check": "agent-oldali újraépítés: build_logical → transpile_pruned → with_measurements → qasm2.dumps; a 17 áramkör QASM-hash-e BYTE-AZONOS a fagyasztott circuits_manifest.json qasm_sha256 értékeivel (STOP-feltétel NEM teljesült — a mérés-huzalozás nem változott)",
+  "gates_agent_side": {
+    "G1_draft_analyzer": "PASS",
+    "G2_manifest": "PASS",
+    "G4_frozen_wheel": "PASS",
+    "G6_backend": "PASS",
+    "G5_seed": "HALT (seed a Control Agentnél — várt)",
+    "G7_cz": "PASS (teszt-rig proxy)",
+    "G8_measurements": "PASS (teszt-rig)"
+  },
+  "versions": {
+    "qiskit_version": "2.6.2",
+    "qiskit_aer_version": "0.18.2",
+    "qiskit_ibm_runtime_version": "0.52.1"
+  },
+  "qpu_executed": false,
+  "supersedes_note": "a v1.1 dry_run_report.json (707ef32c…) és a v1.2 dry_run_report_v1.2.json (d8c41b32…) byte-ra változatlanok",
+  "rogarz_marking": "ROGZUL esetén kötelező: 'gep-alkalmassagi kapu, tankonyvi varakozas' — nem memória-teszt"
+}

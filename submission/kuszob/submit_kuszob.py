@@ -1,23 +1,33 @@
 #!/usr/bin/env python3
-"""Küszöb-job BEKÜLDŐ (v1.2) — ELŐKÉSZÍTVE; NEM KÜLD BE SEMMIT.
+"""Küszöb-job BEKÜLDŐ (v1.3) — ELŐKÉSZÍTVE; NEM KÜLD BE SEMMIT.
 
 Forrás: Maya beküldési feltételei (2026-11-12 14:15 UTC §B és 14:17 UTC) +
-seed-amendment v1.2 (a seed a Control Agentnél; precedencia: PLAN_KUSZOB_v1.2.md).
+seed-amendment v1.2 + v1.3 mérés-hiány javítás (a 2026-11-12 14:49 UTC-kor
+beadott dbqt3q9abdes73fosj8g job 19:16 UTC-kor ERROR állapotban végzett,
+adat NÉLKÜL; IBM hibakód 1515: "Circuits without measurements are not
+allowed" — a payload mérés nélküli áramköröket tartalmazott; precedencia:
+PLAN_KUSZOB_v1.3.md).
 Ez a szkript a beküldés *eljárását* rögzíti; a beküldésről a TULAJDONOS
-dönt külön (PLAN_KUSZOB_v1.2 §7). Az agent QPU-t nem indít; a tokenhez
+dönt külön (PLAN_KUSZOB_v1.3 §7). Az agent QPU-t nem indít; a tokenhez
 SEHOGYA nem fér hozzá (csak az IBM_QUANTUM_TOKEN környezeti változó
 NÉV szerepel itt).
 
-v1.2-ben a várt shuffle-seed-hash a submit_manifest_v1.2.json-ból (ill. a
-job_meta.draft_v1.2.json-ból, keresztellenőrzéssel) olvasódik — NINCS
+v1.3-ban a payload-áramkörök a build_kuszob saját with_measurements()
+lépésével kapják meg a méréseket a backend-transzpiláció ELŐTT (a mérés-
+huzalozás a fagyasztott QASM-okéval AZONOS — agent-oldali újraépítési
+ellenőrzés: 17/17 byte-azonos); új: G8 mérés-kapu (17/17 áramkör pontosan
+3 mérést tartalmaz, a c0/c1/c2 clbit-ekkel) — mind dry-run, mind submit
+úton, run() ELŐTT; különben HALT.
+A várt shuffle-seed-hash a submit_manifest_v1.3.json-ból (ill. a
+job_meta.draft_v1.3.json-ból, keresztellenőrzéssel) olvasódik — NINCS
 beégetett konstans; a v1.1-es seed (hash 6a68d507…) ÉRVÉNYÉT VESZTETTE.
-Kanonikus hivatkozás-lánc: PLAN_KUSZOB_v1.2.md → submit_manifest_v1.2.json →
-(job_meta.draft_v1.2.json, analyze_kuszob.py, circuits_manifest.json);
+Kanonikus hivatkozás-lánc: PLAN_KUSZOB_v1.3.md → submit_manifest_v1.3.json →
+(job_meta.draft_v1.3.json, analyze_kuszob.py, circuits_manifest.json);
 bármilyen eltérés ⇒ HALT.
 
 MIT TUD (a jővőbeli, külön tulajdonosi döntéssel indított --submit mód):
   1. Gate-ek (mindegyik fail-closed ⇒ a folyamat MEGÁLL, beküldés NÉLKÜL):
-     G1  draft/elemző hash-kapu: a job_meta.draft_v1.2.json betöltése + az
+     G1  draft/elemző hash-kapu: a job_meta.draft_v1.3.json betöltése + az
          analyze_kuszob.py FAGYASZTOTT hash-e (6458a64d…) — eltérés ⇒ HALT;
      G2  manifest integritás-kapu: circuits_manifest.json hash (94048f35…)
          + payload recompute + minden QASM hash-e a manifesttel — eltérés ⇒ HALT;
@@ -39,6 +49,10 @@ MIT TUD (a jővőbeli, külön tulajdonosi döntéssel indított --submit mód):
          seed_transpiler 1234) — bármilyen eltérés ⇒ HALASZTÁS, beküldés NINCS.
          --dry-run módban ez HELYI transzpilációval fut (a snapshot
          coupling_map-ja; NEM élő backend — proxy, NEM hardware);
+     G8  mérés-kapu (v1.3, a run() hívás ELŐTT): minden payload-áramkör
+         PONTOSAN 3 mérést tartalmaz a c0/c1/c2 clbit-ekre; bármely
+         áramkör mérés nélkül (vagy nem-3 méréssel) ⇒ HALT, run() NINCS.
+         --dry-run és --submit úton is lefut;
   2. Keverés (a beküldéskor): ids = sorted(order);
      rng = random.Random(int(seed_hex, 16)); rng.shuffle(ids) — a seed nem
      kerül elő sehol máshol;
@@ -78,7 +92,7 @@ HERE = Path(__file__).resolve().parent
 ANALYZER_SHA256 = "6458a64d616d28436429c06075f0ebdaabc482e1d72d405c3f45ce4871636e3d"  # keresztellenőrzve a v1.2 manifesttel
 MANIFEST_SHA256 = "94048f35ab7012f8027170adbc17b7f783e8b738abb1b17f7113d299cdcaf962"  # keresztellenőrzve
 PAYLOAD_SHA256 = "6194ef7adbc74901c57682408b9d421b373c148d67c9389c7de467487dacdb4e"  # keresztellenőrzve
-CANONICAL_DEFAULT = HERE / "submit_manifest_v1.2.json"
+CANONICAL_DEFAULT = HERE / "submit_manifest_v1.3.json"
 EXPECTED_BACKEND = "ibm_kingston"
 EXPECTED_LAYOUT = [117, 124, 125, 126]
 EXPECTED_OPT_LEVEL = 0
@@ -281,10 +295,11 @@ def order_digest(order) -> str:
 
 # ---------- G7: CZ-kapu (helyi transzpiláció proxy vagy ÉLŐ backend) ----------
 def _pruned_circuits():
-    """A TÉNYLEGESEN beküldendő (prune-olt, routolt) áramkörök — a manifesttel
-    azonos pipeline-nal (build → transpile(opt=0) → prune), MÉRÉS NÉLKÜL.
-    A prune-olt q0..q3 = a használt fizikai qubitek növekvő sorrendje —
-    pontosan ezekre vonatkozik a beküldési initial_layout."""
+    """A TÉNYLEGESEN beküldendő áramkörök alapja — a manifesttel azonos
+    pipeline-nal (build → transpile(opt=0) → prune). A prune-olt q0..q3 =
+    a használt fizikai qubitek növekvő sorrendje — pontosan ezekre
+    vonatkozik a beküldési initial_layout. v1.3: a final_layout-ot is
+    továbbadjuk (a mérés-huzalozáshoz a with_measurements()-nek kell)."""
     import submission.kuszob.build_kuszob as bk  # noqa: PLC0415
     out = {}
     for arm, ks in bk.ARMS.items():
@@ -292,11 +307,29 @@ def _pruned_circuits():
             cid = f"kuszob_{arm}_k{k}"
             qc_unit = bk.build_logical(arm, k)
             sub, used, fl, _t0 = bk.transpile_pruned(qc_unit)
-            out[cid] = (sub, used)
+            out[cid] = (sub, used, fl)
     return out
 
 
-def transpile_circuits(layout, coupling_map=None, backend=None):
+def _payload_circuits(strip_measurements: bool = False):
+    """A payload-áramkörök: prune-olt áramkör + a build_kuszob saját
+    with_measurements() mérés-huzalozása (c0 <- R3, c1 <- R2, c2 <- R1
+    rekordlajstrom balról jobbra 'R1R2R3') — a fagyasztott QASM-okéval
+    AZONOS (17/17 byte-azonos újraépítéssel igazolva).
+
+    strip_measurements=True CSAK NEGATÍV TESZT: eltávolítja a méréseket
+    (a 2026-11-12-i 1515 hiba reprodukciója) — a G8-nak MEG KELL bukania."""
+    import submission.kuszob.build_kuszob as bk  # noqa: PLC0415
+    out = {}
+    for cid, (sub, used, fl) in _pruned_circuits().items():
+        measured = bk.with_measurements(sub, used, fl)
+        if strip_measurements:
+            measured = measured.remove_final_measurements(inplace=False)
+        out[cid] = measured
+    return out
+
+
+def transpile_circuits(layout, coupling_map=None, backend=None, strip_measurements: bool = False):
     """A beküldés útját modellező kapu-transzpiláció.
 
     --dry-run: a prune-olt áramkörök a SNAPSHOT coupling_mapjére transzpilálva
@@ -310,14 +343,15 @@ def transpile_circuits(layout, coupling_map=None, backend=None):
     if snap_coupling is None and backend is None:
         snap_coupling = load_snapshot()["coupling_map"]
     out = {}
-    for cid, (sub, used) in _pruned_circuits().items():
+    payload = _payload_circuits(strip_measurements=strip_measurements)
+    for cid, measured in payload.items():
         try:
             if backend is not None:
-                t = transpile(sub, backend=backend, initial_layout=layout,
+                t = transpile(measured, backend=backend, initial_layout=layout,
                               optimization_level=EXPECTED_OPT_LEVEL,
                               seed_transpiler=SEED_TRANSPILER)
             else:
-                t = transpile(sub, basis_gates=BASIS, coupling_map=snap_coupling,
+                t = transpile(measured, basis_gates=BASIS, coupling_map=snap_coupling,
                               initial_layout=layout, optimization_level=EXPECTED_OPT_LEVEL,
                               seed_transpiler=SEED_TRANSPILER)
         except Exception as exc:
@@ -352,6 +386,27 @@ def gate_cz(transpiled, manifest) -> None:
     ok(f"G7 CZ-kapu zöld: 17/17 áramkör CZ-száma és CZ-párjai pontosan a manifesttel (pl. m+1_k8: 92 CZ; 117-125: 3, 124-125: 44, 125-126: 45)")
 
 
+# ---------- G8: mérés-kapu (v1.3) — run() ELŐTT; bukás ⇒ HALT ----------
+def gate_measurements(transpiled) -> None:
+    """MINDEN payload-áramkör PONTOSAN 3 mérést tartalmazzon, a c0/c1/c2
+    clbit-ekre egy-egy — a 2026-11-12-i 1515 ('Circuits without
+    measurements are not allowed') hiba előfordulása esetén HALT."""
+    bad = []
+    for cid, t in sorted(transpiled.items()):
+        clbits = []
+        n_meas = 0
+        for ins in t.data:
+            if ins.operation.name == "measure":
+                n_meas += 1
+                clbits.append(int(t.find_bit(ins.clbits[0]).index))
+        if n_meas != 3 or sorted(clbits) != [0, 1, 2]:
+            bad.append(f"{cid}: {n_meas} mérés, clbit-ek={sorted(clbits)} (elvárt: 3 mérés a c0/c1/c2-ön)")
+    if bad:
+        details = "\n  - " + "\n  - ".join(bad)
+        raise Halt(f"G8 MÉRÉS-KAPU BUKOTT — beküldés NINCS, run() NEM HÍVHATÓ:{details}")
+    ok("G8 mérés-kapu zöld: 17/17 áramkör pontosan 3 mérést tartalmaz a c0/c1/c2 clbit-ekre")
+
+
 # ---------- --submit: a valódi beküldési utak (MOST SOSEM FUT LE) ----------
 def do_submit(args, draft, manifest, canonical):
     token = os.environ.get("IBM_QUANTUM_TOKEN")
@@ -374,6 +429,7 @@ def do_submit(args, draft, manifest, canonical):
     seed = read_seed(args, canonical)  # G5
     transpiled = transpile_circuits(EXPECTED_LAYOUT, backend=backend)
     gate_cz(transpiled, manifest)  # G7 — run() ELŐTT; bukás ⇒ HALASZTÁS, beküldés NINCS
+    gate_measurements(transpiled)  # G8 — run() ELŐTT; bukás ⇒ HALT, run() NEM HÍVHATÓ
 
     order = shuffled_order(draft["order"], seed)
     batch = [transpiled[cid] for cid in order]
@@ -427,15 +483,15 @@ def _load_snapshot_coupling():
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Küszöb-job beküldő v1.2 — ELŐKÉSZÍTVE; QPU-t most nem indít")
+    ap = argparse.ArgumentParser(description="Küszöb-job beküldő v1.3 — ELŐKÉSZÍTVE; QPU-t most nem indít")
     mode = ap.add_mutually_exclusive_group(required=True)
     mode.add_argument("--dry-run", action="store_true",
                       help="minden gate lefut IBM-kapcsolat NÉLKÜL; beküldés NINCS")
     mode.add_argument("--submit", action="store_true",
                       help="VALÓDI beküldés (CSAK külön tulajdonosi döntéssel; interaktív megerősítés; token az IBM_QUANTUM_TOKEN env-ből)")
-    ap.add_argument("--draft", default=str(HERE / "job_meta.draft_v1.2.json"))
+    ap.add_argument("--draft", default=str(HERE / "job_meta.draft_v1.3.json"))
     ap.add_argument("--submit-manifest", default=str(CANONICAL_DEFAULT),
-                    help="a v1.2 submit-manifest (ennek seed/draft/elemző/manifest hash értékei a kanonikusak)")
+                    help="a v1.3 submit-manifest (ennek seed/draft/elemző/manifest hash értékei a kanonikusak)")
     ap.add_argument("--manifest", default=str(HERE / "circuits_manifest.json"))
     ap.add_argument("--backend", default=EXPECTED_BACKEND,
                     help="csak ibm_kingston érvényes — bármi más ⇒ HALT (T3 teszt)")
@@ -443,6 +499,8 @@ def main() -> int:
     ap.add_argument("--seed-env", default="KUSZOB_SHUFFLE_SEED", help="a seed környezeti változójának neve")
     ap.add_argument("--test-inject-layout", default=None,
                     help="CSAK NEGATÍV TESZT: felülírja a beküldési initial_layout-ot (pl. 125,117,124,126 — Maya hibája)")
+    ap.add_argument("--test-strip-measurements", action="store_true",
+                    help="CSAK NEGATÍV TESZT: eltávolítja a payload méréseit (a 2026-11-12 1515 hiba reprodukciója) — a G8-nak MEG KELL bukania")
     args = ap.parse_args()
 
     try:
@@ -463,24 +521,27 @@ def main() -> int:
         log("[shuffle] 17 áramkör keverve (seed csak memóriában; a nyers sorrend nem kerül kiírásra — csak az order_sha256)")
 
         if args.dry_run:
-            transpiled = transpile_circuits(layout, coupling_map=_load_snapshot_coupling())
+            transpiled = transpile_circuits(layout, coupling_map=_load_snapshot_coupling(),
+                                            strip_measurements=args.test_strip_measurements)
             # a proxy-transzpilációt NEM írjuk a repóba; csak a CZ-kaput futtatjuk
             gate_cz(transpiled, manifest)                     # G7 (proxy)
+            gate_measurements(transpiled)                     # G8 (proxy)
             report = {
-                "kind": "KUSZOB v1.2 DRY-RUN — SZIMULÁCIÓ/ELŐKÉSZÍTÉS, NEM HARDWARE; QPU NEM INDULT",
+                "kind": "KUSZOB v1.3 DRY-RUN — SZIMULÁCIÓ/ELŐKÉSZÍTÉS, NEM HARDWARE; QPU NEM INDULT",
                 "submit_manifest": Path(args.submit_manifest).name,
                 "created_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
                 "backend_param": args.backend,
                 "layout_used_for_check": layout,
                 "layout_note": "dry-run: a CZ-kapu a SNAPSHOT coupling_mapjével transzpilálva fut (proxy; nem élő backend)",
                 "gates": {"G1_draft_analyzer": "PASS", "G2_manifest": "PASS", "G4_frozen_wheel": "PASS",
-                          "G5_seed": "PASS", "G6_backend": "PASS", "G7_cz_proxy": "PASS"},
+                          "G5_seed": "PASS", "G6_backend": "PASS", "G7_cz_proxy": "PASS",
+                          "G8_measurements": "PASS"},
                 "shuffled_order_sha256": order_digest(order),
                 "note": "a nyers kevert sorrend NEM kerül a repóba — unblindingkor a seedből reprodukálható",
                 **versions(),
                 "qpu_executed": False,
             }
-            out = HERE / "dry_run_report.json"
+            out = HERE / "dry_run_report_v1.3.json"  # v1.1-es dry_run_report.json byte-ra változatlan (a submit_manifest_v1.1.json hivatkozása!)
             with open(out, "w", encoding="utf-8") as f:
                 json.dump(report, f, indent=2, ensure_ascii=False)
             ok("DRY-RUN OK — minden gate zöld; beküldés NEM történt; QPU nem indult.")

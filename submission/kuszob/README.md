@@ -1,4 +1,4 @@
-# Küszöb-job csomag — BEKÜLDVE (2026-11-12 14:49 UTC), job `dbqt3q9abdes73fosj8g` — eredmény még nincs
+# Küszöb-job csomag — első beküldés ERROR 1515 (adat nincs); v1.3 javítás kész, auditra vár; újraküldés külön tulajdonosi döntéssel
 
 > **v1.1 (2026-11-12, Maya beküldés előtti átnézése nyomán):** a v1.0
 > `job_meta.draft.json` initial_layout-ja HIBÁS volt ([125,117,124,126] —
@@ -12,17 +12,16 @@
 > (a)–(d)); a határ-null próba: hamis ROGZUL 0/2000 (A) és 17/2000 = 0.85% (B)
 > ≤ 1.5% ✓. **A v1.0 fájljai byte-ra változatlanok (történeti).**
 
-> **Állapot: BEKÜLDVE 2026-11-12 14:49 UTC, job `dbqt3q9abdes73fosj8g` (ibm_kingston, 17 áramkör, 4096 shot); eredmény még nincs; ítéletet a fagyasztott `analyze_kuszob.py` mond, a Control Agent független újraszámolása után.**
+> **Állapot (v1.3): az első beküldés (job `dbqt3q9abdes73fosj8g`, 2026-11-12 14:49 UTC) ERROR 1515-tel végzett 19:16 UTC-kor — adat NEM keletkezett** („Circuits without measurements are not allowed"; szkript-ok: a v1.2 beküldő mérés nélküli áramköröket küldött). **A v1.3 javítás kész** (payload a `with_measurements()` után a backend-transzpilációra; ÚJ G8 mérés-kapu run() ELŐTT; [PLAN_KUSZOB_v1.3.md](../../preregistration/PLAN_KUSZOB_v1.3.md)) — **auditra vár; újraküldés KÜLÖN tulajdonosi/Control Agent döntéssel.**
 > A beküldés a Control Agent futásával történt (tulajdonosi döntéssel);
 > **az agent QPU-t nem indított és tokent nem kezelt.** Record-first: a
-> `job_id_record.json` és a `job_meta.final.json` a Control Agent futási
-> környezetében keletkezett — a repóba való betöltésük megtörtént (commit e325f14).
+> `job_id_record.json` és a `job_meta.final.json` a repóban vannak (commit e325f14).
 > A Kerék-menet W3 = SZÉTESŐ ágán a teljes QPU-job NEM tervezhető; ez a
 > csomag volt a szóba jövő lépés (Ring-Ramsey fáziszár-teszt, 17 áramkör,
 > 69 632 shot, 1 job-darab). Az `analyze_kuszob.py` lefagyasztva marad;
 > a döntési szabály 99% Wilson CI, egyoldalú.
 
-Terv és döntési szabály (**v1.2, AMENDED — seed-hash; mérés előtt**): [`preregistration/PLAN_KUSZOB_v1.2.md`](../../preregistration/PLAN_KUSZOB_v1.2.md)
+Terv és döntési szabály (**v1.3, AMENDED — mérés-hiány javítás; a v1.2 seed-amendment öröklődik**): [`preregistration/PLAN_KUSZOB_v1.3.md`](../../preregistration/PLAN_KUSZOB_v1.3.md)
 (a v1.1: [`PLAN_KUSZOB_v1.1.md`](../../preregistration/PLAN_KUSZOB_v1.1.md) — superseded, történeti; a v1.0: [`PLAN_KUSZOB_v1.0.md`](../../preregistration/PLAN_KUSZOB_v1.0.md) — történeti; mindkettő beküldésre NEM használható)
 
 ## Mit tartalmaz
@@ -35,12 +34,17 @@ Terv és döntési szabály (**v1.2, AMENDED — seed-hash; mérés előtt**): [
 | `circuits_manifest.json` | áramkörönként: id, kar, k, QASM-SHA256, kapuszámok, pár-bontású CZ-tábla, becsült 2Q-hiba, mélység, t_est, tárolás-hányados, **zajtalan exact referencia** (`p000_exact`), payload-SHA256 |
 | `gate_table.json` | páronként a CZ-darabszámok és várható hibák (a W3 számvitellel azonos) |
 | `job_meta.draft.json` | v1.0 job_meta tervezet — **HIBÁS initial_layout; csak történeti, beküldésre TILOS** |
-| `job_meta.draft_v1.1.json` | **v1.1 tervezet — ez használható (átnézés után)**: `initial_layout: [117,124,125,126]`, `optimization_level: 0`, titkos shuffle seed előre publikus hash-e, a lefagyasztott elemző hash-e, `job_ids: []` |
+| `job_meta.draft_v1.3.json` | **v1.3 tervezet — ez használható (átnézés után)**: mérés-hiány javítva, payload a `with_measurements()` után; új G8 kapu; a seed-hash változatlan (`83f43b94…`); `job_ids: []` |
+| `job_meta.draft_v1.2.json` | v1.2 tervezet — történeti, változatlan |
+| `job_meta.draft_v1.1.json` | v1.1 tervezet — történeti, változatlan |
 | `analyze_kuszob.py` | **LEFAGYASZTOTT elemző (v1.1)** — PLAN §2 (a)–(d) Wilson 99%, fail-closed (ERVENYTELEN), kötelező ROGZUL-jelölés; `--null-probe 2000` |
-| `submit_kuszob.py` | **BEKÜLDŐ-szkript v1.1 — ELŐKÉSZÍTVE; QPU-t NEM indít** (dry-run gate-ek IBM nélkül; 3 negatív teszt HALT; `--submit` csak tulajdonosi döntéssel, interaktív) |
-| `submit_manifest_v1.1.json` | a beküldő-szkript hash-e + kapu-leírások + a 3 negatív teszt rögzítése (a PLAN_KUSZOB_v1.1 NEM módosítva) |
+| `submit_kuszob.py` | **BEKÜLDŐ-szkript v1.3 — ELŐKÉSZÍTVE; QPU-t NEM indít** (dry-run gate-ek IBM nélkül; 4 negatív teszt HALT (T1–T4, T4 = mérés nélküli payload ⇒ G8); `--submit` csak tulajdonosi döntéssel, interaktív) |
+| `submit_manifest_v1.3.json` | a beküldő-szkript v1.3 hash-e + kapu-leírások (G1–G8) + az első beküldés ERROR 1515 ténye (a PLAN_KUSZOB_v1.3 az érvényes hivatkozás) |
+| `submit_manifest_v1.2.json` | v1.2 manifest — történeti, változatlan |
+| `submit_manifest_v1.1.json` | v1.1 manifest — történeti, változatlan |
 | `dry_run_report.json` | a 2026-11-12-i száraz próba rekordja (minden gate PASS; SEED és nyers sorrend nincs benne) — v1.1, változatlan |
 | `dry_run_report_v1.2.json` | a v1.2 seed-amendment száraz próba-rekordja (kanonikus run: seed-kapu HALT, a seed a Control Agentnél; a kapu-kód teszt-rig teszt-seeddel végigzöld; SEED és nyers sorrend nincs benne) |
+| `dry_run_report_v1.3.json` | a v1.3 mérés-hiány javítás száraz próba-rekordja (kanonikus run: seed-kapu HALT (G5); teszt-rig: minden gate PASS + ÚJ G8; T1–T4 HALT; SEED és nyers sorrend nincs benne) |
 | `verify_kuszob.py` | agent-oldali ellenőrző (NEM független!); v1.1: **CZ-kapu** (minden áramkör CZ-száma/párjai pontosan a manifesttel; eltérés ⇒ kilépési kód 1 ⇒ HALASZTÁS); `--aer` kapcsolóval zaj-próbával |
 | `verification_last.json` | az utolsó agent-oldali ellenőrzés teljes rekordja (2026-11-12, --aer: **82/82 PASS**) |
 

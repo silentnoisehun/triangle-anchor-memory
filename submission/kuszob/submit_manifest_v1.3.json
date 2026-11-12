@@ -1,0 +1,64 @@
+{
+  "kind": "KUSZOB SUBMIT MANIFEST v1.3 — kiegészítő manifeszt (a PLAN_KUSZOB_v1.3.md az érvényes hivatkozás erre a fájlra; a PLAN_KUSZOB_v1.1/v1.2 NEM módosítva, a submit_manifest_v1.1/v1.2 NEM módosítva — történeti)",
+  "created_utc": "2026-11-12T19:35:49Z",
+  "plan_ref": "preregistration/PLAN_KUSZOB_v1.3.md",
+  "supersedes": "submission/kuszob/submit_manifest_v1.2.json (v1.2 — byte-ra változatlan, csak történeti)",
+  "submit_script": {
+    "path": "submission/kuszob/submit_kuszob.py",
+    "sha256": "f2d506bbf3b964f3e3ba992aee63d2b6d6f649947ffc39a3dcaf68998da4a479",
+    "note": "v1.3 (mérés-hiány javítás): a payload-áramkörök a build_kuszob with_measurements() lépésével kapják a méréseket a backend-transzpiláció ELŐTT (huzalozás a fagyasztott QASM-okéval azonos — 17/17 byte-azonos újraépítéssel igazolva); ÚJ G8 mérés-kapu mind dry-run, mind submit úton, run() ELŐTT (17/17 áramkör pontosan 3 mérés, c0/c1/c2 — különben HALT); a várt seed-hash NEM beégetett konstans, hanem ebből a manifestből olvasódik; bármely módosítás = új verzió + új hash + külön commit"
+  },
+  "shuffle_seed_sha256": "83f43b94f6ab5f75d26ffec94af9dceafdd56ae2a7592a2571a57a89dee4b31c",
+  "shuffle_seed_sha256_of": "sha256(utf8(hex(seed))), hex",
+  "seed_location": "NINCS a repóban és NINCS az agent munkaterében — a Control Agent őrzi (out-of-tree, chmod 600); az agent a seed ÉRTÉKÉT NEM látta és nem is kellett látnia; a v1.3 NEM seed-amendment — a v1.2-es seed hash továbbra is érvényes (a mérés nem történt: az első beküldés ERROR 1515-tel végzett, adat nem keletkezett)",
+  "job_meta_draft_sha256": "3e86195a9fad82b7b4d4c05c8a62e158c6a4b72ae32191bf432720a4492e662f",
+  "analyzer_sha256": "6458a64d616d28436429c06075f0ebdaabc482e1d72d405c3f45ce4871636e3d",
+  "circuits_manifest_sha256": "94048f35ab7012f8027170adbc17b7f783e8b738abb1b17f7113d299cdcaf962",
+  "payload_sha256": "6194ef7adbc74901c57682408b9d421b373c148d67c9389c7de467487dacdb4e",
+  "expected_backend": "ibm_kingston",
+  "expected_initial_layout": [
+    117,
+    124,
+    125,
+    126
+  ],
+  "expected_optimization_level": 0,
+  "seed_transpiler": 1234,
+  "validity_chain": "PLAN_KUSZOB_v1.3.md → submit_manifest_v1.3.json (ez a fájl) → (job_meta.draft_v1.3.json, analyze_kuszob.py, circuits_manifest.json); eltérés bármelyik szinten ⇒ HALT",
+  "gates": {
+    "G1_draft_analyzer": "job_meta.draft_v1.3.json betöltése + a draft fájl-hash-e a fenti job_meta_draft_sha256-nal + draft.shuffle.seed_sha256 == fenti shuffle_seed_sha256 + analyze_kuszob.py FAGYASZTOTT hash (6458a64d…) + snapshot sha256; eltérés ⇒ HALT",
+    "G2_manifest": "circuits_manifest.json hash (94048f35…) + payload recompute (6194ef7a…) + 17/17 qasm-hash; eltérés ⇒ HALT",
+    "G4_frozen_wheel": "frozen_wheel_params.json integritás a .sha256 szerint; sérülés ⇒ HALT",
+    "G5_seed": "shuffle seed CSAK env-ből (alap: KUSZOB_SHUFFLE_SEED) vagy REPÓN KÍVÜLI fájlból (--seed-file); a seed sehova nem íródik; sha256(utf8(hex)) == fenti érték; eltérés ⇒ HALT",
+    "G6_backend": "backend KÖTELEZŐEN ibm_kingston (paraméter; --submit módban az ÉLŐ backend .name-je is); más ⇒ HALT",
+    "G7_cz": "a run() hívás ELŐTT: a transzpilált (MERESSEKKEL ellátott!) payload áramkörök CZ-száma és CZ-párjai PONTOSAN a circuits_manifest.json-nal (initial_layout [117,124,125,126], opt 0, seed 1234); bármely eltérés ⇒ HALASZTÁS, beküldés NINCS",
+    "G8_measurements": "v1.3 ÚJ kapu, a run() hívás ELŐTT (dry-run ÉS submit úton): minden payload-áramkör PONTOSAN 3 mérést tartalmaz a c0/c1/c2 clbit-ekre; bármely áramkör mérés nélkül (vagy ≠3 méréssel) ⇒ HALT, run() NEM hívható. Cél: a 2026-11-12-i 1515-ös hibakód ismétlődésének megakadályozása"
+  },
+  "first_submission_error": {
+    "job_id": "dbqt3q9abdes73fosj8g",
+    "submitted_utc": "2026-11-12T14:49:14Z",
+    "error_utc": "2026-11-12T19:16 UTC",
+    "ibm_error_code": 1515,
+    "ibm_error_message": "Circuits without measurements are not allowed",
+    "data": "NEM keletkezett — a job ERROR állapotban végzett",
+    "root_cause": "submit_kuszob.py v1.2: a _pruned_circuits() a build_kuszob.transpile_pruned() mérés NÉLKÜLI áramköreit adta át a SamplerV2.run()-nak; a QASM-generálás (build_kuszob) ezzel szemben a with_measurements() lépést használja; a kapuk (G7 CZ) a mérést soha nem ellenőrizték, ezért ment át minden kapun a hibás beküldés",
+    "fix_v1_3": "a payload-áramkörök a with_measurements() UTÁN mennek a backend-transzpilációra; új G8 kapu mind dry-run, mind submit úton, run() ELŐTT; a mérés-huzalozás a fagyasztott QASM-okéval azonos (agent-oldali újraépítés: 17/17 byte-azonos)"
+  },
+  "verification_2026-11-12": {
+    "canonical_run": "--dry-run defaults (a seed a Control Agentnél): G6 PASS → G1 PASS (draft 3e86195a…) → G2 PASS (94048f35…) → G4 PASS → HALT a G5 seed-kapun (exit 3) — VÁRT",
+    "teszt_rig_happy": "teszt-rig (/tmp, külön teszt-seed — NEM a Control Agent seedje): minden gate PASS (G1/G2/G4/G5/G6/G7 17/17 proxy + ÚJ G8), exit 0",
+    "T1_seed_hash_kapu": "rossz seed (64×'a') → HALT exit 3",
+    "T2_cz_kapu": "--test-inject-layout 125,117,124,126 → CZ-KAPU BUKOTT exit 3 (pl. m+1_k8: 95 CZ ≠ 92)",
+    "T3_backend_kapu": "--backend ibm_torino → HALT exit 3",
+    "T4_meres_kapu": "ÚJ — --test-strip-measurements (mérés nélküli payload, az 1515 hiba reprodukciója) → G8 MÉRÉS-KAPU BUKOTT exit 3 (17/17 áramkör mérés nélkül, HALT) — run() NEM hívható"
+  },
+  "versions_dry_run": {
+    "qiskit": "2.6.2",
+    "qiskit_aer": "0.18.2",
+    "qiskit_ibm_runtime": "0.52.1"
+  },
+  "token_handling": "kizárólag az IBM_QUANTUM_TOKEN környezeti változó NÉV szerepel a kódban; a token értéke sehova nem kerül, nem logolódik, nem commitolódik",
+  "submission_policy": "--submit mód CSAK külön tulajdonosi döntéssel, interaktív megerősítéssel ('KUSZOB BEKULDES' gépelve); record-first: job_id_record.json az eredmény letöltése ELŐTT; majd job_meta.final.json (verziók, snapshot, napi kalibráció, order_sha256, backend-normalizált payload-hash). Az agent QPU-t nem indít. Az ÚJRAKÜLDÉS (a 1515-ös ERROR-job után) külön tulajdonosi/Control Agent döntés.",
+  "qpu_executed": false,
+  "marking": "ROGZUL esetén kötelező: 'gep-alkalmassagi kapu, tankonyvi varakozas' — nem memória-teszt"
+}
