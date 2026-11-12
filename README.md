@@ -213,7 +213,7 @@ PLAN_WHEEL v1.2 most NEM készül (csak akkor, ha Maya átnézése hibát talál
                                     # pozitív/negatív kontroll, W3-verdikt → elvárt: PASS
 ```
 
-## Küszöb-job (Ring-Ramsey) — ELŐKÉSZÍTVE, NEM BEKÜLDVE
+## Küszöb-job (Ring-Ramsey) — BEKÜLDVE (2026-11-12 14:49 UTC), job `dbqt3q9abdes73fosj8g`
 
 A Kerék W3 = SZÉTESŐ ágán (a teljes Kerék-QPU-job NEM tervezhető ezen a
 négyesen) az egyetlen szóba jövő futtatás a küszöb-job; a csomagja és a
@@ -242,14 +242,7 @@ terve elkészült:
 - **A beküldést az agent SOSEM végzi el** — tulajdonosi/Control Agent
   felülvizsgálat és külön döntés szükséges. A Kerék-menet zárolva marad;
   a küszöb-job kimenete nem írja át a Kerék fagyasztott verdiktjeit.
-- **2026-11-12 (v1.2 seed-amendment kész, auditra vár):** a v1.1
-  shuffle-seed érvényét vesztette (a seed-átadás körülményei; mérés nem
-  történt, adat nem keletkezett); a mérés ELŐTT kiadott v1.2 amendment
-  új seedet rögzít (hash: `83f43b94f6ab5f75d26ffec94af9dceafdd56ae2a7592a2571a57a89dee4b31c`;
-  az érték a Control Agentnél van és az agent SOSEM látta). A beküldés a
-  Control Agentnél lévő seeddel, külön tulajdonosi döntéssel lehetséges —
-  semmilyen QPU-futtatás nem indítható, amíg az átnézés/audit és a külön
-  tulajdonosi döntés meg nem történik. A küszöb-csomag döntési szabályai 99% CI-sek (PLAN_KUSZOB_v1.1,
+- **2026-11-12 14:49 UTC — BEKÜLDVE (tulajdonosi döntéssel; a Control Agent futott, az agent QPU-t nem indított):** job `dbqt3q9abdes73fosj8g` (ibm_kingston, 17 áramkör, 4096 shot). **Eredmény még nincs; ítéletet a fagyasztott `analyze_kuszob.py` mond, a Control Agent független újraszámolása után.** Record-first: a `job_id_record.json` és a `job_meta.final.json` a Control Agent futási környezetében keletkezett; a repóba való betöltésük még nem történt meg. A v1.2 seed-amendment (2026-11-12, mérés előtti, hash `83f43b94f6ab5f75d26ffec94af9dceafdd56ae2a7592a2571a57a89dee4b31c`) előzte meg a beküldést. A küszöb-csomag döntési szabályai 99% CI-sek (PLAN_KUSZOB_v1.2,
   Wilson, egyoldalú; a 95%-szerű találatok forgásszögek, nem küszöbök; a
   `storage_ge_095_check` nevű mező valójában 0.9-os gép-egészség-előkapu,
   nem döntési szabály; a `dip_frac: 0.95` nem CI-döntés). A ROGZUL ítélet

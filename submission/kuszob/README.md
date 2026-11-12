@@ -1,4 +1,4 @@
-# Küszöb-job csomag — ELŐKÉSZÍTVE, NEM BEKÜLDVE (v1.2)
+# Küszöb-job csomag — BEKÜLDVE (2026-11-12 14:49 UTC), job `dbqt3q9abdes73fosj8g` — eredmény még nincs
 
 > **v1.1 (2026-11-12, Maya beküldés előtti átnézése nyomán):** a v1.0
 > `job_meta.draft.json` initial_layout-ja HIBÁS volt ([125,117,124,126] —
@@ -12,15 +12,15 @@
 > (a)–(d)); a határ-null próba: hamis ROGZUL 0/2000 (A) és 17/2000 = 0.85% (B)
 > ≤ 1.5% ✓. **A v1.0 fájljai byte-ra változatlanok (történeti).**
 
-> **Állapot: v1.2 seed-amendment kész, auditra var (2026-11-12) — NEM BEKÜLDVE.**
+> **Állapot: BEKÜLDVE 2026-11-12 14:49 UTC, job `dbqt3q9abdes73fosj8g` (ibm_kingston, 17 áramkör, 4096 shot); eredmény még nincs; ítéletet a fagyasztott `analyze_kuszob.py` mond, a Control Agent független újraszámolása után.**
+> A beküldés a Control Agent futásával történt (tulajdonosi döntéssel);
+> **az agent QPU-t nem indított és tokent nem kezelt.** Record-first: a
+> `job_id_record.json` és a `job_meta.final.json` a Control Agent futási
+> környezetében keletkezett — a repóba való betöltésük még nem történt meg.
 > A Kerék-menet W3 = SZÉTESŐ ágán a teljes QPU-job NEM tervezhető; ez a
-> csomag az egyetlen szóba jövő — és a legolcsóbb — következő lépés
-> (Ring-Ramsey fáziszár-teszt, 17 áramkör, 69 632 shot, 1 job-darab).
-> **A beküldést az agent SOSEM végzi el.** A beküldésről (vagy a halasztásról)
-> külön, explicit tulajdonosi/Control Agent döntés szól, a kötelező
-> felülvizsgálat UTÁN (PLAN_KUSZOB_v1.1 §7; a v1.0 §8 eljárása változatlan).
-> Ha az agent-oldali ellenőrzés bármely kapuja bukna, a csomag státusza
-> automatikusan **HALASZTOTT — a kerek ezen a négyesen vár**.
+> csomag volt a szóba jövő lépés (Ring-Ramsey fáziszár-teszt, 17 áramkör,
+> 69 632 shot, 1 job-darab). Az `analyze_kuszob.py` lefagyasztva marad;
+> a döntési szabály 99% Wilson CI, egyoldalú.
 
 Terv és döntési szabály (**v1.2, AMENDED — seed-hash; mérés előtt**): [`preregistration/PLAN_KUSZOB_v1.2.md`](../../preregistration/PLAN_KUSZOB_v1.2.md)
 (a v1.1: [`PLAN_KUSZOB_v1.1.md`](../../preregistration/PLAN_KUSZOB_v1.1.md) — superseded, történeti; a v1.0: [`PLAN_KUSZOB_v1.0.md`](../../preregistration/PLAN_KUSZOB_v1.0.md) — történeti; mindkettő beküldésre NEM használható)
