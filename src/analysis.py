@@ -1,16 +1,31 @@
 """Elemző — D(k), BLP, csúcskeresés, bootstrap CI, ítélet (terv 4. fejezet).
 
-A DÖNTÉSI SZABÁLY FORRÁSA: ``preregistration/frozen_params_v1.2.json``
-(hash: ``preregistration/frozen_params_v1.2.sha256``). A v1.2 AMENDED —
-a v1.0/v1.1 (95% CI) ELÉRVÉNYTELEN; minden döntési küszöb 99% CI + Holm.
+A DÖNTÉSI SZABÁLY FORRÁSA: ``preregistration/frozen_params_v1.3.json``
+(hash: ``preregistration/frozen_params_v1.3.sha256``). A v1.3 AMENDED —
+a v1.0/v1.1 (95% CI) és a v1.2 ELÉRVÉNYTELEN; minden döntési küszöb 99% CI + Holm.
 A kód NEM tartalmaz az ítéletet befolyásoló küszöböt "beégetve": minden
 küszöb (P1 1:0.71:0.58 ±20%, P2/P3/anomália 99% CI + Holm a claim-családon
 [P2, P3, anomaly], dip_frac, ablakok, várt görbék, anomália-határ, bootstrap
 paraméterek) a fagyasztott fájlból olvasódik. Hash-eltérés esetén az elemzés
-NEM fut le (RuntimeError) — FAIL-CLOSED, a v1.2 mezőire (version/correction/
-ci_level/claim_family) is.
+NEM fut le (RuntimeError) — FAIL-CLOSED, a v1.3 mezőire (version/correction/
+ci_level/claim_family/file_hashes) is.
 
-Verdict-értékek: ``TEXTBOOK-MEGEROSITVE`` | ``NULL`` | ``ANOMALIA``.
+Változások a v1.2-höz képest (preregistration/PLAN_v1.3.md, Maya beküldés előtti
+átnézése, 2026-11-12 09:05 UTC):
+- ANOMALIA-ág: a csúcs nélküli (A = NaN) bootstrap-minták "nincs anomalia"
+  mintaként számítanak (A := −∞), NEM esnek ki; a 99%-os alsó CI a −∞ mintákkal
+  együtt, ``np.quantile(..., method="lower")``-rel számol (sosem interpolál
+  végtelenek között); a p-érték ``(samples <= bound).mean()`` az ÖSSZES mintán.
+- Ha a pontbecslésben egy csúcsot váró karon (a fagyasztott ablak nem null:
+  n1, n2, n3, cut, noisy) nincs csúcs: az ág eredménye "nincs anomalia, ok:
+  nincs csúcs" (peak_found: false mező), az ITÉLET pedig fail-closed
+  ``ELEMZO-HIBA / ERVENYTELEN`` — soha nem NULL.
+- Az elemző ``np.errstate(all="raise")`` alatt fut; lebegőpontos kivétel esetén
+  az elemzés NEM fut le (a hívó ELEMZO-HIBA-t kap / a main 3-as kóddal kilép).
+- A bootstrap CI-k és a riport mutatják a peak_found / peakless-szám mezőket.
+
+Verdict-értékek: ``TEXTBOOK-MEGEROSITVE`` | ``NULL`` | ``ANOMALIA`` |
+``ELEMZO-HIBA / ERVENYTELEN``.
 A koherencia-ág SOHA nem része a fő ítéletnek (terv 3.2) — külön blokkban
 jelenik meg, "MÁSODLAGOS" jelöléssel.
 
@@ -29,14 +44,15 @@ import numpy as np
 from . import config
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-FROZEN_PARAMS_PATH = REPO_ROOT / "preregistration" / "frozen_params_v1.2.json"
-FROZEN_SHA256_PATH = REPO_ROOT / "preregistration" / "frozen_params_v1.2.sha256"
+FROZEN_PARAMS_PATH = REPO_ROOT / "preregistration" / "frozen_params_v1.3.json"
+FROZEN_SHA256_PATH = REPO_ROOT / "preregistration" / "frozen_params_v1.3.sha256"
 RAW_COUNTS_PATH = REPO_ROOT / "data" / "raw_counts.json"
 
 VERDICT_TEXTBOOK = "TEXTBOOK-MEGEROSITVE"
 VERDICT_NULL = "NULL"
 VERDICT_ANOMALIA = "ANOMALIA"
-VERDICTS = (VERDICT_TEXTBOOK, VERDICT_NULL, VERDICT_ANOMALIA)
+VERDICT_ANALYSIS_ERROR = "ELEMZO-HIBA / ERVENYTELEN"
+VERDICTS = (VERDICT_TEXTBOOK, VERDICT_NULL, VERDICT_ANOMALIA, VERDICT_ANALYSIS_ERROR)
 
 
 # ---------------------------------------------------------------------------
@@ -83,9 +99,9 @@ def verify_frozen_params(frozen_path: Path = FROZEN_PARAMS_PATH, sha_path: Path 
 
 
 def verify_frozen_fields(frozen: dict) -> None:
-    """v1.2 módosítás-kötelező mezői — eltérés = RuntimeError (fail-closed)."""
-    if frozen.get("version") != "1.2":
-        raise RuntimeError("frozen_params_v1.2.json: version != '1.2' — a v1.0/v1.1 (95%) érvénytelen.")
+    """v1.3 módosítás-kötelező mezői — eltérés = RuntimeError (fail-closed)."""
+    if frozen.get("version") != "1.3":
+        raise RuntimeError("frozen_params_v1.3.json: version != '1.3' — a v1.0/v1.1/v1.2 (95%/99%) érvénytelen.")
     if frozen.get("correction") != "holm":
         raise RuntimeError("correction != 'holm' — a fagyasztott fájl nem egyezik.")
     if list(frozen.get("claim_family", [])) != ["P2", "P3", "anomaly"]:
@@ -94,6 +110,22 @@ def verify_frozen_fields(frozen: dict) -> None:
         raise RuntimeError("bootstrap.ci_level != 0.99.")
     if float(frozen.get("tolerances", {}).get("ci_level")) != 0.99:
         raise RuntimeError("tolerances.ci_level != 0.99.")
+    # Maya 5. pontja: az elemző ÉS a dryrun sha256-ja a frozen JSON-ben —
+    # itt visszaellenőrizzük a munkaprogram fájljait (fail-closed).
+    file_hashes = frozen.get("file_hashes")
+    if not isinstance(file_hashes, dict) or not file_hashes:
+        raise RuntimeError("frozen_params_v1.3.json: hiányzó file_hashes (elemző és dryrun sha256).")
+    for rel_path, expected in sorted(file_hashes.items()):
+        target = REPO_ROOT / rel_path
+        if not target.exists():
+            raise RuntimeError(f"file_hashes: hiányzik a fájl: {rel_path} — ÁLLJ MEG és jelentsd.")
+        actual = sha256_file(target)
+        if actual != str(expected).lower():
+            raise RuntimeError(
+                f"file_hashes: a(z) {rel_path} megváltozott a fagyasztás óta!\n"
+                f"  rögzített hash: {expected}\n  aktuális hash:  {actual}\n"
+                "A döntési szabály ilyenkor NEM futtatható — állj meg és jelentsd."
+            )
 
 
 def load_frozen_params(frozen_path: Path = FROZEN_PARAMS_PATH, sha_path: Path = FROZEN_SHA256_PATH) -> tuple[dict, str]:
@@ -189,7 +221,7 @@ def find_return_peak(D: np.ndarray, window: tuple[int, int] | None, dip_frac: fl
 
 
 def analyze_branch_point(D: np.ndarray, windows, dip_frac):
-    """Minden karra (point-estimate): BLP, t_vissza, A_vissza (normált)."""
+    """Minden karra (point-estimate): BLP, t_vissza, A_vissza (normált), peak_found."""
     metrics = {}
     for arm, d in D.items():
         w = windows.get(arm)
@@ -203,12 +235,13 @@ def analyze_branch_point(D: np.ndarray, windows, dip_frac):
             "D_first_peak": peak,
             "D0": d0,
             "BLP": blp(d),
+            "peak_found": bool(t is not None),
         }
     return metrics
 
 
 # ---------------------------------------------------------------------------
-# Holm-korrekció (v1.2: claim-család [P2, P3, anomaly], α = 0.01)
+# Holm-korrekció (v1.3: claim-család [P2, P3, anomaly], α = 0.01)
 # ---------------------------------------------------------------------------
 def holm_adjust(pvals: dict, alpha: float = 0.01):
     items = sorted(pvals.items(), key=lambda kv: kv[1])
@@ -245,7 +278,21 @@ def _boot_draws(rng: np.random.Generator, tot: np.ndarray, p_hat: np.ndarray, n:
     return draws / tot
 
 
+def _neg_inf_samples(samples) -> np.ndarray:
+    """A csúcs nélküli (NaN) bootstrap-minták 'nincs anomalia' mintákká (−∞) válnak."""
+    arr = np.array([s for s in samples], dtype=float)
+    return np.where(np.isfinite(arr), arr, -np.inf)
+
+
 def analyze_dataset(dataset: dict, frozen: dict) -> dict:
+    """A v1.3 fail-closed kapuja: minden lebegőpontos kivétel RuntimeError helyett
+    a hívó felé propagálódó FloatingPointError — az eredmény így SOSEM készül
+    csendben hibás számokból (np.errstate(all='raise'))."""
+    with np.errstate(all="raise"):
+        return _analyze_dataset_impl(dataset, frozen)
+
+
+def _analyze_dataset_impl(dataset: dict, frozen: dict) -> dict:
     K = int(frozen["K"])
     tol = frozen["tolerances"]
     windows = {arm: (w if w else None) for arm, w in frozen["windows"].items()}
@@ -307,13 +354,32 @@ def analyze_dataset(dataset: dict, frozen: dict) -> dict:
             return (float("nan"), float("nan"))
         return (float(np.percentile(arr, 100 * lo_q)), float(np.percentile(arr, 100 * hi_q)))
 
+    def _ci_neginf(samples, lo_q, hi_q):
+        """Bootstrap CI a 'nincs csúcs' mintákkal együtt — sosem interpolál −∞ között."""
+        arr = _neg_inf_samples(samples)
+        if arr.size == 0:
+            return (float("nan"), float("nan"))
+        return (
+            float(np.quantile(arr, lo_q, method="lower")),
+            float(np.quantile(arr, hi_q, method="lower")),
+        )
+
+    def _n_peakless(samples) -> int:
+        return int(np.count_nonzero(~np.isfinite(np.array(samples, dtype=float))))
+
     q = alpha / 2.0
     boot_ci = {}
     for arm in config.ARM_NAMES:
         boot_ci[arm] = {
             "t_vissza_ci99": _ci(boot[arm]["t"], q, 1 - q),
-            "A_vissza_ci99": _ci(boot[arm]["A"], q, 1 - q),
+            "A_vissza_ci99": _ci_neginf(boot[arm]["A"], q, 1 - q),
+            "n_peakless_bootstrap": _n_peakless(boot[arm]["A"]),
         }
+
+    # --- Fail-closed: a csúcsot váró karokon a pontbecslésnek CSÚCSOT kell adnia ---
+    peak_expecting = [arm for arm in config.ARM_NAMES if windows.get(arm)]
+    missing_peaks = [arm for arm in peak_expecting if point_pop[arm]["t_vissza"] is None]
+    analysis_error = bool(missing_peaks)
 
     # --- P1: arányok (pontbecslés, ±20% tűrés a fagyasztott fájlból) ---
     esp = tol["p1_expected_ratios"]
@@ -329,7 +395,7 @@ def analyze_dataset(dataset: dict, frozen: dict) -> dict:
         p1_details[arm] = {"t_vissza": t, "expected_ratio": exp, "ratio_vs_n1": ratio, "ok": ok}
         p1_ok = p1_ok and ok
 
-    # --- P2: A_vissza(n3) ≥ A_vissza(n1) az n3 első csúcsánál, 99% CI (v1.2) ---
+    # --- P2: A_vissza(n3) ≥ A_vissza(n1) az n3 első csúcsánál, 99% CI ---
     k3_star = point_pop["n3"]["t_vissza"]
     p2_detail = {"k3_star": k3_star}
     p2_p = 1.0
@@ -389,6 +455,9 @@ def analyze_dataset(dataset: dict, frozen: dict) -> dict:
     }
 
     # --- ANOMÁLIA: a visszatérés túllépi-e a zajtalan unitér maximumot, 99% CI-val ---
+    # v1.3 (Maya): a csúcs nélküli (NaN) bootstrap-minták "nincs anomalia" minták
+    # (A := −∞), NEM esnek ki; a CI sosem interpolál végtelennel-végtelen közt;
+    # a p-érték (samples <= bound).mean() az ÖSSZES mintán.
     anon_ref = frozen.get("anomaly_reference", {}).get("population", {})
     anomaly_details = {}
     anomalia = False
@@ -396,29 +465,50 @@ def analyze_dataset(dataset: dict, frozen: dict) -> dict:
     n_checked = 0
     for arm in config.ARM_NAMES:
         bound = anon_ref.get(arm)
+        peakless = _n_peakless(boot[arm]["A"])
+        point_peak = bool(point_pop[arm]["t_vissza"] is not None)
         if bound is None:
-            anomaly_details[arm] = {"checked": False, "reason": "nincs anomália-referencia a fagyasztott fájlban"}
+            anomaly_details[arm] = {
+                "checked": False,
+                "reason": "nincs anomália-referencia a fagyasztott fájlban",
+                "peak_found": point_peak,
+                "n_peakless_bootstrap": peakless,
+            }
             continue
-        samples = np.array([a for a in boot[arm]["A"] if np.isfinite(a)], dtype=float)
-        if samples.size == 0:
-            anomaly_details[arm] = {"checked": False, "reason": "nincs talált csúcs (a bootstrap nem ad A_vissza-t)"}
-            continue
-        ci_lo = float(np.percentile(samples, 100 * q))
-        over = ci_lo > float(bound)
-        anom_p_parts.append(float((samples <= float(bound)).mean()))
+        samples = _neg_inf_samples(boot[arm]["A"])  # az ÖSSZES minta, −∞-nel kitöltve
+        ci_lo = float(np.quantile(samples, q, method="lower"))
+        over = bool(ci_lo > float(bound))
+        p_le = float((samples <= float(bound)).mean())
+        anom_p_parts.append(p_le)
         n_checked += 1
-        anomaly_details[arm] = {"checked": True, "bound": float(bound), "ci99_lo": ci_lo, "anomaly": over}
+        anomaly_details[arm] = {
+            "checked": True,
+            "bound": float(bound),
+            "ci99_lo": ci_lo,
+            "anomaly": over,
+            "peak_found": point_peak,
+            "n_peakless_bootstrap": peakless,
+            "p_boot": p_le,
+        }
+        if not point_peak:
+            anomaly_details[arm]["no_peak_in_point_estimate"] = True
         anomalia = anomalia or over
     anom_p = min(1.0, (min(anom_p_parts) if anom_p_parts else 1.0) * max(n_checked, 1))  # Bonferroni a karok között
 
-    # --- Holm a claim-családon [P2, P3, anomaly] (α = 0.01) — v1.2 ---
+    # --- Holm a claim-családon [P2, P3, anomaly] (α = 0.01) — v1.3 ---
     holm = holm_adjust({"P2": p2_p, "P3": p3_p, "anomaly": anom_p}, alpha=1.0 - float(tol["ci_level"]))
     p2_ok = bool(holm["P2"]["significant"])
     p3_ok = bool(holm["P3"]["significant"])
     anom_sig = bool(holm["anomaly"]["significant"])
 
-    # --- Ítélet (csak a populációs ág!) ---
-    if anom_sig:
+    # --- Ítélet (csak a populációs ág!) — fail-closed: a csúcs nélküli csúcs-váró kar ELEMZO-HIBA ---
+    if analysis_error:
+        verdict = VERDICT_ANALYSIS_ERROR
+        verdict_reason = (
+            "ELEMZO-HIBA / ERVENYTELEN (fail-closed): a pontbecslésben nincs csúcs a csúcsot váró"
+            f" kar(ok)on: {', '.join(missing_peaks)} — az ítélet nem NULL, nem TEXTBOOK és nem ANOMALIA."
+        )
+    elif anom_sig:
         verdict = VERDICT_ANOMALIA
         verdict_reason = "valamely kar A_vissza-je 99% CI-val túllépi a zajtalan unitér maximumot (Holm után szignifikáns)"
     elif p1_ok and p2_ok and p3_ok:
@@ -442,6 +532,8 @@ def analyze_dataset(dataset: dict, frozen: dict) -> dict:
             "P2": {"ok": p2_ok, **p2_detail},
             "P3": {"ok": p3_ok, **p3_detail},
             "anomaly": anomaly_details,
+            "analysis_error": analysis_error,
+            "missing_peak_arms": missing_peaks,
         },
         "coherence": {
             "note": "MÁSODLAGOS ág (terv 3.2) — a fő ítéletbe NEM számít bele",
@@ -468,20 +560,24 @@ def format_report(results: dict, frozen_hash: str, dataset_label: str) -> str:
     lines.append("=" * 72)
     lines.append("triangle-anchor-memory — elemzés (D(k), bootstrap, preregisztrált ítélet)")
     lines.append(f"adatforrás: {dataset_label}")
-    lines.append(f"frozen_params_v1.2.json SHA-256: {frozen_hash}")
+    lines.append(f"frozen_params_v1.3.json SHA-256: {frozen_hash}")
     lines.append("=" * 72)
 
     pop = results["population"]
     lines.append("")
-    lines.append("POPULÁCIÓS ÁG (fő) — kar / t_vissza [99% CI] / A_vissza [99% CI] / BLP / D(0)")
+    lines.append("POPULÁCIÓS ÁG (fő) — kar / t_vissza [99% CI] / A_vissza [99% CI] / BLP / D(0) / csúcs")
     for arm in config.ARM_NAMES:
         m = pop["metrics"][arm]
         ci = pop["bootstrap_ci99"][arm]
         t = _fmt(m["t_vissza"], 0)
+        peak = "igen" if m.get("peak_found") else "NEM"
+        ci_a = ci["A_vissza_ci99"]
+        lo_a = "-inf" if np.isneginf(ci_a[0]) else _fmt(ci_a[0])
+        hi_a = "-inf" if np.isneginf(ci_a[1]) else _fmt(ci_a[1])
         lines.append(
             f"  {arm:>5}: t = {t:>2} [{_fmt(ci['t_vissza_ci99'][0],2)}, {_fmt(ci['t_vissza_ci99'][1],2)}]"
-            f"   A = {_fmt(m['A_vissza'])} [{_fmt(ci['A_vissza_ci99'][0])}, {_fmt(ci['A_vissza_ci99'][1])}]"
-            f"   BLP = {_fmt(m['BLP'])}   D0 = {_fmt(m['D0'])}"
+            f"   A = {_fmt(m['A_vissza'])} [{lo_a}, {hi_a}]"
+            f"   BLP = {_fmt(m['BLP'])}   D0 = {_fmt(m['D0'])}   csúcs: {peak} (peakless bootstrap: {ci.get('n_peakless_bootstrap', 0)}/2000)"
         )
 
     p1 = pop["P1"]
@@ -520,7 +616,13 @@ def format_report(results: dict, frozen_hash: str, dataset_label: str) -> str:
         a = pop["anomaly"][arm]
         if a.get("checked"):
             flag = "ANOMÁLIA!" if a["anomaly"] else "ok"
-            lines.append(f"  {arm:>5}: határ = {a['bound']:.4f}, CI alsó = {a['ci99_lo']:.4f} → {flag}")
+            lo = a["ci99_lo"]
+            lo_s = "-inf" if np.isneginf(lo) else f"{lo:.4f}"
+            lines.append(
+                f"  {arm:>5}: határ = {a['bound']:.4f}, CI alsó = {lo_s} → {flag}"
+                f"   (csúcs: {'igen' if a.get('peak_found') else 'NEM'},"
+                f" peakless bootstrap minta: {a.get('n_peakless_bootstrap', 0)}/2000)"
+            )
         else:
             lines.append(f"  {arm:>5}: nincs ellenőrizve ({a.get('reason')})")
 
@@ -561,7 +663,11 @@ def main() -> int:
         )
         return 1
     dataset = load_raw_counts()
-    results = analyze_dataset(dataset, frozen)
+    try:
+        results = analyze_dataset(dataset, frozen)
+    except FloatingPointError as exc:
+        print(f"ELEMZO-HIBA / ERVENYTELEN (fail-closed, np.errstate(all='raise')): {exc}")
+        return 3
     print(format_report(results, frozen_hash, str(RAW_COUNTS_PATH)))
     return 0
 

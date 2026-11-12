@@ -21,6 +21,15 @@ Konvenciók:
 - 'cut' kar: az A3-slot ELHAGYJA a PSWAP-ot és kitöltő 'id'-t kap — a horgonyok
   mind jelen vannak, a teljes idő változatlan (terv 3.2).
 - 'noisy' kar: a horgonyok |+⟩-ből indulnak (H minden horgonyon a körök előtt).
+- KARHOSSZ-KIEGYENLÍTÉS (v1.3, 4. pont): az ``idle_pad_dt`` paraméter dt-ben
+  (default: None = automatikus, src/kingston_routing.py számítja a FakeKingston
+  ALAP-időzítéséből, initial_layout=[125,117,124,126], opt0, seed 1234; explicit
+  int ≥ 0 felülírja; 0 kikapcsolja) a mérés ELÉ minden qubitre egy ``delay``-t
+  szúr be, hogy minden kar ALAP-hossza a közös cél-idővel egyezzen, k-nként
+  (cél-idő = az n3 kar hossza; kivétel a population/init="0" csoport, ahol a
+  ``noisy`` kar horgony-H szintézise 8 dt-vel hosszabb az n3-nál — ott a cél a
+  noisy hossza; lásd src/kingston_routing.py). A kerekített, transzpilált
+  hosszekvivalencia kapuja a dryrun kötelező PASS-pontja: |hossz(arm) − cél| ≤ 1 dt.
 - Koherencia-ág: S inicializálása H-val; a mérés előtt újabb H (X-bázisú olvasás).
   A koherencia-ág MÁSODLAGOS (terv 3.2) — nem kerül a fő ítéletbe.
 """
@@ -68,6 +77,7 @@ def build_arm_circuit(
     init_state: str | None = None,
     coupling_scale: float = 1.0,
     measure: bool = True,
+    idle_pad_dt: int | None = None,
 ) -> QuantumCircuit:
     """Egy kar áramköre ``k_rounds`` (0..K) kör után.
 
@@ -75,7 +85,17 @@ def build_arm_circuit(
     init_state: population ágban '0' vagy '1'; coherence ágban figyelmen kívül hagyható.
     coupling_scale: a PSWAP szögét skálázza — az 1.0 az igazi kísérlet; a 0.0 a
         pozitív (szándékosan rontott) kontroll: "csatolások kikapcsolva".
+    idle_pad_dt: üres várakozás (dt) a mérés ELÉ, minden qubitre — a kar
+        ALAP-hosszának n3-ra igazítása (v1.3 4. pont). ``None`` = automatikus
+        számítás a FakeKingston-ALAP-időzítésből (src/kingston_routing.py);
+        explicit int ≥ 0 felülírja; ``0`` = kikapcsolva (nyers kör).
     """
+    if idle_pad_dt is None:
+        from .kingston_routing import idle_pad_dt as _auto_pad
+
+        idle_pad_dt = _auto_pad(arm, k_rounds, branch, init_state, coupling_scale)
+    if int(idle_pad_dt) < 0:
+        raise ValueError(f"idle_pad_dt ≥ 0 kell legyen, kapott: {idle_pad_dt}")
     if arm not in config.ARM_DEFS:
         raise ValueError(f"ismeretlen kar: {arm}")
     if not 0 <= k_rounds <= config.K:
@@ -115,6 +135,11 @@ def build_arm_circuit(
                 _idle_pair(qc, qa, qn)
 
     # --- Mérés ---
+    if int(idle_pad_dt) > 0:
+        # Karhossz-kiegyenlítés (v1.3): üres várakozás a mérés ELÉ,
+        # minden qubitre — |hossz(arm) − hossz(n3)| ≤ 1 dt (ALAP, FakeKingston).
+        for qubit in q:
+            qc.delay(int(idle_pad_dt), qubit, unit="dt")
     if measure:
         if branch == config.BRANCH_COHERENCE:
             qc.h(config.Q_S)  # X → Z bázis
