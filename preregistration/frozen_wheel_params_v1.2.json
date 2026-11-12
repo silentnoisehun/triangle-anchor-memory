@@ -1,0 +1,813 @@
+{
+  "schema": "triangle-anchor-memory/frozen_wheel_params@2",
+  "version": "1.2",
+  "experiment": "A Kerek — forgo gyuru altal tartott kozeppont (PLAN_WHEEL)",
+  "frozen_at_utc": "2026-11-12T20:14:02+00:00",
+  "amended_from": "PLAN_WHEEL_v1.0.md (soha nem fagyasztva); PLAN_WHEEL_v1.1.md = 'amended'; frozen_wheel_params.json = a v1.1 fagyasztott fajl — a v1.0/v1.1 es a v1.1 frozen JSON BYTE-RA VALTOZATLANOK maradnak; a v1.2 a v1.1-et FELULIRJA (superseded)",
+  "supersedes": "frozen_wheel_params.json (v1.1); PLAN_WHEEL_v1.1.md (superseded by PLAN_WHEEL_v1.2.md)",
+  "frozen_files": [
+    "preregistration/PLAN_WHEEL_v1.0.md",
+    "preregistration/PLAN_WHEEL_v1.1.md",
+    "preregistration/PLAN_WHEEL_v1.2.md",
+    "preregistration/frozen_wheel_params_v1.2.json",
+    "src/wheel/analysis.py",
+    "dryrun_wheel.py"
+  ],
+  "kind": "AER/NOISELESS SZIMULACIO — NEM HARDWARE-EREDMENY; a QPU-job(ok) NEM futottak",
+  "backend_reference": {
+    "name": "ibm_kingston",
+    "captured_at": "2026-11-11T20:51:59+00:00",
+    "is_sample": false,
+    "layout": {
+      "S": 125,
+      "R1": 117,
+      "R2": 124,
+      "R3": 126
+    },
+    "coupling_map_zero_triangles": true,
+    "note": "a snapshot a csillag-menet beküldesekor keszult backend-pillaantkép; a zajos modell kiindulasa; NEM mérési eredmény a kerékre"
+  },
+  "phi": 0.19634954084936207,
+  "phi_exact": "pi/16",
+  "phi_f": 0.5235987755982988,
+  "phi_f_exact": "pi/6",
+  "flux_total_exact": "pi/2",
+  "theta_sp": 0.19634954084936207,
+  "theta_sp_rule": "A PRIORI azonos PHI-vel (nincs paraméter-hangolás); a 0/120/240° küllő-fázisok Maya-idézet szerint",
+  "spoke_phases": [
+    0.0,
+    2.0943951023931953,
+    4.1887902047863905
+  ],
+  "K": 32,
+  "checkpoints": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28,
+    32
+  ],
+  "shots": 4096,
+  "t_hold_us": 5.0,
+  "t_step_us": 5.408,
+  "t_circuit_us": 173.056,
+  "arms": {
+    "wheel": {
+      "description": "fogó gyűrű m=+1 + 3 küllő (fő kar)",
+      "prep_m": 1
+    },
+    "wheel_rev": {
+      "description": "ellenforgó (W2)",
+      "prep_m": -1
+    },
+    "static": {
+      "description": "fluxus OFF, álló küllők (kontroll)",
+      "prep_m": 1
+    },
+    "ring_only": {
+      "description": "keringő gyűrű, küllők nélküli S (kontroll)",
+      "prep_m": 1
+    },
+    "alone": {
+      "description": "S izolálva, kaputilus-illesztett (kontroll)",
+      "prep_m": 1
+    },
+    "alone_DD": {
+      "description": "alone + X-echo minden lépésben (a DD-kontroll, v1.1 #3)",
+      "prep_m": 1
+    },
+    "pump_blind": {
+      "description": "vak pumpa (másodlagos)",
+      "prep_m": 1
+    },
+    "pump_dir": {
+      "description": "iránykövető lökés (másodlagos, W4)",
+      "prep_m": 1
+    },
+    "pump_wrong": {
+      "description": "fordított sorrendű lökések (W4 kontrollja)",
+      "prep_m": 1
+    },
+    "cut": {
+      "description": "megszakított gyűrű (él 3–1 kivéve, negatív kontroll)",
+      "prep_m": 1
+    },
+    "dark_m1": {
+      "description": "sotetallapot m=+1",
+      "prep_m": 1
+    },
+    "dark_m0": {
+      "description": "sotetallapot m=0",
+      "prep_m": 0
+    },
+    "dark_mm1": {
+      "description": "sotetallapot m=-1",
+      "prep_m": -1
+    }
+  },
+  "gate_count_table": {
+    "wheel": {
+      "logical_2q_slots": 194,
+      "cx_equivalent": 388,
+      "routed_cz": 700,
+      "routed_depth": 2901,
+      "s_final_phys": 125
+    },
+    "wheel_rev": {
+      "logical_2q_slots": 194,
+      "cx_equivalent": 388,
+      "routed_cz": 700,
+      "routed_depth": 2901,
+      "s_final_phys": 125
+    },
+    "static": {
+      "logical_2q_slots": 194,
+      "cx_equivalent": 388,
+      "routed_cz": 700,
+      "routed_depth": 2901,
+      "s_final_phys": 125
+    },
+    "ring_only": {
+      "logical_2q_slots": 194,
+      "cx_equivalent": 388,
+      "routed_cz": 700,
+      "routed_depth": 2898,
+      "s_final_phys": 125
+    },
+    "alone": {
+      "logical_2q_slots": 194,
+      "cx_equivalent": 388,
+      "routed_cz": 700,
+      "routed_depth": 2868,
+      "s_final_phys": 125
+    },
+    "alone_DD": {
+      "logical_2q_slots": 194,
+      "cx_equivalent": 388,
+      "routed_cz": 700,
+      "routed_depth": 2879,
+      "s_final_phys": 125
+    },
+    "pump_blind": {
+      "logical_2q_slots": 194,
+      "cx_equivalent": 388,
+      "routed_cz": 700,
+      "routed_depth": 3000,
+      "s_final_phys": 125
+    },
+    "pump_dir": {
+      "logical_2q_slots": 194,
+      "cx_equivalent": 388,
+      "routed_cz": 700,
+      "routed_depth": 3000,
+      "s_final_phys": 125
+    },
+    "pump_wrong": {
+      "logical_2q_slots": 194,
+      "cx_equivalent": 388,
+      "routed_cz": 700,
+      "routed_depth": 3000,
+      "s_final_phys": 125
+    },
+    "cut": {
+      "logical_2q_slots": 194,
+      "cx_equivalent": 388,
+      "routed_cz": 700,
+      "routed_depth": 2883,
+      "s_final_phys": 125
+    },
+    "dark_m1": {
+      "logical_2q_slots": 194,
+      "cx_equivalent": 388,
+      "routed_cz": 700,
+      "routed_depth": 2901,
+      "s_final_phys": 125
+    },
+    "dark_m0": {
+      "logical_2q_slots": 194,
+      "cx_equivalent": 388,
+      "routed_cz": 700,
+      "routed_depth": 2900,
+      "s_final_phys": 125
+    },
+    "dark_mm1": {
+      "logical_2q_slots": 194,
+      "cx_equivalent": 388,
+      "routed_cz": 700,
+      "routed_depth": 2901,
+      "s_final_phys": 125
+    }
+  },
+  "gate_count_rule": "MINDEN kar 700 CZ (opt_level=0, seed_transpiler=1234) — pontos kaputilus-egyezes routing mellett is; CX-ekvivalens 388; logikai slot 194 (6 slot/lépés + 2 prep); az identitás-kitöltők CSAK opt=0 mellett maradnak tényleges kapuk — a terv ezért fagyasztja az opt=0-t; az opt=3-as számok (wheel 606 CZ) mellékadatként a tervben",
+  "transpiler_settings": {
+    "optimization_level": 0,
+    "seed_transpiler": 1234,
+    "basis_gates": [
+      "cz",
+      "rz",
+      "sx",
+      "x",
+      "delay",
+      "id"
+    ],
+    "initial_layout_physical": {
+      "S": 125,
+      "R1": 117,
+      "R2": 124,
+      "R3": 126
+    },
+    "coupling_map_source": "data/snapshot.json (2026-11-11T20:51:59Z)"
+  },
+  "routing_choice": "routed_transpiled",
+  "routing_cost": {
+    "ideal_cx_equivalent": 388,
+    "virtual_cx_equivalent": 772,
+    "routed_cz_opt0": 700,
+    "routed_cz_opt3": 606,
+    "delta_vs_ideal_opt0": 312,
+    "virtual_unitary_equivalent": false,
+    "virtual_note": "a virtuális gyűrű (S-mediált soros részleges SWAP-ok, 3 XY/él) NEM egységkép-ekvivalens az ideális körrel (K=6-nál |<ideal|virtual>| ≈ 0.97) — mediátor-analóg; a routolt verzió ezzel szemben az IDEÁLIS áramkör lefordítása (unitarily azonos)",
+    "choice_reason": "a routed verzió unitarily azonos a preregisztrált áramkörrel,olcsóbb a virtuálisnál (700 < 772 CZ), és valós kapuszámokkal/hibákkal számol — a fagyasztás ezt választja (v1.1 #1: 'a végleges választást a szimuláció számai alapján, a fagyasztásban rögzítjük')"
+  },
+  "claim_family": [
+    "W1",
+    "W2",
+    "W4_secondary",
+    "sotetallapot"
+  ],
+  "ci_level": 0.99,
+  "correction": "holm",
+  "bootstrap": {
+    "resamples": 2000,
+    "seed": 20261111,
+    "method": "marginal_binomial_of_multinomial",
+    "ci_level": 0.99
+  },
+  "claims": {
+    "W1": {
+      "statement": "S fél-megtartás (AUC-metrika, lásd metrics) a wheel karban LEGALÁBB 25%-kal hosszabb, mint a static ÉS a ring_only karban",
+      "criterion": "AUC(wheel) - 1.25*AUC(static) > 0 ÉS AUC(wheel) - 1.25*AUC(ring_only) > 0, mindkettő egyoldalú bootstrap 99% CI alsó határa > 0, Holm után (claim-en belül Bonferroni)",
+      "role": "fő állítás",
+      "falsification": "bármelyik feltétel nem teljesül 99% CI + Holm után",
+      "null_hypothesis": "AUC(wheel) - 1.25*AUC(static) <= 0 VAGY AUC(wheel) - 1.25*AUC(ring_only) <= 0 (nulla-nullhipotézis — változatlan, előny-küszöb)",
+      "aer_context": "az Aer-jóslat szerint W1 NULL-t vár (d_static,Aer = -0.004991; d_ring,Aer = -0.259766) — a tankönyv W1-et a ring_only ellen NULL-nak várja (szimuláció: 0.471 vs 0.730)"
+    },
+    "W2": {
+      "statement": "A fordított keringési irány (wheel_rev) mérhetően eltérő középpont-megtartást ad, mint a wheel",
+      "criterion": "a kontraszt (AUC(wheel) - AUC(wheel_rev)) 99% kétoldali bootstrap CI-je KIZÁRJA az Aer-josolt értéket (-0.0114) 99% CI + Holm után; a nulla NEM referencia (tankönyvi fizikán is 66%-ban 'szignifikáns' a 0 ellen, 199/300)",
+      "role": "fő állítás (irány-bit — a fő W1/W2 családhoz tartozik)",
+      "falsification": "a mért irány-különbség 99% CI-je Holm után is szignifikánsan eltér az Aer-jóslttól (modellről szóló eltérés — kalibrációs/modell-audit UTÁN értelmezhető); a tankönyvi várakozás (d = -0.0114, a kerék kissé rosszabb) 'teljesul'-ként kerül a riportba, ha a CI fedi az Aer-értéket",
+      "null_hypothesis": "AUC(wheel) - AUC(wheel_rev) = -0.011366102431 (Aer-jósolt különbség, NEM a nulla)",
+      "aer_predicted_diff": -0.011366102430555525,
+      "expectation_check": "a riportban kulon sor: 'tankonyvi varakozas: teljesul / nem teljesul' — teljesul, ha a 99% CI tartalmazza az Aer-josolt -0.0114 értéket; különben nem teljesul (a riport a Holm-döntéssel együtt, név szerint közli)"
+    },
+    "W4_secondary": {
+      "statement": "MÁSODLAGOS (a W1/W2-be NEM számít bele): a pumpa-karok középpont-megtartása a wheel fölé emelkedik-e",
+      "criterion": "a kontraszt (AUC(pump_dir) - AUC(wheel)) 99% kétoldali bootstrap CI-je KIZÁRJA az Aer-josolt értéket (+0.0097) 99% CI + Holm után; a W1/W2-be NEM számít bele",
+      "role": "másodlagos; az iránykövető lökés előre beállított iránya önmagában hajtja a forgást — ezért NEM memória-teszt",
+      "falsification": "a pumpa-irányú kar megtartása szignifikánsan eltér az Aer-jósltól (+0.0098) Holm után — a pumpa a tankönyvi modelltől eltérően viselkedik ezen a rendszeren (vagy a modell/kalibráció hibás — először modell-audit)",
+      "null_hypothesis": "AUC(pump_dir) - AUC(wheel) = 0.009738498264 (Aer-jósolt különbség, NEM a nulla)",
+      "aer_predicted_diff": 0.009738498263888895,
+      "expectation_check": "a riportban kulon sor: 'tankonyvi varakozas: teljesul / nem teljesul' — teljesul, ha a 99% CI tartalmazza az Aer-josolt +0.0097 értéket"
+    },
+    "sotetallapot": {
+      "statement": "KÜLÖN KÉSZÜLT KAR (a Maya/tulajdonos vita közvetlen döntőbírája): ring m=+1 (forgó) vs m=0 (nem forgó) és m=-1 (ellenforgó); S=|1> indul, minden más azonos",
+      "arms": [
+        "dark_m1",
+        "dark_m0",
+        "dark_mm1"
+      ],
+      "circuits": 27,
+      "shots_per_circuit": 4096,
+      "criterion": "d1 = AUC(dark_m1) - AUC(dark_m0); d2 = AUC(dark_mm1) - AUC(dark_m0); mindkét kontraszt 99% KÉT oldalú CI-je az Aer-josolt különbségeket (d1_Aer = -0.021023; d2_Aer = -0.009657) zárja ki vagy nem; claim p = max(p1, p2); 99% CI + Holm",
+      "role": "külön, név szerinti állítás — a fő W1/W2-től függetlenül értelmezhető",
+      "falsification": "a 'forgás tartja S-t' hipotézis cáfolva, ha egyik chirális ág sem TÉR EL szignifikánsan az Aer-jóslttól 99% CI + Holm után (a mérce a tankönyvi baseline-tól való ELTARODÁS, nem a nulla); a tulajdonos-ág akkor kap támogatást, ha MINDKÉT chirális ág szignifikánsan JOBB megtartást ad, mint az Aer-modell (először kalibrációs/modell-audit!)",
+      "null_hypotheses": {
+        "d1": -0.021023220486111105,
+        "d2": -0.00965711805555558
+      },
+      "expectation_check": "a riportban kulon sor: 'tankonyvi varakozas: teljesul / nem teljesul' — d1-re és d2-re külön (CI fedi-e az Aer-értéket); claim-szinten a kettő AND-je; a Holm-döntéssel együtt, név szerint közölve"
+    }
+  },
+  "metrics": {
+    "R(arm,k)": "P(S = |1>) a k-adik ellenponton, pop_branch=1 (S |1>-gyel indul)",
+    "AUC(arm)": "a 9 ellenpont (k = 0..32, lépésköz 4) R értékeinek átlaga — a 'megtartás' skaláris mérőszáma",
+    "half_survival_note": "a 'fél-megtartási idő' az oszcilláció miatt ILL-POSED (többszörös átlépés); csak leíró statisztika (első k, ahol R < 0.5), a döntésbe SEMMIKOR nem számít bele — a W1 a fenti AUC-kritériummal dől el",
+    "D_S_secondary": "D_S = |P1(kezdo=1) - P1(kezdo=0)| — másodlagos, a fő ítéletbe nem számít",
+    "coherence_branch": "S = |+>, X-mérés — másodlagos ág; a CZ-kitöltők miatt a koherencia-ág CSAK azon karok között vethető össze amelyek kitöltő-szerkezete azonos (a populációs ág az alap, amelyre a terv épül)",
+    "bootstrap": "2000 multinomiális bootstrap a shot-okból; seed 20261111; ci_level 0.99"
+  },
+  "aer_prediction": {
+    "wheel": {
+      "curve": [
+        0.977294921875,
+        0.185791015625,
+        0.68310546875,
+        0.310546875,
+        0.518310546875,
+        0.369873046875,
+        0.43408203125,
+        0.376953125,
+        0.3798828125
+      ],
+      "auc": 0.4706488715277778,
+      "auc_std": 0.002331087205837563
+    },
+    "wheel_rev": {
+      "curve": [
+        0.977294921875,
+        0.576416015625,
+        0.557861328125,
+        0.42529296875,
+        0.37890625,
+        0.352783203125,
+        0.35400390625,
+        0.35400390625,
+        0.361572265625
+      ],
+      "auc": 0.4820149739583333,
+      "auc_std": 0.002398908954738044
+    },
+    "static": {
+      "curve": [
+        0.977294921875,
+        0.159912109375,
+        0.733154296875,
+        0.276123046875,
+        0.56787109375,
+        0.342041015625,
+        0.460205078125,
+        0.3642578125,
+        0.39990234375
+      ],
+      "auc": 0.4756401909722222,
+      "auc_std": 0.0022917069938963434
+    },
+    "ring_only": {
+      "curve": [
+        0.977294921875,
+        0.878173828125,
+        0.848876953125,
+        0.7578125,
+        0.7177734375,
+        0.65185546875,
+        0.616455078125,
+        0.576171875,
+        0.54931640625
+      ],
+      "auc": 0.7304144965277778,
+      "auc_std": 0.002195140906298921
+    },
+    "alone": {
+      "curve": [
+        0.977294921875,
+        0.878173828125,
+        0.848876953125,
+        0.7578125,
+        0.717041015625,
+        0.6552734375,
+        0.6171875,
+        0.580322265625,
+        0.552001953125
+      ],
+      "auc": 0.7315538194444444,
+      "auc_std": 0.0021938882945589815
+    },
+    "alone_DD": {
+      "curve": [
+        0.977294921875,
+        0.90625,
+        0.90380859375,
+        0.833251953125,
+        0.80517578125,
+        0.769287109375,
+        0.740966796875,
+        0.70947265625,
+        0.6904296875
+      ],
+      "auc": 0.8151041666666666,
+      "auc_std": 0.0019635540917744792
+    },
+    "pump_blind": {
+      "curve": [
+        0.977294921875,
+        0.194580078125,
+        0.66162109375,
+        0.332275390625,
+        0.499267578125,
+        0.38623046875,
+        0.4228515625,
+        0.39208984375,
+        0.38525390625
+      ],
+      "auc": 0.4723849826388889,
+      "auc_std": 0.002349175891724431
+    },
+    "pump_dir": {
+      "curve": [
+        0.977294921875,
+        0.21533203125,
+        0.64892578125,
+        0.343017578125,
+        0.484130859375,
+        0.422119140625,
+        0.427978515625,
+        0.4169921875,
+        0.3876953125
+      ],
+      "auc": 0.4803873697916667,
+      "auc_std": 0.002369854842563333
+    },
+    "pump_wrong": {
+      "curve": [
+        0.977294921875,
+        0.2587890625,
+        0.55517578125,
+        0.4462890625,
+        0.40380859375,
+        0.45458984375,
+        0.3974609375,
+        0.41650390625,
+        0.400390625
+      ],
+      "auc": 0.4789225260416667,
+      "auc_std": 0.0024052219274523475
+    },
+    "cut": {
+      "curve": [
+        0.977294921875,
+        0.181396484375,
+        0.515869140625,
+        0.350341796875,
+        0.408447265625,
+        0.427978515625,
+        0.387939453125,
+        0.39892578125,
+        0.356201171875
+      ],
+      "auc": 0.4449327256944444,
+      "auc_std": 0.0023556227609460045
+    },
+    "dark_m1": {
+      "curve": [
+        0.977294921875,
+        0.185791015625,
+        0.68310546875,
+        0.310546875,
+        0.518310546875,
+        0.369873046875,
+        0.43408203125,
+        0.376953125,
+        0.3798828125
+      ],
+      "auc": 0.4706488715277778,
+      "auc_std": 0.002331087205837563
+    },
+    "dark_m0": {
+      "curve": [
+        0.977294921875,
+        0.56591796875,
+        0.59765625,
+        0.388916015625,
+        0.405029296875,
+        0.365478515625,
+        0.37158203125,
+        0.379638671875,
+        0.37353515625
+      ],
+      "auc": 0.4916720920138889,
+      "auc_std": 0.0024068043012843367
+    },
+    "dark_mm1": {
+      "curve": [
+        0.977294921875,
+        0.576416015625,
+        0.557861328125,
+        0.42529296875,
+        0.37890625,
+        0.352783203125,
+        0.35400390625,
+        0.35400390625,
+        0.361572265625
+      ],
+      "auc": 0.4820149739583333,
+      "auc_std": 0.002398908954738044
+    }
+  },
+  "noiseless_curves_population": {
+    "wheel": [
+      1.0000000000000002,
+      0.05401966206379324,
+      0.9081992085121557,
+      0.10958442548682304,
+      0.8747080247945032,
+      0.12262093908478333,
+      0.9063344087758815,
+      0.1284366525316656,
+      0.7468977435391921
+    ],
+    "wheel_rev": [
+      1.0,
+      0.6765729280139527,
+      0.7438390050592097,
+      0.4482305186646871,
+      0.36237868333409173,
+      0.11793596193386084,
+      0.1650904122142625,
+      0.15524462464213062,
+      0.300288047599115
+    ],
+    "static": [
+      1.0000000000000002,
+      0.008708763137534659,
+      0.9845825651174666,
+      0.01077193235096892,
+      0.9942240458659802,
+      0.007242969022550944,
+      0.9939310633212722,
+      0.00671161146388625,
+      0.9902761938708708
+    ],
+    "ring_only": [
+      1.0000000000000002,
+      0.9999999999999996,
+      0.9999999999999994,
+      0.9999999999999989,
+      0.9999999999999983,
+      0.9999999999999983,
+      0.9999999999999978,
+      0.9999999999999966,
+      0.999999999999996
+    ],
+    "alone": [
+      1.0000000000000002,
+      1.0000000000000002,
+      1.0000000000000002,
+      1.0000000000000002,
+      1.0000000000000002,
+      1.0000000000000002,
+      1.0000000000000002,
+      1.0000000000000002,
+      1.0000000000000002
+    ],
+    "alone_DD": [
+      1.0000000000000002,
+      1.0000000000000002,
+      1.0000000000000002,
+      1.0000000000000002,
+      1.0000000000000002,
+      1.0000000000000002,
+      1.0000000000000002,
+      1.0000000000000002,
+      1.0000000000000002
+    ],
+    "pump_blind": [
+      1.0000000000000002,
+      0.062124986880966224,
+      0.8763293907462756,
+      0.15237800843422894,
+      0.8159020598108375,
+      0.19795897019070183,
+      0.8069345015424234,
+      0.2531796535374813,
+      0.6078642930498225
+    ],
+    "pump_dir": [
+      1.0000000000000002,
+      0.09769966519888809,
+      0.8542433726546326,
+      0.17494618065260187,
+      0.6485450866958691,
+      0.3465377979953978,
+      0.5201347824553769,
+      0.5784813016458942,
+      0.3863229792310032
+    ],
+    "pump_wrong": [
+      1.0000000000000002,
+      0.1523585626571021,
+      0.684084197038773,
+      0.5020644312907209,
+      0.3376939640123323,
+      0.646564265680515,
+      0.359243149723459,
+      0.5822119593941325,
+      0.47531358485385483
+    ],
+    "cut": [
+      1.0000000000000002,
+      0.05508013404621191,
+      0.6593282207587047,
+      0.35399840744243005,
+      0.36913036585635034,
+      0.6234382703299546,
+      0.39448420838907816,
+      0.7189281501915317,
+      0.2643372743934148
+    ],
+    "dark_m1": [
+      1.0000000000000002,
+      0.05401966206379324,
+      0.9081992085121557,
+      0.10958442548682304,
+      0.8747080247945032,
+      0.12262093908478333,
+      0.9063344087758815,
+      0.1284366525316656,
+      0.7468977435391921
+    ],
+    "dark_m0": [
+      1.0000000000000002,
+      0.6487609825685221,
+      0.8018894036205386,
+      0.31360717830387175,
+      0.4067986237251582,
+      0.12365209542763592,
+      0.29163641229853077,
+      0.36888671880125984,
+      0.584625247294544
+    ],
+    "dark_mm1": [
+      1.0,
+      0.6765729280139527,
+      0.7438390050592097,
+      0.4482305186646871,
+      0.36237868333409173,
+      0.11793596193386084,
+      0.1650904122142625,
+      0.15524462464213062,
+      0.300288047599115
+    ]
+  },
+  "positive_control": {
+    "description": "Wheel + Ry(2*0.15) a |1> felé, minden lépésben (ismert erősségű beépített stabilizáló hatás — szimulációs diagnosztika, SOSEM QPU-kar)",
+    "expected_auc": 0.5190972222222222,
+    "required_effect": "az elemzőnek a beépített hatást a bootstrap 99% CI-vel ki kell mutatnia (AUC különbség > 4*SE); ha nem mutatja ki, az elemző hibás, nem a fizika (v1.1 #5)",
+    "fail_meaning": "analyzer_blind_to_known_effect -> az elemző érvénytelen"
+  },
+  "w3": {
+    "kind": "W3 flux-locking kuszob — AER/SNAPSHOT-szamolas, NEM hardver-eredmeny",
+    "k_steps": 32,
+    "t_circuit_us": 173.056,
+    "flux_lock": {
+      "J_per_2pi_Hz": 459558.82352941175,
+      "ramsey_bound_Hz": {
+        "A1": 1409.3464485146844,
+        "A2": 2151.6595242226763,
+        "A3": 923.3141469331919
+      },
+      "ratio": 213.5834310009783,
+      "pass": true,
+      "note": "a Ramsey-szórás KÖTÖTT érték (frequency_hz nincs a snapshotban) — a valódi szórás lehet kisebb"
+    },
+    "gate_error_budget": {
+      "ideal_per_circuit_xy_accounting": 0.433598058550535,
+      "ideal_native_estimate": 0.86719611710107,
+      "routed_per_circuit_cz_accounting": 1.0502216861054536,
+      "routed_pairs": {
+        "117-125": 236,
+        "124-125": 232,
+        "125-126": 232
+      },
+      "pass_ideal": true,
+      "pass_ideal_native": false,
+      "pass_routed": false,
+      "note": "ideal-XY: minden XY ≈ 2 natív CZ (ideal_native = 2×ideal); routed: a CZ-k közvetlenül számolva (nincs szorzás). KÜSZÖB: 0.5 várható 2Q-hiba / teljes áramkör; a küszöb 0.5 várható 2Q-hiba / teljes áramkör"
+    },
+    "storage_floor": {
+      "S": 0.6216266114267367,
+      "A1": 0.565302241973788,
+      "A2": 0.5450870753563416,
+      "A3": 0.5098549658450791
+    },
+    "pass_storage": true,
+    "verdict": "SZETESO",
+    "active_branch": "W3 SZETESO — a teljes QPU-job NEM tervezhető; csak a kis kuszöb-job (gyuru onmagaban, nehany lepes) johet szoba; a kerek-allitas a kovetkezo, erosebb csatolasu qubit-negyesre vagy javitott routingra var",
+    "v1_2_note": "a 2026-11-11-i snapshot alapján SZÉTESŐ (1.05 > 0.5) — a v1.2 amendment ezt NEM számolja újra (ugyanaz a bemenet → ugyanaz az eredmény); a QPU-tervezéshez KÜLÖN, a beküldés napi kalibrációjával elvégzett friss W3-számítás kell, amely nem SZÉTESŐ — ilyen NEM áll rendelkezésre, ezért a Kerék QPU-job NEM tervezhető"
+  },
+  "w3_verdict": "SZETESO",
+  "w3_active_branch": "W3 SZÉTESŐ (a 2026-11-11-i snapshoton; a v1.2 NEM számolja újra) — a teljes QPU-job NEM tervezhető; a Kerék-út első feltétele (Küszöb ROGZUL) 2026-11-12-én teljesült, de a (b) friss W3-feltétel és a külön tulajdonosi döntés/audit hiányzik; a kerülék-állítás külön döntésre vár",
+  "dark_state_test": {
+    "statement": "KÜLÖN KÉSZÜLT KAR (a Maya/tulajdonos vita közvetlen döntőbírája): ring m=+1 (forgó) vs m=0 (nem forgó) és m=-1 (ellenforgó); S=|1> indul, minden más azonos",
+    "arms": [
+      "dark_m1",
+      "dark_m0",
+      "dark_mm1"
+    ],
+    "circuits": 27,
+    "shots_per_circuit": 4096,
+    "criterion": "d1 = AUC(dark_m1) - AUC(dark_m0); d2 = AUC(dark_mm1) - AUC(dark_m0); mindkét kontraszt 99% KÉT oldalú CI-je az Aer-josolt különbségeket (d1_Aer = -0.021023; d2_Aer = -0.009657) zárja ki vagy nem; claim p = max(p1, p2); 99% CI + Holm",
+    "role": "külön, név szerinti állítás — a fő W1/W2-től függetlenül értelmezhető",
+    "falsification": "ha egyik chirális ág sem válik el 99% CI-vel + Holm után a m=0-tól, a 'forgás tartja S-t' hipotézis ezen a berendezésen cáfolva (Maya-ág igazolva); ha MINDKÉT chirális ág mérhetően tovább tartja S-t, a tulajdonos-ág kap támogatást",
+    "null_hypotheses": {
+      "d1_aer": -0.021023220486111105,
+      "d2_aer": -0.00965711805555558
+    }
+  },
+  "expectations": {
+    "maya_verbatim": "a három küllő hatása 0°, 120°, 240° fázissal érkezve a középpontban kioltja egymást; a tankönyv szerint a forgás a középpontot nem tartja, csak nem zavarja — ezért a W1 és W2 várhatóan NULL. (Maya átnézése, 2026-11-11)",
+    "owner_forecast": "A tulajdonos (Máté Róbert) joslata: a Kerék mérhetően jobban tartja a középpontot — a terv 7. fejezete szerinti erős hatás. (2026-11-11)",
+    "sim_outcome": "a 0. fázis szimulációja MAYA-oldalra hajlik: wheel AUC ≈ static AUC (0.471 vs 0.476), ring_only és alone S-megtartása jobb (0.73); a zajtalan wheel is oszcillál 0.75 alá k=32-re. A mérés dönt — ha mérés lesz.",
+    "solver_note": "a két várakozás egymás mellett, a mérés előtt, a tervben — az eredménytől függetlenül rögzítve",
+    "maya_2026_11_12": "Maya beküldés előtti átnézése (2026-11-12 09:05 UTC) + javítása (20:01 UTC): (i) a W2 nulla ellen mért, de tankönyvi fizikán is 66%-ban szignifikáns (lefagyasztott Aer-igazsággal 199/300) — kapusorrendi tankönyvi különbség wheel vs wheel_rev; ezért a W2 nullhipotézise v1.2-től az Aer-jósolt -0.0114, NEM a nulla; (ii) az ítélet (v1.1 kód abszolút AUC(wheel)-t vetett össze az Aer-AUC-val) kalibráció-eltérésnél NULL-ba csúszhatott — v1.2: kontraszt-alapú, beküldés napi kalibrációból újraszámolt Aer-jóslathoz mérve; (iii) a szimulációban a tankönyvi várakozás máris teljesül: W1 a ring_only ellen NULL (0.471 vs 0.730), a sötétállapot-teszt nem válik el (dark_m1 = 0.4706 < dark_m0 = 0.4917; dark_mm1 = 0.4820 < dark_m0) — SZIMULÁCIÓ, NEM mérés; a mérés dönt (ha lesz)",
+    "kuszob_rogzul_2026_11_12": "a Küszöb-job ítélete ROGZUL (job dbr1fl6jjaos73ai51pg, DONE 2026-11-12 19:51 UTC; ibm_kingston; rekord: submission/kuszob/results/raw_counts_dbr1fl6jjaos73ai51pg.json, sha256 fe7876b6…). Ez a W3-kapu ELSŐ feltételét teljesíti — de a Kerék QPU-job ettől még NEM tervezhető: a (b) feltétel (beküldés napi kalibrációjával frissen elvégzett, nem SZÉTESŐ W3-számítás) NEM teljesül, és külön tulajdonosi döntés + audit kell; a Kerék-csomag külön döntéssel indul"
+  },
+  "verdicts": {
+    "TEXTBOOK": "a mért kontrasztok (wheel - static; wheel - ring_only) 99% CI-je az Aer-jósolt kontraszt sávján belül van (d_static,Aer = -0.0050; d_ring,Aer = -0.2598) — az 'effektus' (ha van) tankönyvi (a forgo-minta zaj-kiatlagolása is ide számolandó); összhangban a lefagyasztott görbékkel, NEM az abszolút AUC-kel",
+    "ANOMALIA": "bármelyik mért kontraszt meghaladja az Aer-jósolt kontraszt felső 99% CI-határát (az Aer ALÁBECSÜLI a megtartást) — ELŐSZÖR kalibrációs/modellhibát kell keresni (T1/T2 drift, readout, csatolás-kalibráció), és csak utána bármilyen értelmezés; a claim NEM kerül kikiáltásra az anomália-feloldás előtt",
+    "NULL": "nincs mérhető előny a kontrollokkal szemben (W1 nem teljesül), VAGY a kontrasztok az Aer-sáv ALATT vannak — NULL-t NULL-ként közöljük",
+    "band_rule": "a TEXTBOOK/ANOMALIA/NULL sáv: obs_contrast - aer_contrast; sáv = 3.2905 * sqrt(aer_contrast_std^2 + obs_contrast_std^2); aer_contrast_std = sqrt(sigma_arm1^2 + sigma_arm2^2) (függetlenséget feltételezve — a lefagyasztott Aer-std-k kovarianciája nincs rögzítve); a 99% a ci_level-lel azonos",
+    "calibration_rule": "a beküldés napi kalibrációjából ÚJRASZÁMOLT Aer-jóslat az alkalmazandó referencia a beküldéskor; a frozen aer_prediction a preregisztrált alap (ha a beküldéskori kalibráció eltér, az Aer-t újra kell számolni, MIELŐTT bármiféle következtetést levonunk az eredményből)",
+    "supersedes_note": "a v1.1-es abszolút-AUC(wheel) összevetés (amely nem volt összhangban a docstringgel és kalibráció-eltérésnél NULL-ba csúszott) MEGSZŰNT — a v1.2 kontraszt-alapú"
+  },
+  "phase_order": "0 (ez a fájl) -> 1 (QPU-job, ha W3 ROGZUL — JELENLEG NEM; lásd w3_verdict) -> 2 (elemzés, record-first)",
+  "qpu_submission": "TILOS az agentnek — KETTSZERESEN: (i) a Kerék saját W3-kapuja SZÉTESŐ (2026-11-11-i snapshot; friss W3 nem történt/nem történhet a beküldés napi kalibrációja nélkül); (ii) külön tulajdonosi döntés + formális audit kell — a Küszöb-ítélet ROGZUL-léte (2026-11-12) sem jogosít fel Kerék-beküldésre. Beküldő szkript NEM készül; csak akkor, ha mindkét W3-feltétel teljesül és megvan a tulajdonosi döntés + audit; követelmények: a Gyűrű v1.2 amendment 2. és 4. pontjával összhangban (submission-day Aer-újraszámolás; kötelező mérés-kapu; record-first; env-név token) — a Gyűrű v1.2 dokumentum nem része ennek a repónak",
+  "record_first": "a QPU-futtatás beadott-állapot commitja MINDIG min megelőzi az eredmények dokumentálását; NULL is record-first",
+  "pump_block": {
+    "pump_arms": [
+      "pump_blind",
+      "pump_dir",
+      "pump_wrong"
+    ],
+    "m_blind": 0.2,
+    "m_dir": 0.2,
+    "pump_fi_p": 0.0,
+    "pump_freq": "2*OMEGA_DIR",
+    "omega_dir_rad_per_round": 0.69813,
+    "blind_tested_m": [
+      0.2
+    ],
+    "note": "a ring-feladatban (agent_feladat_gyuru_kiegeszites.txt) 0/0.1/0.2/0.3 és fi_p ∈ {0, pi/2} próbált — itt a v1.1 tervbe EGYETLEN előre rögzített beállítás került (nincs paraméter-halászat); a W4 másodlagos",
+    "kick_error_cost": "minden pumpa-impulzus 1Q rx (eps ≈ 2e-4), 32 lökés / kar — a szimuláció ezt tartalmazza; a 2Q-költséget NEM növeli",
+    "expected_gain": "nulla (a 0. fázis szimulációja szerint: pump_blind ≈ wheel, |dAUC| < 0.01)",
+    "falsification": "ha egyetlen pumpa-kar sem mutatja a wheel-hoz képest 99% CI-vel + Holm után jobb középpont-megtartást, a pumpa erre a rendszerre megbukott — nem keresünk további beállításokat utólag"
+  },
+  "preparation": {
+    "method": "Givens-szerű gerjesztés-megőrző sablon: X(R1) + U_XY(R1,R2;t1,p1) + U_XY(R2,R3;t2,p2) — azonos kapuszerkezet minden karban (2 kétqubites kapu)",
+    "angles": {
+      "1": [
+        0.9553166181245092,
+        3.665191429188092,
+        0.7853981633974483,
+        -2.617993877991495
+      ],
+      "0": [
+        0.9553166181245092,
+        1.5707963267948966,
+        0.7853981633974483,
+        1.5707963267948966
+      ],
+      "-1": [
+        0.9553166181245092,
+        -0.5235987755982991,
+        0.7853981633974484,
+        5.759586531581288
+      ]
+    },
+    "circulation_states": "|m=+1> = (1, w, w^2)/sqrt(3); |m=-1> = (1, w^2, w)/sqrt(3); |m=0> = (1,1,1)/sqrt(3)  (w = e^{2*pi*i/3}); |hurokáram| = 1/sqrt(3) minden élén (m=0: 0)",
+    "verification": "prep_check: amplitúdók 1e-12-re egyeznek; a prep azonos minden karban"
+  },
+  "no_post_hoc_parameter_fishing": "minden paraméter a fagyasztás előtt rögzítve; utólagos változtatás csak 'amended' verzióban, a fagyasztott hashek érintésével",
+  "history": [
+    {
+      "date": "2026-11-12",
+      "event": "v1.2 AMENDED: Maya beküldés előtti átnézése (09:05 UTC) + javítása (20:01 UTC) nyomán — W2/W4/sötétállapot nullhipotézise az Aer-jósolt különbség (W2 -0.0114, W4 +0.0098, d1 -0.0210, d2 -0.00966), NEM a nulla; kontraszt-alapú ítélet (d_static/d_ring az Aer-jóslathoz, beküldés napi kalibrációból újraszámolt Aer-referencia; kód és docstring összhangban); az elemző és a dryrun sha256-ja a frozen JSON file_hashes blokkjába (a fagyasztott elemző futás közben ellenőrzi); a várakozások közé a szimulációs tények (W1 vs ring_only NULL 0.471 vs 0.730; sötétállapot nem válik el) RÖGZÍTETT tényként kerülnek (SZIMULÁCIÓ, nem mérés); a W3-kapu MARAD (a Küszöb ROGZUL = első feltétel teljesül, de friss W3 nem áll rendelkezésre; QPU-beküldés továbbra is TILOS)"
+    }
+  ],
+  "status": "ELOKESZITVE — NEM BEKULDVE; Kuszob-itelet ROGZUL (2026-11-12, job dbr1fl6jjaos73ai51pg) — a W3-kapu ELS feltetele teljesult, de a (b) feltétel (a bekuldes napi kalibraciojaval frissen elvégzett, nem SZETESO W3-szamitas) NEM teljesul; a Kerék QPU-job NEM tervezheto; kulon tulajdonosi dontes + audit kell",
+  "file_hashes": {
+    "preregistration/PLAN_WHEEL_v1.2.md": "0fafc93f9c013ff02b8552c144244d7ca1baa4c443504ddd00ea57c9984a0a04",
+    "src/wheel/analysis.py": "89f23cd4cf3934219b4ecf135f7c1728d0fe05981c2a92cee4dc135d84f6815c",
+    "dryrun_wheel.py": "b4ac7c062a1994b7d68eff658ca35cd4edf2621e43b188bfc68433c6b1bc0dbe"
+  },
+  "aer_contrasts": {
+    "d_static": {
+      "value": -0.00499131944444442,
+      "aer_std_indep_assumption": 0.003268927730478756
+    },
+    "d_ring": {
+      "value": -0.259765625,
+      "aer_std_indep_assumption": 0.0032019698873859545
+    },
+    "w2": {
+      "value": -0.011366102430555525,
+      "aer_std_indep_assumption": 0.003344956163291524
+    },
+    "w4": {
+      "value": 0.009738498263888895,
+      "aer_std_indep_assumption": 0.0033241810323808266
+    },
+    "d1": {
+      "value": -0.021023220486111105,
+      "aer_std_indep_assumption": 0.0033506230026519486
+    },
+    "d2": {
+      "value": -0.00965711805555558,
+      "aer_std_indep_assumption": 0.003398157017826451
+    }
+  }
+}

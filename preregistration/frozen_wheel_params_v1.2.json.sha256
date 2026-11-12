@@ -1,0 +1,8 @@
+# triangle-anchor-memory — preregisztrált hashek (Kerék-menet, v1.2 AMENDED)
+# létrehozva (UTC): 2026-11-12T20:14:11+0000
+# integritás-ellenőrzés: src/wheel/analysis.py:check_frozen
+# A v1.2 FELULIRJA (superseded) PLAN_WHEEL_v1.1.md-t és frozen_wheel_params.json-t;
+# a v1.0/v1.1 tervek és a v1.1 frozen JSON byte-ra változatlanul megmarad a történet részeként.
+# (a döntési szabály forrása a frozen_wheel_params_v1.2.json — módosítás csak verziózott 'amended' verzióban)
+0fafc93f9c013ff02b8552c144244d7ca1baa4c443504ddd00ea57c9984a0a04  PLAN_WHEEL_v1.2.md
+c43342aad3dd5101559a211d49398de32f1b73771f97f664ad991e1753722ce3  frozen_wheel_params_v1.2.json

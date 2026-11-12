@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""A Kerék-menet dryrun — QPU NÉLKÜL, végig a fagyasztott protokollon.
+"""A Kerék-menet dryrun — QPU NÉLKÜL, végig a fagyasztott protokollon (v1.2).
 
 Végrehajtás:
   1. frozen integritás (sha256, ci_level=0.99, holm, claim-család, routing);
@@ -9,10 +9,13 @@ Végrehajtás:
   4. pozitív kontroll (beépített Ry-stabilizáló hatás) — az elemzőnek
      KIMUTATNIA KELL (ha nem: az elemző érvénytelen, exit 2);
   5. negatív kontroll (cut) — a W1-irányban nem találhat előnyt;
-  6. a W3-verdikt és az aktív ág kinyomtatva (SZÉTESŐ → nincs teljes job).
+  6. a W3-verdikt és az aktív ág kinyomtatva (SZÉTESŐ → nincs teljes job);
+  7. a riport külön sorban közli a „tankonyvi varakozas: teljesul / nem
+     teljesul” értékeket (W2, W4_secondary, sotetallapot).
 
 MINDEN eredmény Aer/zajtalan szimuláció — SOHA nem "HARDWARE".
-Kimenet: data/wheel_dryrun_report.json + nyomtatott összegzés; exit 0 = PASS.
+Kimenet: data/wheel_dryrun_report_v1_2.json (a v1.1-es
+data/wheel_dryrun_report.json MEGŐRZŐDIK) + nyomtatott összegzés; exit 0 = PASS.
 """
 from __future__ import annotations
 
@@ -86,15 +89,21 @@ def main():
     check("a claim-család mind a négy tagja értelmezve (W1, W2, W4_secondary, sotetallapot)",
           fam == ["W1", "W2", "W4_secondary", "sotetallapot"])
 
+    report["tankonyvi_varakozas"] = {
+        "W2": rep["claims"]["W2"]["tankonyvi_varakozas"],
+        "W4_secondary": rep["claims"]["W4_secondary"]["tankonyvi_varakozas"],
+        "sotetallapot": rep["claims"]["sotetallapot"]["tankonyvi_varakozas"],
+    }
     report["verdict"] = rep["verdict"]
     report["analysis"] = rep
     report["positive_control"] = pc_rep
     report["all_pass"] = bool(ok)
-    out_path = os.path.join(ROOT, "data", "wheel_dryrun_report.json")
+    out_path = os.path.join(ROOT, "data", "wheel_dryrun_report_v1_2.json")
     with open(out_path, "w") as f:
         json.dump(report, f, indent=2, ensure_ascii=False, default=float)
     print()
     print(f"Dryrun verdikt: {rep['verdict']}  |  összesített: {'PASS' if ok else 'FAIL'}")
+    print(f"Tankönyvi várakozás: {json.dumps(report['tankonyvi_varakozas'], ensure_ascii=False)}")
     print(f"Jelentés: {out_path}")
     print("MEGJEGYZÉS: Aer/zajtalan szimuláció — NEM hardware-eredmény. A QPU nem futott.")
     return 0 if ok else 1

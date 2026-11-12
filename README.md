@@ -170,22 +170,31 @@ A `data/raw_counts.json` várt sémáját a [`data/README.md`](data/README.md) r
 
 ## A Kerék-menet (forgó gyűrű által tartott középpont)
 
-**Állapot: 0. fázis lefagyasztva, átnézésre vár, beküldés tilos.** A Kerék-menet külön,
-v1.1 amended tervre és saját fagyasztásra épül; a csillag- és a gyűrű-
+**Állapot: 0. fázis lefagyasztva; v1.2 AMENDED elkészült (2026-11-12) — beküldés tilos.**
+A Kerék-menet külön, v1.2 amended tervre és saját fagyasztásra épül; a csillag- és a gyűrű-
 anyaghoz nem nyúl. **Semmilyen QPU-futtatás (teljes Kerék-job, küszöb-job,
-gyűrű-job) nem indítható, amíg a 2026-11-12-i 99% CI + Holm amendment és
-Maya (Control Agent) átnézése meg nem történt — az átnézésig TILOS.**
-PLAN_WHEEL v1.2 most NEM készül (csak akkor, ha Maya átnézése hibát talál —
-új hash, külön commit, a v1.1 megtartasávan).
+gyűrű-job) nem indítható: a Kerék W3-kapuja SZÉTESŐ (a 2026-11-11-i snapshoton;
+a Küszöb-ítélet ROGZUL-léte (2026-11-12) a kapu ELSŐ feltételét teljesíti,
+de friss W3-számítás (beküldés napi kalibrációval) nem áll rendelkezésre —
+és külön tulajdonosi döntés + audit nélkül TILOS.**
+**PLAN_WHEEL v1.2 AMENDED elkészült** (2026-11-12, Maya beküldés előtti
+átnézése 09:05 UTC + javítása 20:01 UTC nyomán: a W2/W4/sötétállapot
+nullhipotézise az Aer-jósolt különbség (−0.0114 / +0.0098 / d1 −0.0210,
+d2 −0.00966), NEM a nulla; kontraszt-alapú ítélet (a kód és a docstring
+összhangban); az elemző és a dryrun sha256-ja a frozen JSON-ba; a
+szimulációs tények (W1 vs ring_only NULL, sötétállapot nem válik el) a
+várakozások közé SZIMULÁCIÓ-ként rögzítve; a v1.0/v1.1 és a v1.1 frozen
+JSON byte-ra változatlan).
 
-- **Terv:** [`preregistration/PLAN_WHEEL_v1.0.md`](preregistration/PLAN_WHEEL_v1.0.md)
-  (transport) és [`preregistration/PLAN_WHEEL_v1.1.md`](preregistration/PLAN_WHEEL_v1.1.md)
-  (**amended**, a fagyasztás alapja; a v1.0 változatlanul hagyva — soha nem
-  fagyott le; a v1.1 az első és eddigi egyetlen fagyasztott Kerék-verzió).
-- **Fagyasztott paraméterek:** [`preregistration/frozen_wheel_params.json`](preregistration/frozen_wheel_params.json)
-  (SHA-256: `frozen_wheel_params.sha256`, ellenőrzés: `src/wheel/analysis.py:check_frozen`).
+- **Terv:** [`preregistration/PLAN_WHEEL_v1.2.md`](preregistration/PLAN_WHEEL_v1.2.md)
+  (**amended, érvényes**; a v1.0 [`preregistration/PLAN_WHEEL_v1.0.md`](preregistration/PLAN_WHEEL_v1.0.md)
+  soha nem fagyott le; a v1.1 [`preregistration/PLAN_WHEEL_v1.1.md`](preregistration/PLAN_WHEEL_v1.1.md)
+  superseded — történeti).
+- **Fagyasztott paraméterek:** [`preregistration/frozen_wheel_params_v1.2.json`](preregistration/frozen_wheel_params_v1.2.json)
+  (SHA-256: `frozen_wheel_params_v1.2.json.sha256`, ellenőrzés: `src/wheel/analysis.py:check_frozen`).
   `ci_level = 0.99`, `correction = "holm"`, állítás-család:
   **W1, W2, W4-másodlagos, sötétállapot-teszt**.
+  (A v1.1 `frozen_wheel_params.json` + `.sha256` byte-ra változatlan, történeti.)
 - **Kód:** `src/wheel/` (áramkörök, snapshot-zajmodell, szimuláció, elemző,
   W3-számítás, kaputilus-tábla generátor); `dryrun_wheel.py` a gyökérnél.
 - **A 0. fázis nettó üzenete (Aer/zajtalan szimuláció, NEM hardware):**

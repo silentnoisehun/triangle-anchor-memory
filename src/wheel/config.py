@@ -1,13 +1,13 @@
-"""Kerék-menet — központi konfiguráció (PLAN_WHEEL_v1.1 alapján).
+"""Kerék-menet — központi konfiguráció (PLAN_WHEEL_v1.2 alapján).
 
 Források:
-- Terv: preregistration/PLAN_WHEEL_v1.1.md (amended; a v1.0 transport változatlan).
+- Terv: preregistration/PLAN_WHEEL_v1.2.md (amended, érvényes; a v1.0/v1.1 transport változatlan; a v1.1 superseded).
 - A mért pillanatkép: data/snapshot.json (2026-11-11, ibm_kingston, VALÓS
   backend-pillanatkép a csillag-menet beküldésének pillanatában — dokumentált
   kiindulás, NEM hardver-eredmény; a zajos szimuláció kiindulópontja).
 
-FONTOS: a döntési küszöbök NEM innen élnek — a preregistration/frozen_wheel_params.json
-(hash: frozen_wheel_params.sha256) a forrás; a src/wheel/analysis.py minden futtatáskor
+FONTOS: a döntési küszöbök NEM innen élnek — a preregistration/frozen_wheel_params_v1.2.json
+(hash: frozen_wheel_params_v1.2.json.sha256) a forrás; a src/wheel/analysis.py minden futtatáskor
 ellenőrzi. Az itt lévő értékek a 0. fázis által KIJELÖLT, fagyasztott értékek másolatai.
 """
 from __future__ import annotations
