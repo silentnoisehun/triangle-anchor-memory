@@ -42,13 +42,17 @@ def get_token() -> str:
     token = os.environ.get("IBM_QUANTUM_TOKEN")
     if token:
         return token
-    key_file = Path("c:/Users/mater/Downloads/apikey (1) (1).json")
-    if key_file.exists():
-        with key_file.open("r", encoding="utf-8") as f:
-            d = json.load(f)
-            t = d.get("apikey")
-            if t:
-                return t
+    for candidate in [
+        Path("c:/Users/mater/Downloads/apikey (2) (1).json"),
+        Path("c:/Users/mater/Downloads/apikey (2) (2).json"),
+        Path("c:/Users/mater/Downloads/apikey (1) (1).json"),
+    ]:
+        if candidate.exists():
+            with candidate.open("r", encoding="utf-8") as f:
+                d = json.load(f)
+                t = d.get("apikey") or d.get("token")
+                if t:
+                    return t
     return ""
 
 

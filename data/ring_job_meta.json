@@ -1,12 +1,12 @@
 {
   "status": "BEKÜLDVE — FUTÁSRA VÁR",
-  "job_id": "dbrsvnfv5hds73di9fp0",
+  "job_id": "dbs3gcmjjaos73ajo40g",
   "job_ids": [
-    "dbrsvnfv5hds73di9fp0"
+    "dbs3gcmjjaos73ajo40g"
   ],
   "backend": "ibm_kingston",
   "channel": "ibm_quantum_platform",
-  "submitted_at": "2026-11-14T03:04:40.924166+00:00",
+  "submitted_at": "2026-11-14T10:29:49.739879+00:00",
   "shots": 4096,
   "circuit_count": 24,
   "layout": {
