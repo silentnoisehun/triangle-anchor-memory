@@ -112,18 +112,21 @@ def get_token() -> str:
     token = os.environ.get("IBM_QUANTUM_TOKEN")
     if token:
         return token
-    # Fallback to key file in Downloads
-    key_file = Path("c:/Users/mater/Downloads/apikey (1) (1).json")
-    if key_file.exists():
-        with key_file.open("r", encoding="utf-8") as f:
-            d = json.load(f)
-            t = d.get("apikey")
-            if t:
-                return t
+    for candidate in [
+        Path("c:/Users/mater/Downloads/apikey (2) (1).json"),
+        Path("c:/Users/mater/Downloads/apikey (2) (2).json"),
+        Path("c:/Users/mater/Downloads/apikey (1) (1).json"),
+    ]:
+        if candidate.exists():
+            with candidate.open("r", encoding="utf-8") as f:
+                d = json.load(f)
+                t = d.get("apikey") or d.get("token")
+                if t:
+                    return t
     return ""
 
 
-def do_submit(confirmed: bool = False):
+def do_submit(confirmed: bool = False, shots: int = 512):
     token = get_token()
     if not token:
         print("LEÁLL: nincs IBM_QUANTUM_TOKEN vagy érvényes kulcsfájl!")
@@ -134,7 +137,7 @@ def do_submit(confirmed: bool = False):
         print("LEÁLL: A beküldési kapuk nem zöldek!")
         return rc
 
-    print("FIGYELEM: Ez a parancs VALÓDI 4096 lövéses QPU-futtatást indít az IBM Kingston chipen!")
+    print(f"FIGYELEM: Ez a parancs VALÓDI {shots} lövéses QPU-futtatást indít az IBM Kingston chipen!")
     if not confirmed:
         if not sys.stdin.isatty():
             print("LEÁLL: Nem interaktív terminál — használd a --confirm kapcsolót ha megerősíted a beküldést!")
@@ -174,14 +177,20 @@ def do_submit(confirmed: bool = False):
     chunks = []
     submitted_at = datetime.now(timezone.utc).isoformat()
 
-    print("Beküldés 4 chunkban az IBM Quantum sorba...")
+    print(f"Beküldés 4 chunkban az IBM Quantum sorba ({shots} shot)...")
     for ci in range(0, len(items), CHUNK):
         part = items[ci:ci + CHUNK]
-        job = sampler.run([qc for _, qc in part], shots=config.SHOTS)
+        job = sampler.run([qc for _, qc in part], shots=shots)
         jid = job.job_id()
         job_ids.append(jid)
         chunks.append({"job_id": jid, "from": ci, "to": ci + len(part)})
         print(f"Chunk {len(job_ids)}/{((len(items)-1)//CHUNK)+1}: {jid} [{ci}:{ci+len(part)}]", flush=True)
+
+    version_str = "1.5" if shots == 512 else "1.4"
+    frozen_file = f"frozen_params_v{version_str}.json"
+    frozen_path = REPO_ROOT / "preregistration" / frozen_file
+    if not frozen_path.exists():
+        frozen_path = REPO_ROOT / "preregistration" / "frozen_params_v1.4.json"
 
     # RECORD-FIRST: azonnali rögzítés az eredmények ELŐTT
     meta = {
@@ -190,7 +199,7 @@ def do_submit(confirmed: bool = False):
         "backend": backend.name,
         "channel": "ibm_quantum_platform",
         "submitted_at": submitted_at,
-        "shots": config.SHOTS,
+        "shots": shots,
         "circuit_count": len(items),
         "layout": EXPECTED_LAYOUT,
         "shuffle_seed": 20261111,
@@ -198,8 +207,8 @@ def do_submit(confirmed: bool = False):
         "payload_sha256": payload_sha,
         "snapshot_file": "data/snapshot.json",
         "snapshot_sha256": sha256_file(REPO_ROOT / "data" / "snapshot.json"),
-        "frozen_params_sha256": sha256_file(REPO_ROOT / "preregistration" / "frozen_params_v1.4.json"),
-        "note": "Csillag v1.4 beküldve 4 chunkban az ibm_kingstonra. Record-first rögzítve a mérés előtt."
+        "frozen_params_sha256": sha256_file(frozen_path),
+        "note": f"Csillag v{version_str} beküldve 4 chunkban az ibm_kingstonra ({shots} shot). Record-first rögzítve a mérés előtt."
     }
 
     job_meta_path = REPO_ROOT / "data" / "job_meta.json"
@@ -208,7 +217,7 @@ def do_submit(confirmed: bool = False):
     rec_dir = REPO_ROOT / "submission" / "csillag"
     rec_dir.mkdir(parents=True, exist_ok=True)
     (rec_dir / "job_id_record.json").write_text(json.dumps({"job_ids": job_ids, "submitted_at": submitted_at, "backend": backend.name}, indent=2), encoding="utf-8")
-    (rec_dir / "job_meta.final_v1.4.json").write_text(json.dumps(meta, indent=2, ensure_ascii=False), encoding="utf-8")
+    (rec_dir / f"job_meta.final_v{version_str}.json").write_text(json.dumps(meta, indent=2, ensure_ascii=False), encoding="utf-8")
 
     print("=" * 72)
     print("RECORD-FIRST RÖGZÍTVE: job_meta.json és submission/csillag/job_id_record.json")
@@ -223,10 +232,11 @@ def main():
     parser.add_argument("--check-only", action="store_true", help="Csak kapu-ellenőrzés futtatása (alapértelmezett)")
     parser.add_argument("--submit", action="store_true", help="QPU beküldés")
     parser.add_argument("--confirm", action="store_true", help="Megerősítés a tulajdonosi döntésre")
+    parser.add_argument("--shots", type=int, default=512, help="Lövések száma (alapértelmezett: 512, v1.5 FAST)")
     args = parser.parse_args()
 
     if args.submit:
-        sys.exit(do_submit(confirmed=args.confirm))
+        sys.exit(do_submit(confirmed=args.confirm, shots=args.shots))
 
     sys.exit(run_checks(check_only=True))
 

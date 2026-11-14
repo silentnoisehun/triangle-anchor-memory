@@ -1,36 +1,36 @@
 {
   "job_ids": [
-    "dbrsud8k09pc73avfm1g",
-    "dbrsue0k09pc73avfm40",
-    "dbrsuepabdes73fqfmu0",
-    "dbrsuf1abdes73fqfmug"
+    "dbs5j8ok09pc73avpdfg",
+    "dbs5ja7v5hds73diivi0",
+    "dbs5jb7v5hds73diivjg",
+    "dbs5jb8k09pc73avpdig"
   ],
   "chunks": [
     {
-      "job_id": "dbrsud8k09pc73avfm1g",
+      "job_id": "dbs5j8ok09pc73avpdfg",
       "from": 0,
       "to": 250
     },
     {
-      "job_id": "dbrsue0k09pc73avfm40",
+      "job_id": "dbs5ja7v5hds73diivi0",
       "from": 250,
       "to": 500
     },
     {
-      "job_id": "dbrsuepabdes73fqfmu0",
+      "job_id": "dbs5jb7v5hds73diivjg",
       "from": 500,
       "to": 750
     },
     {
-      "job_id": "dbrsuf1abdes73fqfmug",
+      "job_id": "dbs5jb8k09pc73avpdig",
       "from": 750,
       "to": 757
     }
   ],
   "backend": "ibm_kingston",
   "channel": "ibm_quantum_platform",
-  "submitted_at": "2026-11-14T03:01:51.447746+00:00",
-  "shots": 4096,
+  "submitted_at": "2026-11-14T12:52:28.816352+00:00",
+  "shots": 512,
   "circuit_count": 757,
   "layout": {
     "S": 125,
@@ -801,6 +801,6 @@
   "payload_sha256": "8baa3a99b266be2d55a9ca917cfa8be0e1ce8d588ec9299fea040e7cc39c2c8a",
   "snapshot_file": "data/snapshot.json",
   "snapshot_sha256": "2acfda2e1fcaea483fbc638ed8259ef52041d8fe0d5005ebb985e60830d4e67e",
-  "frozen_params_sha256": "2a7a427c3c43699d3d2c48ffc523fb370c9f16d3a9f103469e1bc625c733fbc5",
-  "note": "Csillag v1.4 beküldve 4 chunkban az ibm_kingstonra. Record-first rögzítve a mérés előtt."
+  "frozen_params_sha256": "240785277678141cf550a2d00cfa4625414d184016261f6e298e292f72cb1db7",
+  "note": "Csillag v1.5 beküldve 4 chunkban az ibm_kingstonra (512 shot). Record-first rögzítve a mérés előtt."
 }
