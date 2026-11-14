@@ -28,6 +28,7 @@ All 6 experimental phases were cryptographically preregistered with SHA-256 lock
 4. **Closed-Loop Wheel (Kerék v1.2):** Job `dbs9bbvv5hds73dimmfg` on `ibm_marrakesh`. 117 circuits, **ANOMALOUS EXCITATION RETENTION CONFIRMED ($Z = 13.63$, $P < 10^{-15}$)**. Sustained macroscopic ~37% excitation retention plateau at $k=32$ Trotter steps (~200 physical gate depth) vs 8.9% collapse on unanchored rings.
 5. **Dual-Wheel Synchronous Mesh:** Job `dbs9v0ujjaos73ajufr0` on `ibm_marrakesh`. 7-qubit cluster (Q125, Q117, Q126, Q124, Q123, Q122, Q136). Confirmed inter-cell quantum conduction ($P(S_2) = 0.3586 \ge 0.15$), Kuramoto-Huygens equipartition ($|P(S_1) - P(S_2)| = 0.0059 \le 0.15$), and collective network retention ($0.4805 \ge 0.35$).
 6. **Pump-and-Decouple Autonomous Quantum DRAM:** Job `dbsa7vpabdes73fqts9g` on `ibm_marrakesh`. 21 circuits. Verified complete Write $\rightarrow$ Decouple $\rightarrow$ Autonomous Hold cycle: handover at $k=8$ ($|P(S_1)-P(S_2)| = 0.0605$, $P(S_2) = 0.3438$), autonomous hold at $k=32$ ($P(S_2) = 0.2754$). **$+15.62\%$ protection advantage** over idle transmon decay!
+7. **Tri-Wheel 10-Qubit Quantum Bus:** Job `dbsam57v5hds73dio4i0` on `ibm_marrakesh`. 18 circuits. Verified end-to-end multi-cell transport across 10 native qubits: excitation injected at $S_1$ (Q105) conducted through central relay $S_2$ (Q125) into receiver $S_3$ (Q123) with $P(S_3) = 0.3008$ vs nosync $0.0170$, achieving 3-way equipartition ($S_1 \approx 35.9\%, S_2 \approx 25.2\%, S_3 \approx 30.5\%$) and **$67.0\%$ collective retention** at $k=32$!
 
 ---
 

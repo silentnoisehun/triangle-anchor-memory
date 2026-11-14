@@ -41,6 +41,7 @@ In this work, we experimentally demonstrate this principle on physical IBM Heron
 | **Phase 4: Kerék v1.2 (Wheel Anchor)** | 117 | `ibm_marrakesh` | `dbs9bbvv5hds73dimmfg` | **`ANOMALIA`** | **$Z = 13.63$ ($P < 10^{-15}$)**: macroscopic $+42.1\%$ plateau retention at $k=32$ vs unanchored ring. |
 | **Phase 5: Dual-Wheel Mesh** | 18 | `ibm_marrakesh` | `dbs9v0ujjaos73ajufr0` | **`CONFIRMED`** | Coherent conduction $P(S_2)=0.3586 \ge 0.15$; Equipartition $|P(S_1)-P(S_2)| = 0.0059 \le 0.15$; Collective retention $0.4805 \ge 0.35$. |
 | **Phase 6: Pump-and-Decouple (DRAM)** | 21 | `ibm_marrakesh` | `dbsa7vpabdes73fqts9g` | **`CONFIRMED`** | Handover at $k=8$ verified; Autonomous hold at $k=32$: $P(S_2)=0.2754$. **$+15.62\%$ protection advantage** over idle transmon decay! |
+| **Phase 7: Tri-Wheel 10-Qubit Bus** | 18 | `ibm_marrakesh` | `dbsam57v5hds73dio4i0` | **`CONFIRMED`** | End-to-end multi-cell transport $P(S_3)=0.3008$; 3-way equipartition ($S_1 \approx 35.9\%, S_2 \approx 25.2\%, S_3 \approx 30.5\%$); **$67.0\%$ collective retention** at $k=32$! |
 
 ---
 

@@ -47,6 +47,7 @@ All six experimental phases were preregistered with SHA-256 locks before QPU exe
 | **Phase 4: Kerék v1.2 (Wheel Anchor)** | 117 | `ibm_marrakesh` | `dbs9bbvv5hds73dimmfg` | **`ANOMALIA`** | **$Z = 13.63$ ($P < 10^{-15}$)**: macroscopic $+42.1\%$ plateau retention at $k=32$ vs unanchored ring. |
 | **Phase 5: Dual-Wheel Mesh** | 18 | `ibm_marrakesh` | `dbs9v0ujjaos73ajufr0` | **`CONFIRMED`** | Coherent conduction $P(S_2)=0.3586 \ge 0.15$; Equipartition $|P(S_1)-P(S_2)| = 0.0059 \le 0.15$; Collective retention $0.4805 \ge 0.35$. |
 | **Phase 6: Pump-and-Decouple** | 21 | `ibm_marrakesh` | `dbsa7vpabdes73fqts9g` | **`CONFIRMED`** | Handover at $k=8$: $|P(S_1)-P(S_2)|=0.0605$, $P(S_2)=0.3438$. Autonomous hold at $k=32$: $P(S_2)=0.2754$. **$+15.6\%$ protection advantage** over idle transmon decay! |
+| **Phase 7: Tri-Wheel Quantum Bus** | 18 | `ibm_marrakesh` | `dbsam57v5hds73dio4i0` | **`CONFIRMED`** | 10-Qubit Bus: End-to-end transport $P(S_3)=0.3008$ vs nosync $0.0170$; 3-way equipartition @ $k=16$ ($S_1 \approx 35.9\%, S_2 \approx 25.2\%, S_3 \approx 30.5\%$); **$67.0\%$ collective retention** at $k=32$! |
 
 ---
 
@@ -61,6 +62,11 @@ All six experimental phases were preregistered with SHA-256 locks before QPU exe
 ![Pump and Decouple Hardware Results](docs/img/decouple_hardware_retention.png)
 
 *Figure 2:* Physical execution of the Quantum DRAM Write-Decouple-Hold cycle. Left panel: Receiver hub $P(S_2)$ population. After decoupling at $k=8$, the isolated wheel loop (`hold_wheel2`, cyan) sustains its excitation plateau at 27.5% through $k=32$, outperforming the idle relaxation control (`hold_idle`, red) by **$+15.6\%$**. Right panel: Collective retention across the cell.
+
+### 3. Phase 7: 10-Qubit Tri-Wheel Quantum Bus Conduction & 3-Way Equipartition
+![Tri-Wheel Quantum Bus](docs/img/tri_wheel_hardware_conduction.png)
+
+*Figure 3:* 10-qubit topological quantum bus on `ibm_marrakesh`. Left panel: End-to-end transport from Transmitter $S_1$ (Q105, yellow) through Relay $S_2$ (Q125, cyan) into Receiver $S_3$ (Q123, green), reaching 3-way equipartition ($S_1 \approx 35.9\%, S_2 \approx 25.2\%, S_3 \approx 30.5\%$). Right panel: Collective 10-qubit mesh excitation retention ($67.0\%$ at $k=32$).
 
 ---
 
@@ -168,6 +174,7 @@ A kísérletsorozat mind a hat fázisa előzetesen, SHA-256 hash-zárral preregi
 | **4. Fázis: Kerék v1.2** (Zárt hurkú horgony) | 117 | `ibm_marrakesh` | `dbs9bbvv5hds73dimmfg` | **`ANOMALIA`** | **$Z = 13.63$ ($P < 10^{-15}$)**: $+42.1\%$ makroszkopikus plató-megtartás $k=32$-nél a gyűrűhöz képest! |
 | **5. Fázis: Kettős Kerék Szinkron Mesh** | 18 | `ibm_marrakesh` | `dbs9v0ujjaos73ajufr0` | **`CONFIRMED`** | Koherens vezetés $P(S_2)=0.3586 \ge 0.15$; Ekvipartíció $|P(S_1)-P(S_2)| = 0.0059 \le 0.15$; Kollektív retenció $0.4805 \ge 0.35$. |
 | **6. Fázis: Pump-and-Decouple** | 21 | `ibm_marrakesh` | `dbsa7vpabdes73fqts9g` | **`CONFIRMED`** | Kézfogás $k=8$-nál: $|P(S_1)-P(S_2)|=0.0605$, $P(S_2)=0.3438$. Autonóm tárolás $k=32$-nél: $P(S_2)=0.2754$. **$+15.6\%$ védelem-előny** a tétlen transzmon dekoherenciával szemben! |
+| **7. Fázis: 10-Qubites Háromcellás Busz** | 18 | `ibm_marrakesh` | `dbsam57v5hds73dio4i0` | **`CONFIRMED`** | 10-Qubit Busz: Végpont-vezetés $P(S_3)=0.3008$ vs nosync $0.0170$; 3-oldalú ekvipartíció @ $k=16$ ($S_1 \approx 35.9\%, S_2 \approx 25.2\%, S_3 \approx 30.5\%$); **$67.0\%$ kollektív megtartás** $k=32$-nél! |
 
 ---
 

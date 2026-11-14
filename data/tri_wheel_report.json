@@ -1,0 +1,23 @@
+{
+  "job_id": "dbsam57v5hds73dio4i0",
+  "backend": "ibm_marrakesh",
+  "shots": 512,
+  "s3_conduction": {
+    "mean_sync": 0.30078125,
+    "mean_nosync": 0.017020089285714284,
+    "passed": true
+  },
+  "tri_equipartition_k16": {
+    "P_S1": 0.359375,
+    "P_S2": 0.251953125,
+    "P_S3": 0.3046875,
+    "max_diff": 0.107421875,
+    "passed": true
+  },
+  "collective_retention_k32": {
+    "P_tot": 0.669921875,
+    "threshold": 0.35,
+    "passed": true
+  },
+  "verdict": "CONFIRMED"
+}

@@ -1,0 +1,57 @@
+{
+  "status": "BEKÜLDVE — FUTÁSRA VÁR",
+  "job_id": "dbsam57v5hds73dio4i0",
+  "backend": "ibm_marrakesh",
+  "submitted_at": "2026-11-14T18:39:57.206048+00:00",
+  "shots": 512,
+  "circuit_count": 18,
+  "layout": [
+    105,
+    104,
+    106,
+    117,
+    125,
+    126,
+    124,
+    123,
+    122,
+    136
+  ],
+  "order": [
+    "sync|k0",
+    "sync|k4",
+    "sync|k8",
+    "sync|k12",
+    "sync|k16",
+    "sync|k20",
+    "sync|k24",
+    "sync|k28",
+    "sync|k32",
+    "nosync|k0",
+    "nosync|k4",
+    "nosync|k8",
+    "nosync|k12",
+    "nosync|k16",
+    "nosync|k20",
+    "nosync|k24",
+    "nosync|k28",
+    "nosync|k32"
+  ],
+  "arms": [
+    "sync",
+    "nosync"
+  ],
+  "checkpoints": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28,
+    32
+  ],
+  "frozen_file": "preregistration/frozen_tri_wheel_params.json",
+  "note": "Tri-Wheel 10-Qubit Mesh beküldve az ibm_marrakesh-ra (18 áramkör, 512 shot)."
+}
