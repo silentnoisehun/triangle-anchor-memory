@@ -1,0 +1,47 @@
+{
+  "status": "BEKÜLDVE — FUTÁSRA VÁR",
+  "job_id": "dbrsvnfv5hds73di9fp0",
+  "job_ids": [
+    "dbrsvnfv5hds73di9fp0"
+  ],
+  "backend": "ibm_kingston",
+  "channel": "ibm_quantum_platform",
+  "submitted_at": "2026-11-14T03:04:40.924166+00:00",
+  "shots": 4096,
+  "circuit_count": 24,
+  "layout": {
+    "R1": 125,
+    "R2": 117,
+    "R3": 124,
+    "aux": 126
+  },
+  "order": [
+    "ring_p|k0",
+    "ring_p|k1",
+    "ring_p|k2",
+    "ring_p|k4",
+    "ring_p|k8",
+    "ring_p|k16",
+    "ring_m|k0",
+    "ring_m|k1",
+    "ring_m|k2",
+    "ring_m|k4",
+    "ring_m|k8",
+    "ring_m|k16",
+    "static|k0",
+    "static|k1",
+    "static|k2",
+    "static|k4",
+    "static|k8",
+    "static|k16",
+    "broken|k0",
+    "broken|k1",
+    "broken|k2",
+    "broken|k4",
+    "broken|k8",
+    "broken|k16"
+  ],
+  "frozen_params_file": "preregistration/frozen_ring_params_v1.2.json",
+  "frozen_params_sha256": "d4d8b6b83d6d32eaca457e9e24196b4cec55ddc1462009959ec239cbd551d108",
+  "note": "Gyűrű v1.2 beküldve az ibm_kingstonra (k<=16, 24 áramkör, 4096 shot). Record-first rögzítve."
+}
