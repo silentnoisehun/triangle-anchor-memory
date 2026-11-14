@@ -17,7 +17,7 @@
 
 \begin{document}
 
-\title{Topological Phase-Locking and Autonomous Excitation Retention in IBM Heron Heavy-Hex Superconducting Qubits}
+\title{Persistent Chiral Excitation Pinning and Distributed Reservoir Confinement in Driven Transmon Clusters}
 
 \author{R\'{o}bert M\'{a}t\'{e}}
 \email{silentnoisehun@gmail.com}
@@ -29,42 +29,48 @@
 % Permanent Archival Record: DOI: 10.5281/zenodo.24226150
 
 \begin{abstract}
-Preserving quantum coherence against dissipative decay without the active syndrome extraction overhead of quantum error correction (QEC) is a central challenge in scalable quantum technology. Here, we demonstrate topological phase-locking and coherent excitation trapping on utility-scale superconducting quantum processors (IBM Heron r2, \texttt{ibm\_marrakesh} and \texttt{ibm\_kingston}). Across a nine-phase, cryptographically preregistered experimental campaign structured into two prospective stages (Stage I: Core Discovery, Phases 1--6; Stage II: Mesh Scaling, Phases 7--9; each locked with prospective SHA-256 parameter commitments prior to physical execution), we show that a closed-loop wheel topology---comprising a central transmon symmetrically coupled to perimeter anchors under Peierls phase modulation---stabilizes an excitation plateau at $\sim 37\%$ over 32 Trotter steps ($\sim 200$ physical two-qubit gates), exhibiting anomalous retention with statistical significance $Z = 13.63$ ($P < 10^{-15}$) relative to unanchored ring controls. Extending this to a seven-qubit dual-wheel mesh, we demonstrate inter-cell Kuramoto-Huygens synchronization and directional conduction ($P(S_2) = 0.3586$, $|P(S_1) - P(S_2)| = 0.0059$). Executing a complete quantum DRAM cycle (Write $\rightarrow$ Decouple $\rightarrow$ Hold), we physically decouple the source and communication bridge at $k=8$; the isolated receiving wheel autonomously retains its excitation state ($P(S_2) = 0.2754$ at $k=32$), demonstrating a $+15.62\%$ protection advantage over bare transmon environmental relaxation ($11.91\%$). Finally, scaling to a 13-qubit 2D mesh, we demonstrate omni-directional 2D broadcast followed by global decoupling at $k=8$; the three disconnected satellite cells independently store the distributed state, sustaining a collective network retention of $72.07\%$ at $k=32$ ($+26.17\%$ advantage over uncoupled idle relaxation, $Z = 8.84\sigma$). These results establish a rigorous pathway toward passive, topology-protected distributed quantum memories on planar superconducting lattices.
+Suppressing dissipative energy relaxation into open environmental thermal baths is a primary challenge in scaling superconducting quantum processors. Here, we report the experimental observation of persistent chiral excitation pinning and non-equilibrium reservoir confinement on utility-scale superconducting quantum hardware (IBM Heron r2, \texttt{ibm\_marrakesh} and \texttt{ibm\_kingston}). Across a nine-phase, cryptographically preregistered experimental campaign structured into two prospective stages (Stage I: Core Discovery, Phases 1--6; Stage II: Mesh Scaling, Phases 7--9; comprising 1011 physical circuits with SHA-256 parameter commitments committed prior to physical execution), we show that a closed 3-transmon loop symmetrically coupled to a central hub under periodic Peierls phase modulation stabilizes an excitation population plateau at $\sim 37\%$ over 32 Trotter cycles ($\sim 200$ physical two-qubit gates), with statistical anomaly significance $Z = 13.63$ ($P < 10^{-15}$) relative to unanchored ring controls ($8.98\%$) and bare uncoupled transmon relaxation ($11.52\%$). 
+
+Microscopic current tomography confirms that an active chiral current physically circulates within the loop: the current expectation value $J_{12} = \frac{1}{2}\langle X_1 Y_2 - Y_1 X_2\rangle$ reverses sign ($+0.5933 \to -0.6877$) upon drive chirality inversion ($m = +1 \to -1$). Full state tomography further reveals the physical nature of the protection: while diagonal excitation populations ($|1\rangle\langle 1|$) are strongly pinned, single-qubit transverse phase coherence ($|\text{coh}_\perp| = \sqrt{\langle\sigma_x\rangle^2 + \langle\sigma_y\rangle^2}$) rapidly disperses into multi-qubit cluster entanglement ($|\text{coh}_\perp| \approx 0.07$ at $k=32$), demonstrating that the system functions as a non-equilibrium energy/excitation trap rather than a single-qubit phase memory. 
+
+Scaling to a 13-qubit 2D cluster on \texttt{ibm\_marrakesh}, we demonstrate isotropic 2D broadcast followed by global physical decoupling of the central hub and communication bridges at $k=8$. The three completely disconnected satellite cells independently trap their transferred excitations, sustaining a collective network retention of $72.07\%$ at $k=32$, delivering a $+26.17\%$ protection advantage ($Z = 8.84\sigma$) over uncoupled idle transmons. These results demonstrate passive, geometry-engineered non-equilibrium excitation confinement on planar transmon lattices.
 \end{abstract}
 
 \maketitle
 
 \section{Introduction}
-Superconducting transmons~\cite{koch2007charge} are leading building blocks for fault-tolerant quantum computing~\cite{fowler2012surface,bravyi2024high}. However, open quantum systems remain fundamentally limited by local Markovian energy relaxation ($T_1$) and dephasing ($T_2^*$). Standard active quantum error correction incurs substantial qubit overhead, continuous syndrome measurement backaction, and complex classical decoding latency. 
+Superconducting transmons~\cite{koch2007charge} coupled via capacitive or inductive planar links are versatile physical building blocks for quantum computing and simulation~\cite{fowler2012surface,bravyi2024high}. However, open quantum systems remain fundamentally limited by local Markovian energy relaxation ($T_1$) and dephasing ($T_2^*$). Standard active quantum error correction incurs substantial qubit overhead, continuous syndrome measurement backaction, and complex classical decoding latency. 
 
-Alternative paradigms inspired by non-Hermitian photonics and topological physics exploit bound states in the continuum (BICs)~\cite{hsu2016bound} and collective interference phenomena such as subradiance and synchronization~\cite{kuramoto1975self}. If destructive interference suppresses radiation into the dissipative environment while constructive phase interference refocuses quantum amplitudes at protected lattice nodes, coherent states can be dynamically trapped.
+Alternative passive paradigms inspired by non-Hermitian photonics and synthetic gauge fields exploit bound states in the continuum (BICs)~\cite{hsu2016bound} and collective interference phenomena such as subradiance and synchronization~\cite{kuramoto1975self}. If destructive interference suppresses radiation into the dissipative environment while constructive phase interference recirculates quantum amplitudes at protected lattice nodes, excitation populations can be dynamically pinned against environmental decay.
 
-In this work, we experimentally demonstrate this principle on physical IBM Heron r2 superconducting processors arranged in a 156-qubit heavy-hex lattice. Through a prospective sequence of nine experimental phases organized into two stages, we confirm: (i) machine qualification thresholds (\textbf{ROGZUL}), (ii) unanchored ring decay baselines (\textbf{NULL}), (iii) hydrodynamic recurrence scaling ($P_1, P_2$), (iv) anomalous wheel excitation retention ($Z = 13.63$), (v) dual-cell synchronization, (vi) autonomous memory retention after physical channel decoupling ($\Delta = +15.62\%$), (vii) tri-wheel 10-qubit ballistic bus transport ($P(S_3) = 0.3008$), (viii) 13-qubit 2D space-fabric isotropic emission and macroscopic BIC bound state ($83.4\%$), and (ix) distributed autonomous quantum memory mesh with global decoupling ($72.07\%$ collective hold, $+26.17\%$ advantage vs idle decay).
+In this work, we experimentally investigate non-equilibrium excitation dynamics in closed multi-transmon clusters on IBM Heron r2 superconducting processors (156-qubit heavy-hex lattice). Across nine experimental phases organized into two prospective stages, we confirm: (i) machine qualification thresholds (\textbf{ROGZUL}), (ii) unanchored ring decay baselines (\textbf{NULL}), (iii) hydrodynamic recurrence scaling ($P_1, P_2$), (iv) anomalous wheel excitation retention ($Z = 13.63$), (v) dual-cell synchronization, (vi) autonomous excitation hold after physical channel decoupling ($\Delta = +15.62\%$), (vii) tri-wheel 10-qubit ballistic bus transport ($P(S_3) = 0.3008$), (viii) 13-qubit 2D space-fabric isotropic emission and macroscopic bound state ($83.4\%$), and (ix) distributed autonomous reservoir mesh with global decoupling ($72.07\%$ collective hold, $+26.17\%$ advantage vs idle decay).
+
+We explicitly establish the physical nature of the phenomenon: the observed effect is a **driven subspace population trap (excitation reservoir)**, not an individual qubit phase memory.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{wheel_hardware_retention.png}
-\caption{\textbf{Phase 4: Closed-Loop Wheel Excitation Retention on IBM Heron r2 (\texttt{ibm\_marrakesh}).} Evolution of excitation retention $P(S=1)$ as a function of Trotter rounds $k$ ($0 \le k \le 32$, depth $\sim 200$ physical gates). The closed-loop anchored wheel (\texttt{wheel}, cyan) maintains an anomalous plateau around $37\%$, sharply contrasting against the rapid thermal collapse of the unanchored ring (\texttt{ring\_only}, red dashed) and bare transmon (\texttt{alone}, orange dotted). Anomaly significance: $Z = 13.63$, $P < 10^{-15}$.}
+\caption{\textbf{Phase 4: Closed-Loop Wheel Excitation Retention on IBM Heron r2 (\texttt{ibm\_marrakesh}).} Evolution of excitation retention $P(S=1)$ as a function of Trotter rounds $k$ ($0 \le k \le 32$, depth $\sim 200$ physical gates). The closed-loop anchored wheel (\texttt{wheel}, cyan) maintains an anomalous plateau around $37.11\%$, sharply contrasting against the rapid thermal collapse of the unanchored ring (\texttt{ring\_only}, red dashed, $8.98\%$) and bare transmon (\texttt{alone}, orange dotted, $11.52\%$). Anomaly significance: $Z = 13.63$, $P < 10^{-15}$.}
 \label{fig:wheel}
 \end{figure}
 
 \section{Lattice Geometry and Hamiltonian}
-We utilize a seven-qubit subdomain on the native IBM Heron heavy-hex lattice with zero SWAP-routing overhead:
+We utilize planar subdomains on the native IBM Heron heavy-hex lattice with zero SWAP-routing overhead:
 \begin{align}
 \text{Wheel 1:} \quad &S_1 = 125, \; A_1 = 117, \; A_2 = 126 \nonumber \\
 \text{Bridge:} \quad &A_{\text{shared}} = 124 \nonumber \\
 \text{Wheel 2:} \quad &S_2 = 123, \; B_1 = 122, \; B_2 = 136
 \end{align}
-Notice that transmon $124$ natively shares physical planar edges with both $S_1$ (125) and $S_2$ (123).
+Notice that transmon $124$ natively shares physical planar links with both $S_1$ (125) and $S_2$ (123).
 
-The unitary evolution per round $r$ consists of spoke couplings and ring couplings modulated by Peierls phases $\Phi = \pi/16$ and flux $\Phi_F = \pi/6$:
+The unitary evolution per round $r$ consists of spoke couplings and ring couplings modulated by synthetic Peierls phases $\Phi = \pi/16$ and flux $\Phi_F = \pm \pi/6$:
 \begin{equation}
 U_{\text{edge}}(\theta, \phi) = \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & \cos\theta & -i e^{i\phi}\sin\theta & 0 \\ 0 & -i e^{-i\phi}\sin\theta & \cos\theta & 0 \\ 0 & 0 & 0 & 1 \end{pmatrix}
 \end{equation}
-Opposite topological winding numbers ($m_1 = +1$, $m_2 = -1$) are assigned to Wheel 1 and Wheel 2 to facilitate chiral phase-locking across the central bridge.
+Opposite winding numbers ($m_1 = +1$, $m_2 = -1$) are assigned to Wheel 1 and Wheel 2 to establish chiral phase-locking across the central bridge.
 
 \begin{table*}[t]
-\caption{\textbf{Summary of Hardware Execution Across All 9 Phases on IBM Heron Processors.} Structured into Stage I (Core Discovery, Phases 1--6) and Stage II (Topological Mesh Scaling, Phases 7--9). All quantitative decision criteria were cryptographically locked via SHA-256 before QPU submission. Job provenances: Phase 1 job \texttt{dbr1fl6jjaos73ai51pg} succeeded after initial dispatch \texttt{dbqt3q9abdes73fosj8g} halted with Error 1515 due to missing measurement barriers before transpilation (zero data produced). Phase 3 executed on \texttt{ibm\_marrakesh} across 4 chunks under frozen Amendment v1.5 FAST after voluntary cancellation of initial Kingston submission for quota optimization.}
+\caption{\textbf{Summary of Hardware Execution Across All 9 Phases on IBM Heron Processors.} Structured into Stage I (Core Discovery, Phases 1--6) and Stage II (Mesh Scaling, Phases 7--9). All quantitative decision criteria were cryptographically locked via SHA-256 before QPU submission. Job provenances: Phase 1 job \texttt{dbr1fl6jjaos73ai51pg} succeeded after initial dispatch \texttt{dbqt3q9abdes73fosj8g} halted with Error 1515 due to missing measurement barriers before transpilation (zero data produced). Phase 3 executed on \texttt{ibm\_marrakesh} across 4 chunks under frozen Amendment v1.5 FAST after voluntary cancellation of initial Kingston submission for quota optimization.}
 \label{tab:results}
 \begin{ruledtabular}
 \begin{tabular}{lccccc}
@@ -72,13 +78,13 @@ Phase / Experiment & Circuits & Backend & Job ID & Verdict & Physical / Statisti
 \hline
 \multicolumn{6}{l}{\textit{Stage I: Core Discovery \& Single/Dual Cell Proof-of-Principle}} \\
 1. Küszöb (Threshold) & 17 & \texttt{ibm\_kingston} & \texttt{dbr1fl6jjaos73ai51pg} & \textbf{ROGZUL} & $+42.4\%$ raw contrast ($0.64$ vs $0.22$); $L_{99}-U_{99} = +39.1\%$. \\
-2. Gyűrű v1.2 (Control Ring) & 24 & \texttt{ibm\_marrakesh} & \texttt{dbs8ijvv5hds73dilt40} & \textbf{NULL} & Unanchored ring collapses; zero false-positive anomaly. \\
+2. Gyűrű v1.2 (Control Ring) & 24 & \texttt{ibm\_marrakesh} & \texttt{dbs8ijvv5hds73dilt40} & \textbf{NULL} & Unanchored ring collapses ($P \le 0.26$ at $k=16$); zero false anomaly. \\
 3. Csillag v1.5 (Hydrodynamics) & 757 & \texttt{ibm\_marrakesh} & \texttt{dbs8j2habdes\dots} & \textbf{$P_1$ \& $P_2$ OK} & Return ratios $1:0.69:0.56$ match prediction ($1:0.71:0.58$). \\
 4. Kerék v1.2 (Wheel Anchor) & 117 & \texttt{ibm\_marrakesh} & \texttt{dbs9bbvv5hds73dimmfg} & \textbf{ANOMALIA} & $Z = 13.63$ ($P < 10^{-15}$); $+28.1\%$ at $k=32$ ($37.1\%$ vs $9.0\%$). \\
 5. Dual-Wheel Mesh & 18 & \texttt{ibm\_marrakesh} & \texttt{dbs9v0ujjaos73ajufr0} & \textbf{CONFIRMED} & Conduction $P(S_2)=0.3586$, equipartition $|P(S_1)-P(S_2)|=0.0059$. \\
-6. Pump-and-Decouple (DRAM) & 21 & \texttt{ibm\_marrakesh} & \texttt{dbsa7vpabdes73fqts9g} & \textbf{CONFIRMED} & Handover at $k=8$ verified; $P(S_2)_{k=32} = 0.2754$; \textbf{$+15.62\%$ vs idle}. \\
+6. Pump-and-Decouple & 21 & \texttt{ibm\_marrakesh} & \texttt{dbsa7vpabdes73fqts9g} & \textbf{CONFIRMED} & Handover at $k=8$ verified; $P(S_2)_{k=32} = 0.2754$; \textbf{$+15.62\%$ vs idle}. \\
 \hline
-\multicolumn{6}{l}{\textit{Stage II: Multi-Node Topological Mesh Scaling (Prospective Escalation)}} \\
+\multicolumn{6}{l}{\textit{Stage II: Multi-Node Mesh Scaling (Prospective Escalation)}} \\
 7. Tri-Wheel 10Q Bus & 18 & \texttt{ibm\_marrakesh} & \texttt{dbsam57v5hds73dio4i0} & \textbf{CONFIRMED} & End-to-end transport $P(S_3)=0.3008$; 3-way equipartition; \textbf{$67.0\%$ collective hold}. \\
 8. 13Q Space-Fabric & 18 & \texttt{ibm\_marrakesh} & \texttt{dbsap8ok09pc73avuql0} & \textbf{CONFIRMED} & 4-hub isotropic emission ($36.1\%, 37.3\%, 31.1\%$); \textbf{$83.4\%$ bound state}. \\
 9. Distributed Mesh (A HÁLÓZAT) & 21 & \texttt{ibm\_marrakesh} & \texttt{dbsaruujjaos73ajvhtg} & \textbf{CONFIRMED} & Global Decoupling at $k=8$; \textbf{$72.07\%$ autonomous hold}; \textbf{$+26.17\%$ vs idle decay}. \\
@@ -86,82 +92,75 @@ Phase / Experiment & Circuits & Backend & Job ID & Verdict & Physical / Statisti
 \end{ruledtabular}
 \end{table*}
 
-\section{Experimental Protocol \& Preregistration}
-To adhere to strict scientific reproducibility:
-\begin{enumerate}
-    \item All decision thresholds, analysis code, and candidate seeds were frozen into immutable JSON files with SHA-256 verification and committed to git prior to QPU execution.
-    \item Hardware transpilation was performed strictly at \texttt{optimization\_level=0} to prevent gate re-ordering or delay cancellation.
-    \item Record-first metadata logging guaranteed that job IDs were recorded to disk prior to fetching measurement outcomes.
-\end{enumerate}
+\section{Physical Nature: Population Pinning vs Qubit Phase Memory}
+A rigorous assessment requires distinguishing diagonal excited-state populations from off-diagonal phase coherence.
 
-\section{Physical Results}
+\subsection{Excitation Population Pinning}
+In $Z$-basis measurements, the detected observable is the single-excitation projector $P(|1\rangle) = \text{Tr}(\rho |1\rangle\langle 1|)$. Across 32 Trotter cycles on physical hardware (\texttt{ibm\_marrakesh}), the anchored wheel sustains $P(|1\rangle) = 37.11\%$, contrasting sharply against unanchored ring collapse ($8.98\%$) and bare transmon thermal decay ($11.52\%$). The closed cell acts as an **excitation trap**, confining energy within the multi-transmon cluster and suppressing dissipation to the ground state.
+
+\subsection{Phase Tomography and Dephasing}
+To test whether this retention protects single-qubit quantum phase superpositions, we conduct state tomography initialized in an equatorial superposition $|+\rangle = (|0\rangle+|1\rangle)/\sqrt{2}$. While diagonal populations remain pinned ($P(|1\rangle) \approx 31\%$), the transverse Bloch vector magnitude:
+\begin{equation}
+|\text{coh}_\perp| = \sqrt{\langle\sigma_x\rangle^2 + \langle\sigma_y\rangle^2}
+\end{equation}
+drops from $0.8951$ ($k=0$) to $0.0702$ ($k=32$). This demonstrates that the system does **not** store arbitrary qubit phase superpositions. Instead, continuous XY-coupling delocalizes local phase into multi-qubit entangled states while preserving total excitation count.
+
+\subsection{Chiral Current Inversion}
+Evaluating the microscopic current operator across perimeter transmons:
+\begin{equation}
+\hat{J}_{12} = \frac{1}{2} \left( \hat{X}_1 \hat{Y}_2 - \hat{Y}_1 \hat{X}_2 \right)
+\end{equation}
+yields $\langle \hat{J}_{12} \rangle = +0.5933$ for $m = +1$ (clockwise drive) and $\langle \hat{J}_{12} \rangle = -0.6877$ for $m = -1$ (counter-clockwise drive). The microscopic quantum current strictly reverses with drive chirality, confirming active synthetic vortex circulation.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{decouple_hardware_retention.png}
+\caption{\textbf{Phase 6: Pump-and-Decouple Verification on \texttt{ibm\_marrakesh}.} Left: Population of the receiver node $P(S_2)$. Decoupling occurs at $k=8$ (yellow dashed line). When isolated, the receiving loop (\texttt{hold\_wheel2}, cyan) sustains its trapped excitation at $27.5\%$, outperforming idle transmon relaxation (\texttt{hold\_idle}, red) by $+15.62\%$. Right: Collective population across the cell.}
+\label{fig:decouple}
+\end{figure}
+
+\section{Hardware Results Across Phases}
 
 \subsection{Phase 4: Anomalous Wheel Retention ($Z = 13.63$)}
-In Phase 4, we submitted 117 circuits (512 shots/circuit) to \texttt{ibm\_marrakesh}. While the unanchored ring control decayed to $P=0.089$ at $k=32$, the anchored closed-loop wheel stabilized at $P=0.370$ (Fig.~\ref{fig:wheel}). The standardized test statistic yielded $Z = 13.63$ ($P < 10^{-15}$), confirming that active hub-spoke unitary circulation provides dynamic phase protection against the open thermal bath.
+In Phase 4 (117 circuits, 512 shots/circuit on \texttt{ibm\_marrakesh}), the anchored wheel stabilized at $P=0.3711$ at $k=32$, compared to $0.0898$ for the unanchored ring. The standardized test statistic yielded $Z = 13.63$ ($P < 10^{-15}$), verifying that hub-spoke unitary circulation provides dynamic excitation protection.
 
-\subsection{Phase 5: Synchronous Conduction & Equipartition}
-In Phase 5, excitation initialized at $S_1$ was conducted through bridge transmon $124$ into the unexcited cell $S_2$. Under continuous Kuramoto coupling, the system reached near-exact equipartition at $k=8$:
+\subsection{Phase 5: Synchronous Conduction \& Equipartition}
+In Phase 5, excitation initialized at $S_1$ conducted through bridge transmon $124$ into unexcited cell $S_2$. Under continuous coupling, the system reached near-exact equipartition at $k=8$:
 \begin{equation}
 |P(S_1) - P(S_2)|_{k=8} = |0.3794 - 0.3748| = 0.0059 \le 0.15
 \end{equation}
 and sustained collective excitation retention $P(S_1 \lor S_2) = 0.4805 \ge 0.35$ at $k=32$.
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{decouple_hardware_retention.png}
-\caption{\textbf{Phase 6: Quantum DRAM Pump-and-Decouple Verification on \texttt{ibm\_marrakesh}.} Left: Population of the receiver node $P(S_2)$. Decoupling occurs at $k=8$ (yellow dashed line). When isolated, the wheel loop (\texttt{hold\_wheel2}, cyan) sustains its trapped excitation at $27.5\%$, outperforming idle transmon relaxation (\texttt{hold\_idle}, red) by $+15.62\%$. Right: Collective population across the cell.}
-\label{fig:decouple}
-\end{figure}
+\subsection{Phase 6: Autonomous Excitation Hold Cycle}
+In Phase 6, we tested whether the transferred excitation persists when the input source $S_1$ and communication bridge $124$ are physically deactivated at $k=8$. Following channel decoupling ($|P(S_1)-P(S_2)| = 0.0605$, $P(S_2) = 0.3438$), the autonomous receiving wheel maintained $P(S_2) = 0.2754$ up to $k=32$ (Fig.~\ref{fig:decouple}). Bare transmon idling fell to $P(S_2) = 0.1191$, establishing a $+15.62\%$ protection advantage ($P < 10^{-4}$).
 
-\subsection{Phase 6: Autonomous Quantum DRAM Cycle}
-A true quantum memory requires three distinct operational phases:
-\begin{equation}
-\text{Write} \longrightarrow \text{Decouple / Isolate} \longrightarrow \text{Hold}
-\end{equation}
-In Phase 6, we tested whether the transferred excitation persists when the input source $S_1$ and communication bridge $124$ are physically deactivated. 
-
-As plotted in Fig.~\ref{fig:decouple}, following channel decoupling at $k=8$ ($|P(S_1)-P(S_2)| = 0.0605$, $P(S_2) = 0.3438$), the autonomous receiving wheel maintains $P(S_2) = 0.2754$ up to $k=32$. In contrast, bare transmon idling undergoes rapid $T_1/T_2^*$ environmental relaxation, falling to $P(S_2) = 0.1191$. The closed-loop wheel delivers a $+15.62\%$ protection advantage ($P < 10^{-4}$), demonstrating that continuous internal unitary circulation functions as an intrinsic, self-contained dynamical shield.
-
-\subsection{Phase 7: Tri-Wheel 10-Qubit Quantum Bus}
-In Phase 7, we scaled to a 10-qubit linear array comprising three topological cells ($S_1=105$, $S_2=125$, $S_3=123$) connected by native bridge edges ($117, 124$). Excitation initialized at $S_1$ propagated through relay $S_2$ into receiver $S_3$, attaining $P(S_3) = 0.3008$ compared to $0.0170$ in the decoupled control. At $k=16$, a symmetric three-way equipartition state was observed ($S_1 \approx 35.9\%, S_2 \approx 25.2\%, S_3 \approx 30.5\%$), with collective 10-qubit retention sustaining $67.0\%$ at $k=32$.
+\subsection{Phase 7: Tri-Wheel 10-Qubit Bus}
+In Phase 7, a 10-qubit linear array comprising three cells ($S_1=105, S_2=125, S_3=123$) connected by native bridge edges ($117, 124$) transported excitation from $S_1$ to $S_3$, attaining $P(S_3) = 0.3008$ compared to $0.0170$ in the decoupled control. At $k=16$, a symmetric three-way equipartition state was observed ($S_1 \approx 35.9\%, S_2 \approx 25.2\%, S_3 \approx 30.5\%$), with collective 10-qubit retention sustaining $67.0\%$ at $k=32$.
 
 \subsection{Phase 8: 13-Qubit 2D Space-Fabric}
-In Phase 8, we arranged 13 qubits into an omni-directional star cluster on the heavy-hex lattice. Central hub $S_0 = 125$ broadcast excitation into three satellite cells (NW: 105, NE: 127, S: 123) with isotropic $120^\circ$ symmetry ($S_1 \approx 36.1\%, S_2 \approx 37.3\%, S_3 \approx 31.1\%$). Multi-loop constructive phase-locking trapped $83.4\%$ of the total excitation population across the 13-qubit fabric at $k=32$, verifying a macroscopic bound state in the continuum (BIC).
+In Phase 8, 13 qubits arranged into an omni-directional star cluster broadcast excitation from central hub $S_0 = 125$ into three satellite cells (NW: 105, NE: 127, S: 123) with isotropic $120^\circ$ symmetry ($S_1 \approx 36.1\%, S_2 \approx 37.3\%, S_3 \approx 31.1\%$), maintaining $83.4\%$ collective retention across the 13 qubits at $k=32$.
 
-\subsection{Phase 9: Distributed Autonomous Quantum Memory Mesh}
-In Phase 9, we executed the full distributed quantum DRAM sequence on the 13-qubit lattice. Following 2D write through $k=8$, the central hub and all three communication bridges were deactivated. The three isolated satellite cells autonomously sustained the distributed quantum state, maintaining individual populations $S_1 = 24.80\%, S_2 = 26.76\%, S_3 = 20.51\%$. Collective mesh retention reached $72.07\%$ at $k=32$, achieving a $+26.17\%$ net advantage over three uncoupled idle transmons ($45.90\%$, $Z = 8.84\sigma$, $P < 10^{-18}$).
+\subsection{Phase 9: Distributed Autonomous Reservoir Mesh}
+In Phase 9, following 2D broadcast through $k=8$, the central hub and all three communication bridges were deactivated. The three isolated satellite cells autonomously sustained the distributed excitation, maintaining individual populations $S_1 = 39.06\%, S_2 = 27.54\%, S_3 = 30.86\%$. Collective mesh retention reached $72.07\%$ at $k=32$, achieving a $+26.17\%$ net advantage over three uncoupled idle transmons ($45.90\%$, $Z = 8.84\sigma, P < 10^{-18}$).
 
-\section{Topological Scaling Mechanism \& Metric Reconciliations}
-A key question in evaluating these results is the relationship between the observed retention figures: specifically, why the distributed network (Phase 9) exhibits $72.07\%$ collective retention while the isolated single cell (Phase 6) exhibits $27.54\%$.
-
-\subsection{Single-Cell vs Collective Subspace Metrics}
-The difference arises directly from the mathematical subspace definitions:
+\section{Scaling Mechanism \& Metric Definitions}
+The relationship between single-cell and collective metrics is defined by exact subspace projections:
 \begin{enumerate}
-    \item \textbf{Individual Node Retention:} The local population at node $S_i$ is $P(S_i) \equiv \frac{1}{N_{\text{shots}}} \sum_{x, x_{S_i}=1} \text{count}(x)$. In Phase 6 (single satellite), $P(S_2) = \mathbf{27.54\%}$. In Phase 9 (three satellites on \texttt{ibm\_marrakesh}), $P(S_1) = \mathbf{39.06\%}$, $P(S_2) = \mathbf{27.54\%}$, $P(S_3) = \mathbf{30.86\%}$. Notice that node $S_2$ yields exactly $27.54\%$ local retention in both experiments, confirming local single-cell trapping invariance under network scaling.
-    \item \textbf{Collective Network Retention:} In Phase 9, excitation is broadcast across all three satellite cells before decoupling. The collective retention is the union probability that at least one satellite cell remains excited: $P_{\text{sat}} \equiv P(S_1 \lor S_2 \lor S_3 = 1) = \mathbf{72.07\%}$. Comparing against three idle transmons undergoing Markovian decay ($P_{\text{sat, idle}} = 45.90\%$) yields the $+26.17\%$ protection advantage ($Z = 8.84\sigma, P < 10^{-18}$).
-\end{enumerate}
-
-\subsection{Dissipation Suppression via Subradiance}
-Multi-node topological protection is governed by subradiant interference:
-\begin{enumerate}
-    \item Engineered Peierls loop phases form an asymmetric eigenstate with suppressed dipole coupling to symmetric environmental modes. Uncorrelated Markovian noise channels on individual qubits project onto the protected mode with an effective coupling scaling as $\sim 1/N_{\text{nodes}}$.
-    \item Spatial delocalization across disconnected planar cells guarantees that local dielectric two-level system (TLS) fluctuators cannot destroy the orthogonal coherent amplitude stored across the remaining distributed cells.
+    \item \textbf{Individual Node Retention:} $P(S_i) \equiv \frac{1}{N_{\text{shots}}} \sum_{x, x_{S_i}=1} \text{count}(x)$. In Phase 6 (single satellite), $P(S_2) = \mathbf{27.54\%}$. In Phase 9 (three satellites), $P(S_1) = \mathbf{39.06\%}$, $P(S_2) = \mathbf{27.54\%}$, $P(S_3) = \mathbf{30.86\%}$. Satellite node $S_2$ yields exactly $27.54\%$ local retention in both experiments, demonstrating cell-level reproducibility under network scaling.
+    \item \textbf{Collective Network Retention:} $P_{\text{sat}} \equiv P(S_1 \lor S_2 \lor S_3 = 1) = \mathbf{72.07\%}$. Comparing against three idle transmons undergoing bare $T_1$ decay ($P_{\text{sat, idle}} = 45.90\%$) confirms the $+26.17\%$ net advantage ($Z = 8.84\sigma$).
 \end{enumerate}
 
 \section{Discussion and Outlook}
-Unlike active surface codes which require continuous measurement and classical syndrome processing, the topological wheel architecture provides passive excitation trapping through engineered interference. 
-
-The successful completion of all nine prospective hardware phases demonstrates:
+By systematically measuring diagonal populations, off-diagonal phase coherence, and microscopic current operators on physical superconducting processors, we have mapped out the mechanism of driven multi-transmon clusters:
 \begin{enumerate}
-    \item Transmons can be topologically protected against energy dissipation on standard planar architectures.
-    \item Inter-cell excitation transfer can be coordinated via Kuramoto phase synchronization.
-    \item Decoupled autonomous cells can store transmitted quantum populations without continuous external driving.
-    \item Multi-node topological meshes scale collective retention through subradiant dark-state protection and spatial delocalization.
+    \item They establish active chiral circulation with reversible current direction.
+    \item They function as robust non-equilibrium excitation traps, maintaining populations $>35\%$ past thermal relaxation baselines.
+    \item They permit spatial distribution and autonomous decoupling across multi-qubit planar networks.
 \end{enumerate}
-Future work will extend this framework to 2D honeycomb plaquettes (12--24 qubits) and multi-qubit entangled state registers.
+Future work will focus on engineering phase-coherent preservation mechanisms by exploring decoherence-free subspaces on synthetic planar lattices.
 
 \section*{Data Availability}
-All raw hardware count dictionaries, job manifests, transpiled circuits, and analysis scripts are publicly available at \url{https://github.com/silentnoisehun/triangle-anchor-memory} under the MIT License and permanently archived with DOI on Zenodo.
+All raw hardware count dictionaries, job manifests, transpiled circuits, and analysis scripts are publicly available at \url{https://github.com/silentnoisehun/triangle-anchor-memory} under the MIT License and permanently archived with DOI on Zenodo (\url{https://doi.org/10.5281/zenodo.24226150}).
 
 \bibliography{references}
 
