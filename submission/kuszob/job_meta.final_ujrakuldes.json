@@ -1,0 +1,108 @@
+{
+  "status": "BEKÜLDVE (record-first) — az eredmény letöltése még NEM történt meg",
+  "prepared_utc": "2026-11-12T19:34:03Z",
+  "prepared_by": "agent (Arena) — v1.3 mérés-hiány javítás (a 1515 ERROR szkript-oka; NEM felülvizsgálat, NEM beküldés)",
+  "backend": "ibm_kingston",
+  "channel": "ibm_quantum_platform",
+  "shots": 4096,
+  "circuit_count": 17,
+  "chunks": [
+    {
+      "job_id": null,
+      "from": 0,
+      "to": 17,
+      "note": "egyetlen darab; max_experiments=300 bőven elég; a job_ids az ELSO BEKÜLDÉSKOR töltődik ki"
+    }
+  ],
+  "layout": {
+    "S": 125,
+    "A1": 117,
+    "A2": 124,
+    "A3": 126
+  },
+  "routing": {
+    "initial_layout": [
+      117,
+      124,
+      125,
+      126
+    ],
+    "initial_layout_note": "a QASM-ok MÁR ROUTOLtak: a prune-olt q0..q3 = a használt fizikai qubitek NÖVEKVŐ sorrendje = [117,124,125,126] (a manifest used_physical_ids is ezt adja; CZ-párok: 117-125, 124-125, 125-126). A v1.0 [125,117,124,126]-ja rossz — az beküldéskor újra-topológiázna és áramkörönként +3 CZ-t adna (pl. m+1_k8: 92 → 95).",
+    "optimization_level": 0,
+    "seed_transpiler": 1234,
+    "basis_gates": [
+      "cz",
+      "rz",
+      "sx",
+      "x",
+      "delay",
+      "id"
+    ],
+    "coupling_map_source": "data/snapshot.json"
+  },
+  "selection_policy_ref": "a csillag-menet választási politikája (data/job_meta.json: min(T1,T2)/(1+20*eps_2q)); a layout MAGASZTRAKT — nem újraértékelve, a fagyasztott Kerék-layout exportálja",
+  "order_note": "a 'order' az id-rendezett lista; VALÓDI keverést a beküldéskor alkalmaz a tulajdonos a fenti titkos seeddel (a sorrend a beküldött jobban már nem id-rendezett)",
+  "order": [
+    "kuszob_cut_k2",
+    "kuszob_cut_k4",
+    "kuszob_cut_k8",
+    "kuszob_m+1_k0",
+    "kuszob_m+1_k2",
+    "kuszob_m+1_k4",
+    "kuszob_m+1_k8",
+    "kuszob_m-1_k0",
+    "kuszob_m-1_k2",
+    "kuszob_m-1_k4",
+    "kuszob_m-1_k8",
+    "kuszob_m0_k0",
+    "kuszob_m0_k2",
+    "kuszob_m0_k4",
+    "kuszob_m0_k8",
+    "kuszob_pc_k0",
+    "kuszob_pc_k4"
+  ],
+  "payload_sha256": "6194ef7adbc74901c57682408b9d421b373c148d67c9389c7de467487dacdb4e",
+  "payload_hash_note": "VÁLTOZATLAN a v1.0-ról (a QASM-ok és a manifest nem változtak; a 17 QASM-hash konkatenációjának SHA-256-ja); a backend-normalizált payload-hasht a TULAJDONOS/Control Agent számolja újra a beküldéskor",
+  "snapshot_file": "data/snapshot.json",
+  "snapshot_sha256": "2acfda2e1fcaea483fbc638ed8259ef52041d8fe0d5005ebb985e60830d4e67e",
+  "snapshot_note": "egyezik a csillag data/job_meta.json snapshot_sha256 mezőjével — ellenőrizve 2026-11-11",
+  "auto_halaszt_triggers": [
+    "verify_kuszob.py bármely kapuja bukik (82 kapu, köztük a 34 CZ-kapu) → HALASZTÁS",
+    "CZ-kapu bukik: bármely áramkör CZ-száma/CZ-párjai eltér a manifesttől → HALASZTÁS",
+    "G8 mérés-kapu bukik (v1.3): bármely payload-áramkör nem pontosan 3 mérést tartalmaz (c0/c1/c2) → HALT, run() NEM hívható",
+    "gép-egészség: P(m+1,k=0) < 0.70 vagy a három kar k=0-értéke egymástól > 0.10-nel eltér → HALASZTÁS",
+    "PC vak: P(pc,k=0) nem marad 99%-osan m+1 k=0 alatt → SZÉTESŐ",
+    "cut k=8 ≥ m+1 k=8 (a negatív kontroll nem tart) → SZÉTESŐ",
+    "elemző fail-closed: NaN/hiányzó/eltérő-shots számláló → ERVENYTELEN (nincs fizikai állítás)",
+    "snapshot sha256 eltérés / frozen_wheel_params.json integritás sérül",
+    "backend vagy coupling_map változás / a routing befagyasztott beállításai nem tarthatók"
+  ],
+  "expected_from_aer": {
+    "m+1_k8_raw": 0.61,
+    "note": "Aer-zaj modell; a döntést a VALÓDI számlálók döntik, ha mérés lesz"
+  },
+  "record_first_note": "ha beküldés lesz: a beadott-állapot commitja MEGELŐZI az eredményt; NULL is record-first",
+  "supersedes": "submission/kuszob/job_meta.draft_v1.2.json (v1.2 — byte-ra változatlan, csak történeti; sha256 b78e5beb273a4c0f5715c3132cf70aba13480cb4e815718be83547857a8feee2)",
+  "analysis_freeze": {
+    "path": "submission/kuszob/analyze_kuszob.py",
+    "sha256": "6458a64d616d28436429c06075f0ebdaabc482e1d72d405c3f45ce4871636e3d",
+    "rule_source": "PLAN_KUSZOB_v1.3 §2 (a)-(d) — változatlan a v1.2/v1.1-hez képest, Wilson one-sided 99%, fail-closed ERVENYTELEN",
+    "marking_mandatory": "ROGZUL ítélet mellett: 'gep-alkalmassagi kapu, tankonyvi varakozas' — NEM memória-teszt",
+    "note": "a lefagyasztott elemző NEM változott a v1.1 óta"
+  },
+  "verification_note": "v1.3: a payload mérés-huzalozása a build_kuszob with_measurements()-ével azonos a fagyasztott QASM-okéval (agent-oldali újraépítés: 17/17 byte-azonos); új G8 kapu mind dry-run, mind submit úton (17/17 áramkör pontosan 3 mérés, c0/c1/c2) — bukás ⇒ HALT, run() NEM hívható. Lokális dry-run a G5-ön áll meg (várt; a seed a Control Agentnél van). Negatív próbák: T1 rossz seed-hash ⇒ HALT; T2 injektált [125,117,124,126] ⇒ CZ-kapu HALT; T3 rossz backend ⇒ HALT; T4 mérés nélküli payload ⇒ G8 HALT. CZ-kapu: 17/17 PASS; CZ-szám/párok változatlanok (a mérés nem érinti őket). Lásd PLAN_KUSZOB_v1.3.md + dry_run_report_v1.3.json.",
+  "plan_ref": "preregistration/PLAN_KUSZOB_v1.3.md",
+  "submitted_utc": "2026-11-12T19:47:33Z",
+  "job_ids": [
+    "dbr1fl6jjaos73ai51pg"
+  ],
+  "order_sha256": "3b11d345203d30d423b72c1017dbe9a95e54dc3f21334ca99125d02accdb1b0a",
+  "backend_normalized_payload_sha256": "42bca02bb719f4866ec98572c205068e93f5e77c3876f08d4843c5f29da7f6a0",
+  "daily_calibration": {
+    "backend": "ibm_kingston",
+    "note": "napi kalibráció: LD. a beküldés napján vett snapshot.json; a T1/T2/2Q-hibák a snapshotból olvasandók; a drift miatt a snapshot nem újrafelhasználható más napra"
+  },
+  "qiskit_version": "2.6.2",
+  "qiskit_aer_version": "0.18.2",
+  "qiskit_ibm_runtime_version": "0.52.1"
+}

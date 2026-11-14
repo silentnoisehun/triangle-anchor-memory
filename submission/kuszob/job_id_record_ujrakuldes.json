@@ -1,0 +1,10 @@
+{
+  "job_id": "dbr1fl6jjaos73ai51pg",
+  "recorded_utc": "2026-11-12T19:47:33Z",
+  "backend": "ibm_kingston",
+  "circuit_count": 17,
+  "shots": 4096,
+  "order_sha256": "3b11d345203d30d423b72c1017dbe9a95e54dc3f21334ca99125d02accdb1b0a",
+  "backend_normalized_payload_sha256": "42bca02bb719f4866ec98572c205068e93f5e77c3876f08d4843c5f29da7f6a0",
+  "note": "record-first — az eredmény letöltése ELŐTT mentve; az agent az eredményt nem tölti le; a nyers kevert sorrend nincs a repóban (unblindingkor a seeddel reprodukálható)"
+}
