@@ -5,7 +5,7 @@ authors:
   - family-names: "Máté"
     given-names: "Róbert"
     orcid: "https://orcid.org/0009-0003-3986-6039"
-version: "2.3.0"
+version: "3.1.0"
 date-released: "2026-11-14"
 repository-code: "https://github.com/silentnoisehun/triangle-anchor-memory"
 license: "MIT"
