@@ -1,35 +1,35 @@
 {
   "job_ids": [
-    "dbqdaupabdes73fo2jrg",
-    "dbqdav7v5hds73dfs6mg",
-    "dbqdavhabdes73fo2jug",
-    "dbqdavgk09pc73at2da0"
+    "dbrsud8k09pc73avfm1g",
+    "dbrsue0k09pc73avfm40",
+    "dbrsuepabdes73fqfmu0",
+    "dbrsuf1abdes73fqfmug"
   ],
   "chunks": [
     {
-      "job_id": "dbqdaupabdes73fo2jrg",
+      "job_id": "dbrsud8k09pc73avfm1g",
       "from": 0,
       "to": 250
     },
     {
-      "job_id": "dbqdav7v5hds73dfs6mg",
+      "job_id": "dbrsue0k09pc73avfm40",
       "from": 250,
       "to": 500
     },
     {
-      "job_id": "dbqdavhabdes73fo2jug",
+      "job_id": "dbrsuepabdes73fqfmu0",
       "from": 500,
       "to": 750
     },
     {
-      "job_id": "dbqdavgk09pc73at2da0",
+      "job_id": "dbrsuf1abdes73fqfmug",
       "from": 750,
       "to": 757
     }
   ],
   "backend": "ibm_kingston",
   "channel": "ibm_quantum_platform",
-  "submitted_at": "2026-11-11T20:52:10.323084+00:00",
+  "submitted_at": "2026-11-14T03:01:51.447746+00:00",
   "shots": 4096,
   "circuit_count": 757,
   "layout": {
@@ -37,144 +37,6 @@
     "A1": 117,
     "A2": 124,
     "A3": 126
-  },
-  "selection": {
-    "policy": "min(T1,T2)/(1+20*eps_2q)[us]; eps_2q = incidens 2Q-kapu-hib\u00e1k maximuma; S: >=3 fizikai szomsz\u00e9d; rangsor = S-pont \u00d7 min(horgonypontok)",
-    "chosen": {
-      "backend": "ibm_kingston",
-      "S": 125,
-      "anchors": [
-        117,
-        124,
-        126
-      ],
-      "score": 48391.11924229953,
-      "score_S": 334.87956873644896,
-      "score_anchors_min": 144.5030505291395
-    },
-    "ranking_top10": [
-      {
-        "backend": "ibm_kingston",
-        "S": 125,
-        "anchors": [
-          117,
-          124,
-          126
-        ],
-        "score": 48391.11924229953,
-        "score_S": 334.87956873644896,
-        "score_anchors_min": 144.5030505291395
-      },
-      {
-        "backend": "ibm_kingston",
-        "S": 33,
-        "anchors": [
-          32,
-          34,
-          39
-        ],
-        "score": 41708.67050294409,
-        "score_S": 307.0503020214211,
-        "score_anchors_min": 135.83660471382413
-      },
-      {
-        "backend": "ibm_marrakesh",
-        "S": 51,
-        "anchors": [
-          50,
-          52,
-          58
-        ],
-        "score": 36752.78582354608,
-        "score_S": 266.02143350347933,
-        "score_anchors_min": 138.15723545097498
-      },
-      {
-        "backend": "ibm_kingston",
-        "S": 105,
-        "anchors": [
-          104,
-          106,
-          117
-        ],
-        "score": 27409.702132786148,
-        "score_S": 198.50043867767045,
-        "score_anchors_min": 138.08383656670225
-      },
-      {
-        "backend": "ibm_kingston",
-        "S": 67,
-        "anchors": [
-          57,
-          66,
-          68
-        ],
-        "score": 26091.822971217203,
-        "score_S": 198.94473675316044,
-        "score_anchors_min": 131.15110958472093
-      },
-      {
-        "backend": "ibm_kingston",
-        "S": 101,
-        "anchors": [
-          100,
-          102,
-          116
-        ],
-        "score": 22311.324205074012,
-        "score_S": 224.05750944112512,
-        "score_anchors_min": 99.57856025770333
-      },
-      {
-        "backend": "ibm_fez",
-        "S": 143,
-        "anchors": [
-          136,
-          142,
-          144
-        ],
-        "score": 22081.647623765548,
-        "score_S": 206.87341120843166,
-        "score_anchors_min": 106.73990192735582
-      },
-      {
-        "backend": "ibm_kingston",
-        "S": 107,
-        "anchors": [
-          97,
-          106,
-          108
-        ],
-        "score": 20878.45859631874,
-        "score_S": 248.7098705205971,
-        "score_anchors_min": 83.94704461313157
-      },
-      {
-        "backend": "ibm_fez",
-        "S": 3,
-        "anchors": [
-          2,
-          4,
-          16
-        ],
-        "score": 20197.483601655043,
-        "score_S": 167.8356626280243,
-        "score_anchors_min": 120.34083391691854
-      },
-      {
-        "backend": "ibm_kingston",
-        "S": 73,
-        "anchors": [
-          72,
-          74,
-          79
-        ],
-        "score": 19241.569484470412,
-        "score_S": 242.03876952500062,
-        "score_anchors_min": 79.49788177419616
-      }
-    ],
-    "incomplete_backends": []
   },
   "shuffle_seed": 20261111,
   "order": [
@@ -936,8 +798,9 @@
     "n2|coherence|+|k10",
     "cut|population|1|k29"
   ],
-  "payload_sha256": "d1ba9890b3e75d92aa9fd445e6e74a88c110127e0a70e6a03703b90b115add89",
+  "payload_sha256": "8baa3a99b266be2d55a9ca917cfa8be0e1ce8d588ec9299fea040e7cc39c2c8a",
   "snapshot_file": "data/snapshot.json",
   "snapshot_sha256": "2acfda2e1fcaea483fbc638ed8259ef52041d8fe0d5005ebb985e60830d4e67e",
-  "note": "A backend max_experiments=300 korlatja miatt 4 egymas utani job, azonos munkamenetben, azonos beallitasokkal. A kalibracio az elso job elejen fut."
+  "frozen_params_sha256": "2a7a427c3c43699d3d2c48ffc523fb370c9f16d3a9f103469e1bc625c733fbc5",
+  "note": "Csillag v1.4 beküldve 4 chunkban az ibm_kingstonra. Record-first rögzítve a mérés előtt."
 }

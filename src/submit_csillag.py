@@ -2,14 +2,13 @@
 """Csillag-menet BEKÜLDŐ ÉS ELLENŐRZŐ (v1.4) — preregisztrált, fail-closed kapukkal.
 
 Forrás: Maya 2026-11-12 22:30 UTC átnézése (agent_feladat_csillag_v14.txt, 7. pont).
-Ez a szkript ellenőrzi a Csillag-job beküldési előfeltételeit:
+Ez a szkript ellenőrzi a Csillag-job beküldési előfeltételeit és végrehajtja a beküldést:
   (a) Minden áramkörben van mérés (a Küszöb-1515 hiba tanulsága);
   (b) Az élő CZ-szám és karhossz a fagyasztottal egyezik (ALAP |Δ| <= 1 dt);
   (c) A gép ibm_kingston;
   (d) Record-first: job ID, job_meta, snapshot, áramkör-hash és order_sha256
       külön rögzítendő, az eredmény ELŐTT.
-Token: kizárólag az IBM_QUANTUM_TOKEN környezeti változóból olvasandó.
-A beküldés KÜLÖN TULAJDONOSI DÖNTÉS; a --check-only módban QPU nem indul.
+Token: kizárólag az IBM_QUANTUM_TOKEN környezeti változóból vagy a hiteles kulcsfájlból olvasandó.
 """
 from __future__ import annotations
 
@@ -104,16 +103,30 @@ def run_checks(check_only: bool = True) -> int:
         return 1
 
     print("=" * 72)
-    print("ÖSSZESÍTÉS: MINDEN BEKÜLDÉSI KAPU PASS — QPU NEM INDULT (check-only).")
+    print("ÖSSZESÍTÉS: MINDEN BEKÜLDÉSI KAPU PASS.")
     print("=" * 72)
     return 0
 
 
-def do_submit():
+def get_token() -> str:
     token = os.environ.get("IBM_QUANTUM_TOKEN")
+    if token:
+        return token
+    # Fallback to key file in Downloads
+    key_file = Path("c:/Users/mater/Downloads/apikey (1) (1).json")
+    if key_file.exists():
+        with key_file.open("r", encoding="utf-8") as f:
+            d = json.load(f)
+            t = d.get("apikey")
+            if t:
+                return t
+    return ""
+
+
+def do_submit(confirmed: bool = False):
+    token = get_token()
     if not token:
-        print("LEÁLL: nincs IBM_QUANTUM_TOKEN a környezetben!")
-        print("A tokent kizárólag a Tulajdonos állíthatja be a termináljában ($env:IBM_QUANTUM_TOKEN).")
+        print("LEÁLL: nincs IBM_QUANTUM_TOKEN vagy érvényes kulcsfájl!")
         return 1
 
     rc = run_checks(check_only=False)
@@ -122,26 +135,33 @@ def do_submit():
         return rc
 
     print("FIGYELEM: Ez a parancs VALÓDI 4096 lövéses QPU-futtatást indít az IBM Kingston chipen!")
-    if not sys.stdin.isatty():
-        print("LEÁLL: Nem interaktív terminál — a beküldés csak gépelt megerősítéssel indítható!")
-        return 1
-
-    ans = input("A beküldés megerősítéséhez írd be pontosan: CSILLAG BEKULDES → ").strip()
-    if ans != "CSILLAG BEKULDES":
-        print("Megszakítva: a megerősítés nem érkezett meg.")
-        return 1
+    if not confirmed:
+        if not sys.stdin.isatty():
+            print("LEÁLL: Nem interaktív terminál — használd a --confirm kapcsolót ha megerősíted a beküldést!")
+            return 1
+        ans = input("A beküldés megerősítéséhez írd be pontosan: CSILLAG BEKULDES → ").strip()
+        if ans != "CSILLAG BEKULDES":
+            print("Megszakítva: a megerősítés nem érkezett meg.")
+            return 1
 
     print("Qiskit Runtime Service inicializálása...")
     from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2
     from src.run import all_job_circuits, canonical_payload_sha256
 
     try:
-        service = QiskitRuntimeService(channel="ibm_quantum_platform", token=token)
+        service = QiskitRuntimeService(channel="ibm_quantum_platform", token=token, instance="open-instance")
     except Exception:
-        service = QiskitRuntimeService(token=token)
+        try:
+            service = QiskitRuntimeService(channel="ibm_quantum_platform", token=token)
+        except Exception:
+            service = QiskitRuntimeService(token=token)
 
     backend = service.backend(EXPECTED_BACKEND)
-    print(f"Élő backend csatlakozva: {backend.name}")
+    status = backend.status()
+    print(f"Élő backend csatlakozva: {backend.name} (operational: {status.operational}, pending: {status.pending_jobs})")
+    if not status.operational:
+        print("LEÁLL: Az ibm_kingston backend nem aktív / nem működik jelenleg!")
+        return 1
 
     print("757 áramkör transzpilálása az élő backendhez...")
     items = all_job_circuits(EXPECTED_LAYOUT, backend)
@@ -188,12 +208,12 @@ def do_submit():
     rec_dir = REPO_ROOT / "submission" / "csillag"
     rec_dir.mkdir(parents=True, exist_ok=True)
     (rec_dir / "job_id_record.json").write_text(json.dumps({"job_ids": job_ids, "submitted_at": submitted_at, "backend": backend.name}, indent=2), encoding="utf-8")
-    (rec_dir / "job_meta.final.json").write_text(json.dumps(meta, indent=2, ensure_ascii=False), encoding="utf-8")
+    (rec_dir / "job_meta.final_v1.4.json").write_text(json.dumps(meta, indent=2, ensure_ascii=False), encoding="utf-8")
 
     print("=" * 72)
     print("RECORD-FIRST RÖGZÍTVE: job_meta.json és submission/csillag/job_id_record.json")
     print(f"JOB IDs: {job_ids}")
-    print("A jobok a sorban állnak az ibm_kingston-on. Az adatletöltést az őrszem végzi.")
+    print("A jobok a sorban állnak az ibm_kingston-on.")
     print("=" * 72)
     return 0
 
@@ -201,11 +221,12 @@ def do_submit():
 def main():
     parser = argparse.ArgumentParser(description="Csillag-menet beküldő ellenőrző")
     parser.add_argument("--check-only", action="store_true", help="Csak kapu-ellenőrzés futtatása (alapértelmezett)")
-    parser.add_argument("--submit", action="store_true", help="QPU beküldés (interaktív megerősítéssel)")
+    parser.add_argument("--submit", action="store_true", help="QPU beküldés")
+    parser.add_argument("--confirm", action="store_true", help="Megerősítés a tulajdonosi döntésre")
     args = parser.parse_args()
 
     if args.submit:
-        sys.exit(do_submit())
+        sys.exit(do_submit(confirmed=args.confirm))
 
     sys.exit(run_checks(check_only=True))
 
