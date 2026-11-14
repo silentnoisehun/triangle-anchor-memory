@@ -1,0 +1,24 @@
+{
+  "title": "Triangle-Anchor Quantum Memory & Synchronous Mesh: Topological Phase-Locking, Coherent Excitation Trapping, and Autonomous Memory Persistence on IBM Heron Heavy-Hex Qubits",
+  "description": "Preregistered experimental data, circuits, and findings verifying topological phase-locking, coherent excitation trapping (Z = 13.63), inter-cell quantum conduction, and autonomous pump-and-decouple quantum DRAM retention (+15.62% advantage over idle transmon decay) on utility-scale superconducting quantum processors (IBM Heron r2 ibm_marrakesh and ibm_kingston).",
+  "creators": [
+    {
+      "name": "Máté, Róbert",
+      "orcid": "0009-0003-3986-6039"
+    }
+  ],
+  "access_right": "open",
+  "license": "MIT",
+  "keywords": [
+    "quantum memory",
+    "superconducting qubits",
+    "ibm heron",
+    "ibm marrakesh",
+    "topological phase locking",
+    "excitation trapping",
+    "quantum dram",
+    "kuramoto synchronization",
+    "preregistered experiment"
+  ],
+  "upload_type": "software"
+}

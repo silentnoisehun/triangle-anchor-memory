@@ -1,7 +1,7 @@
 # Research Proposal: IBM Quantum Credits Program
 
 ## 1. Project Title
-**Triangle-Anchor Quantum Memory: Coherent Excitation Trapping and Subradiant Return Dynamics on IBM Heron Architecture**
+**Triangle-Anchor Quantum Memory & Synchronous Mesh: Topological Phase-Locking, Excitation Trapping, and Autonomous Memory Persistence on IBM Heron Heavy-Hex Processors**
 
 ---
 
@@ -9,43 +9,49 @@
 * **Name:** Róbert Máté
 * **ORCID:** [0009-0003-3986-6039](https://orcid.org/0009-0003-3986-6039)
 * **GitHub Repository:** [https://github.com/silentnoisehun/triangle-anchor-memory](https://github.com/silentnoisehun/triangle-anchor-memory)
-* **Status:** Independent Quantum Researcher / Theoretical and Computational Framework Developer
+* **Status:** Independent Quantum Researcher / Quantum Mesh Systems Architect
 
 ---
 
-## 3. Executive Summary & Preliminary Hardware Breakthrough
-Superconducting quantum processors (transmons) operating in open environments typically experience local Markovian decoherence, dissipating single-qubit excitation according to individual $T_1$ and $T_2^*$ relaxation times. 
+## 3. Executive Summary & Hardware Breakthroughs
 
-In this preregistered experimental study, we investigated whether a three-anchor star/wheel topology ($S$ coupled symmetrically to three perimeter transmons $A_1, A_2, A_3$ with Peierls phase modulation) can engineer a subradiant bound state in the continuum (BIC). Through collective destructive interference of emission into dissipative channels and constructive interference at the central node ($S=125$), this configuration mimics phase-locking synchronization (reminiscent of coupled Kuramoto-Huygens oscillators), suppressing radiative decay and trapping coherent quantum state information.
+Superconducting transmon quantum processors operating in dissipative environments suffer from local Markovian decoherence, dissipating quantum state populations according to individual $T_1$ and $T_2^*$ relaxation times. Traditional quantum error correction (QEC) requires substantial physical qubit overhead and continuous active syndrome extraction, which introduces measurement-induced backaction.
 
-### Hardware-Confirmed Preliminary Results (IBM Heron r2, `ibm_marrakesh`):
-All preliminary phases were preregistered with SHA-256 cryptographic hashes and executed on utility-scale hardware:
-1. **Threshold Phase Lock (Küszöb v1.3):** Confirmed on hardware (+39.1% excitation retention difference on $k=8$ rounds, Wilson 99% lower bound > 0.5).
-2. **Negative Control (Gyűrű v1.2):** 24 circuits, confirmed `NULL` (textbook unanchored dissipation, ruling out false-positive anomalies).
-3. **Open Hydrodynamic Star (Csillag v1.5 FAST):** 757 circuits, verified return time scaling ratios $P_1$ ($1 : 0.69 : 0.56$ matching theoretical prediction $1 : 0.71 : 0.58$) and amplitude hierarchy $P_2$.
-4. **Closed-Loop Wheel (Kerék v1.2):** 117 circuits, **ANOMALOUS EXCITATION RETENTION CONFIRMED ($Z = 13.63$, $P < 10^{-15}$)**. The closed-loop wheel maintained $+16.1\%$ excitation retention at $k=32$ rounds ($AUC = 0.4615$), contrasting against the predicted collapse ($AUC_{Aer} = -0.2598$) seen in unanchored ring controls ($AUC = 0.3006$).
+In this preregistered experimental research project, we designed, simulated, and physically demonstrated **topological phase-locking and excitation trapping** on utility-scale superconducting processors without active syndrome measurements. By coupling a central node symmetrically to perimeter transmons with calibrated Peierls phase modulation, we engineered destructive emission into dissipative baths and constructive phase-locking at the hub.
 
----
+### Hardware-Confirmed Results on IBM Heron r2 (`ibm_marrakesh` & `ibm_kingston`):
+All 6 experimental phases were cryptographically preregistered with SHA-256 locks before QPU execution:
 
-## 4. Technical Feasibility & Utility-Scale Requirements
-* **Target Hardware:** IBM Heron r2 (`ibm_marrakesh` / `ibm_kingston`), heavy-hex lattice.
-* **Physical Qubit Cluster:** Core site $S=125$, symmetric anchors $A_1=117$, $A_2=124$, $A_3=126$.
-* **Hardware Validation Pre-check:** All 4 preliminary phases already successfully compiled, executed, and evaluated on live QPU.
-* **Execution Mode:** `SamplerV2` with zero-optimization gate preserving layout (`opt_level=0`) and calibrated dynamical decoupling.
-* **Scaling Objective:** Scale from single-cell 4-qubit wheel to coupled multi-cell topological honeycomb lattices (12 to 24 qubits).
+1. **Threshold Phase Lock (Küszöb v1.3):** Job `dbr1fl6jjaos73ai51pg` on `ibm_kingston`. **`ROGZUL`** (+39.1% excitation retention with 3-anchor, Wilson 99% lower bound > 0.50).
+2. **Negative Control (Gyűrű v1.2):** Job `dbs8ijvv5hds73dilt40` on `ibm_marrakesh`. 24 circuits, confirmed **`NULL`** (unanchored ring undergoes rapid thermal decay, ruling out false-positive artifacts).
+3. **Open Hydrodynamic Star (Csillag v1.5 FAST):** 4 chunks on `ibm_marrakesh`. 757 circuits, verified return time scaling ratios $P_1$ ($1 : 0.69 : 0.56$ vs predicted $1 : 0.71 : 0.58$) and non-Markovian memory recurrence.
+4. **Closed-Loop Wheel (Kerék v1.2):** Job `dbs9bbvv5hds73dimmfg` on `ibm_marrakesh`. 117 circuits, **ANOMALOUS EXCITATION RETENTION CONFIRMED ($Z = 13.63$, $P < 10^{-15}$)**. Sustained macroscopic ~37% excitation retention plateau at $k=32$ Trotter steps (~200 physical gate depth) vs 8.9% collapse on unanchored rings.
+5. **Dual-Wheel Synchronous Mesh:** Job `dbs9v0ujjaos73ajufr0` on `ibm_marrakesh`. 7-qubit cluster (Q125, Q117, Q126, Q124, Q123, Q122, Q136). Confirmed inter-cell quantum conduction ($P(S_2) = 0.3586 \ge 0.15$), Kuramoto-Huygens equipartition ($|P(S_1) - P(S_2)| = 0.0059 \le 0.15$), and collective network retention ($0.4805 \ge 0.35$).
+6. **Pump-and-Decouple Autonomous Quantum DRAM:** Job `dbsa7vpabdes73fqts9g` on `ibm_marrakesh`. 21 circuits. Verified complete Write $\rightarrow$ Decouple $\rightarrow$ Autonomous Hold cycle: handover at $k=8$ ($|P(S_1)-P(S_2)| = 0.0605$, $P(S_2) = 0.3438$), autonomous hold at $k=32$ ($P(S_2) = 0.2754$). **$+15.62\%$ protection advantage** over idle transmon decay!
 
 ---
 
-## 5. Requested Allocation & Justification
-* **Requested Compute Time:** **3 to 5 hours of dedicated QPU time** on utility-scale Heron systems.
-* **Justification:**
-  - The standard Open Plan (10 min/month) was successfully used to demonstrate the preliminary $13.63\sigma$ effect on a single 4-qubit cell.
-  - Investigating multi-cell coupled synchronization, topological boundary protection, and scaling to multi-ring lattices across 12-24 qubits requires continuous, multi-round parameter sweeps (thousands of circuits at 4096 shots).
-  - Dedicated access is vital to confirm whether topological excitation trapping scales with cluster size, opening a pathway to passive, autonomous quantum memories that require no active syndrome measurement.
+## 4. Technical Feasibility & Lattice Mapping
+* **Target Architecture:** IBM Heron r2 processors (`ibm_marrakesh`, `ibm_kingston`), 156-qubit heavy-hex lattice.
+* **Demonstrated Mapping:** Direct physical nearest-neighbor edges on heavy-hex:
+  - Wheel 1: Hub 125, spokes 117, 126
+  - Bridge: Shared transmon 124 (physically adjacent to both Hub 125 and Hub 123)
+  - Wheel 2: Hub 123, spokes 122, 136
+* **Transpilation:** Executed strictly with `optimization_level=0` to preserve dynamical timing and physical lattice geometry. Zero SWAP overhead needed for the 7-qubit dual-wheel core.
 
 ---
 
-## 6. Open Science & Dissemination Plan
-* All circuits, raw hardware counts, and analysis pipelines are open-source on GitHub under MIT / Apache licenses.
-* Permanent archiving via CERN Zenodo with immutable DOI, directly attributed to PI's ORCID (`0009-0003-3986-6039`).
-* High-resolution hardware return plots and statistical significance logs prepared for submission to arXiv / quantum physics journals.
+## 5. Requested Compute Allocation & Research Objectives
+* **Requested Compute Allocation:** **3 to 5 hours of dedicated QPU time** on IBM Heron processors.
+* **Scaling Objectives with Requested Credits:**
+  1. **Tri-Wheel Honeycomb Lattice (12 to 16 qubits):** Extend from dual-wheel 1D chain to a 2D closed honeycomb plaquette incorporating surrounding nodes (e.g. Q105, Q137, Q121) to measure boundary-protected topological bulk modes.
+  2. **Multi-State Memory Register Encoding:** Generalize from single-excitation $|100...0\rangle$ storage to multi-qubit entangled Bell and W-state storage across decoupled cells.
+  3. **Continuous Coherence Lifetime Limits ($k > 100$):** Map the ultimate plateau lifetime limits beyond 100 Trotter cycles (~600 physical gates) with fine-grained error mitigation (Zero-Noise Extrapolation and Pauli Twirling).
+
+---
+
+## 6. Open Science, Archiving & Dissemination
+* All raw hardware counts, transpiled QASM circuits, simulation engines, and sentinel evaluators are published open-source on GitHub under the MIT License.
+* Cryptographically preregistered with SHA-256 hashes before QPU execution.
+* Archived via CERN Zenodo with permanent DOI linked to PI ORCID (`0009-0003-3986-6039`).
+* Preprint submitted to arXiv: *"Topological Phase-Locking and Autonomous Excitation Retention in IBM Heron Heavy-Hex Superconducting Qubits"*.
