@@ -1,0 +1,57 @@
+{
+  "status": "BEKÜLDVE — FUTÁSRA VÁR",
+  "job_id": "dbsa7vpabdes73fqts9g",
+  "backend": "ibm_marrakesh",
+  "submitted_at": "2026-11-14T18:09:44.970489+00:00",
+  "shots": 512,
+  "circuit_count": 21,
+  "layout": [
+    125,
+    117,
+    126,
+    124,
+    123,
+    122,
+    136
+  ],
+  "order": [
+    "hold_wheel2|k8",
+    "hold_wheel2|k12",
+    "hold_wheel2|k16",
+    "hold_wheel2|k20",
+    "hold_wheel2|k24",
+    "hold_wheel2|k28",
+    "hold_wheel2|k32",
+    "hold_idle|k8",
+    "hold_idle|k12",
+    "hold_idle|k16",
+    "hold_idle|k20",
+    "hold_idle|k24",
+    "hold_idle|k28",
+    "hold_idle|k32",
+    "continuous|k8",
+    "continuous|k12",
+    "continuous|k16",
+    "continuous|k20",
+    "continuous|k24",
+    "continuous|k28",
+    "continuous|k32"
+  ],
+  "arms": [
+    "hold_wheel2",
+    "hold_idle",
+    "continuous"
+  ],
+  "checkpoints": [
+    8,
+    12,
+    16,
+    20,
+    24,
+    28,
+    32
+  ],
+  "k_pump": 8,
+  "frozen_file": "preregistration/frozen_dual_wheel_decouple_params.json",
+  "note": "Pump-and-Decouple kísérlet beküldve az ibm_marrakesh-ra (21 áramkör, 512 shot)."
+}

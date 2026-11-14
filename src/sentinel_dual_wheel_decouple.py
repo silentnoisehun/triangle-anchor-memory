@@ -162,14 +162,14 @@ def main() -> int:
 
     while True:
         job = service.job(jid)
-        status = job.status()
-        print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] Job {jid} státusz: {status.name}")
+        st = str(job.status()).upper()
+        print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] Job {jid} státusz: {st}")
 
-        if status.name == "DONE":
+        if "DONE" in st or "COMPLETED" in st:
             fetch_and_evaluate(service, meta)
             break
-        elif status.name in ["ERROR", "CANCELLED"]:
-            print(f"Job sikertelen: {status.name}")
+        elif "ERROR" in st or "CANCELLED" in st:
+            print(f"Job sikertelen: {st}")
             return 1
 
         if not args.watch:

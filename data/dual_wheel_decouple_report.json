@@ -1,0 +1,24 @@
+{
+  "job_id": "dbsa7vpabdes73fqts9g",
+  "backend": "ibm_marrakesh",
+  "shots": 512,
+  "handover_k8": {
+    "P_S1": 0.283203125,
+    "P_S2": 0.34375,
+    "diff": 0.060546875,
+    "passed": true
+  },
+  "hold_wheel2_k32": {
+    "P_S2": 0.275390625,
+    "threshold": 0.25,
+    "passed": true
+  },
+  "protection_advantage_k32": {
+    "hold_wheel2": 0.275390625,
+    "hold_idle": 0.119140625,
+    "delta": 0.15625,
+    "threshold": 0.05,
+    "passed": true
+  },
+  "verdict": "CONFIRMED"
+}
