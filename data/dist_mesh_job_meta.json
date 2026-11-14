@@ -1,0 +1,63 @@
+{
+  "status": "BEKÜLDVE — FUTÁSRA VÁR",
+  "job_id": "dbsaruujjaos73ajvhtg",
+  "backend": "ibm_marrakesh",
+  "submitted_at": "2026-11-14T18:52:21.201125+00:00",
+  "shots": 512,
+  "circuit_count": 21,
+  "layout": [
+    125,
+    117,
+    126,
+    124,
+    105,
+    104,
+    106,
+    127,
+    128,
+    137,
+    123,
+    122,
+    136
+  ],
+  "order": [
+    "hold_mesh|k8",
+    "hold_mesh|k12",
+    "hold_mesh|k16",
+    "hold_mesh|k20",
+    "hold_mesh|k24",
+    "hold_mesh|k28",
+    "hold_mesh|k32",
+    "hold_idle|k8",
+    "hold_idle|k12",
+    "hold_idle|k16",
+    "hold_idle|k20",
+    "hold_idle|k24",
+    "hold_idle|k28",
+    "hold_idle|k32",
+    "continuous|k8",
+    "continuous|k12",
+    "continuous|k16",
+    "continuous|k20",
+    "continuous|k24",
+    "continuous|k28",
+    "continuous|k32"
+  ],
+  "arms": [
+    "hold_mesh",
+    "hold_idle",
+    "continuous"
+  ],
+  "checkpoints": [
+    8,
+    12,
+    16,
+    20,
+    24,
+    28,
+    32
+  ],
+  "k_pump": 8,
+  "frozen_file": "preregistration/frozen_dist_mesh_params.json",
+  "note": "Elosztott Memória Hálózat beküldve az ibm_marrakesh-ra (21 áramkör, 512 shot)."
+}

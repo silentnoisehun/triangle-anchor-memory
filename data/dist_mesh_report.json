@@ -1,0 +1,23 @@
+{
+  "job_id": "dbsaruujjaos73ajvhtg",
+  "backend": "ibm_marrakesh",
+  "shots": 512,
+  "pump_k8": {
+    "P_sat": 0.65625,
+    "threshold": 0.5,
+    "passed": true
+  },
+  "hold_mesh_k32": {
+    "P_sat": 0.720703125,
+    "threshold": 0.4,
+    "passed": true
+  },
+  "protection_advantage_k32": {
+    "hold_mesh": 0.720703125,
+    "hold_idle": 0.458984375,
+    "delta": 0.26171875,
+    "threshold": 0.1,
+    "passed": true
+  },
+  "verdict": "CONFIRMED"
+}

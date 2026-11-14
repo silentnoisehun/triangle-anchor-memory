@@ -48,6 +48,8 @@ All six experimental phases were preregistered with SHA-256 locks before QPU exe
 | **Phase 5: Dual-Wheel Mesh** | 18 | `ibm_marrakesh` | `dbs9v0ujjaos73ajufr0` | **`CONFIRMED`** | Coherent conduction $P(S_2)=0.3586 \ge 0.15$; Equipartition $|P(S_1)-P(S_2)| = 0.0059 \le 0.15$; Collective retention $0.4805 \ge 0.35$. |
 | **Phase 6: Pump-and-Decouple** | 21 | `ibm_marrakesh` | `dbsa7vpabdes73fqts9g` | **`CONFIRMED`** | Handover at $k=8$: $|P(S_1)-P(S_2)|=0.0605$, $P(S_2)=0.3438$. Autonomous hold at $k=32$: $P(S_2)=0.2754$. **$+15.6\%$ protection advantage** over idle transmon decay! |
 | **Phase 7: Tri-Wheel Quantum Bus** | 18 | `ibm_marrakesh` | `dbsam57v5hds73dio4i0` | **`CONFIRMED`** | 10-Qubit Bus: End-to-end transport $P(S_3)=0.3008$ vs nosync $0.0170$; 3-way equipartition @ $k=16$ ($S_1 \approx 35.9\%, S_2 \approx 25.2\%, S_3 \approx 30.5\%$); **$67.0\%$ collective retention** at $k=32$! |
+| **Phase 8: 13-Qubit 2D Tér-Szövet** | 18 | `ibm_marrakesh` | `dbsap8ok09pc73avuql0` | **`CONFIRMED`** | 4-Hub Omni-Directional 2D Emission ($S_1 \approx 36.1\%, S_2 \approx 37.3\%, S_3 \approx 31.1\%$); **$83.4\%$ macroscopic bound state** across the entire 13-qubit fabric at $k=32$! |
+| **Phase 9: Elosztott Memória Hálózat** | 21 | `ibm_marrakesh` | `dbsaruujjaos73ajvhtg` | **`CONFIRMED`** | **A HÁLÓZAT:** Write (2D Broadcast) $\rightarrow$ Global Decouple $\rightarrow$ 3-Cell Autonomous Hold. A leválasztott hálózat $P(\text{sat}) = \mathbf{72.1\%}$-ot tart $k=32$-nél; **$+26.2\%$ védelem előny** a tétlen relaxációval szemben! |
 
 ---
 
@@ -67,6 +69,11 @@ All six experimental phases were preregistered with SHA-256 locks before QPU exe
 ![Tri-Wheel Quantum Bus](docs/img/tri_wheel_hardware_conduction.png)
 
 *Figure 3:* 10-qubit topological quantum bus on `ibm_marrakesh`. Left panel: End-to-end transport from Transmitter $S_1$ (Q105, yellow) through Relay $S_2$ (Q125, cyan) into Receiver $S_3$ (Q123, green), reaching 3-way equipartition ($S_1 \approx 35.9\%, S_2 \approx 25.2\%, S_3 \approx 30.5\%$). Right panel: Collective 10-qubit mesh excitation retention ($67.0\%$ at $k=32$).
+
+### 4. Phase 9: A HÁLÓZAT — Distributed Autonomous Quantum Memory Network
+![Distributed Mesh Hardware Retention](docs/img/dist_mesh_hardware_retention.png)
+
+*Figure 4:* Physical demonstration of the 2D Distributed Autonomous Quantum Memory Network (13 qubits) on `ibm_marrakesh`. Left panel: Following global decoupling at $k=8$, three independent satellite cells ($S_1, S_2, S_3$), completely isolated from the master hub and from each other, maintain balanced local memory retention ($S_1 \approx 39.1\%, S_2 \approx 27.5\%, S_3 \approx 30.9\%$). Right panel: Collective network retention reaches **$72.1\%$** at $k=32$, delivering a **$+26.2\%$ protection advantage** over idle transmon relaxation.
 
 ---
 
@@ -175,6 +182,8 @@ A kísérletsorozat mind a hat fázisa előzetesen, SHA-256 hash-zárral preregi
 | **5. Fázis: Kettős Kerék Szinkron Mesh** | 18 | `ibm_marrakesh` | `dbs9v0ujjaos73ajufr0` | **`CONFIRMED`** | Koherens vezetés $P(S_2)=0.3586 \ge 0.15$; Ekvipartíció $|P(S_1)-P(S_2)| = 0.0059 \le 0.15$; Kollektív retenció $0.4805 \ge 0.35$. |
 | **6. Fázis: Pump-and-Decouple** | 21 | `ibm_marrakesh` | `dbsa7vpabdes73fqts9g` | **`CONFIRMED`** | Kézfogás $k=8$-nál: $|P(S_1)-P(S_2)|=0.0605$, $P(S_2)=0.3438$. Autonóm tárolás $k=32$-nél: $P(S_2)=0.2754$. **$+15.6\%$ védelem-előny** a tétlen transzmon dekoherenciával szemben! |
 | **7. Fázis: 10-Qubites Háromcellás Busz** | 18 | `ibm_marrakesh` | `dbsam57v5hds73dio4i0` | **`CONFIRMED`** | 10-Qubit Busz: Végpont-vezetés $P(S_3)=0.3008$ vs nosync $0.0170$; 3-oldalú ekvipartíció @ $k=16$ ($S_1 \approx 35.9\%, S_2 \approx 25.2\%, S_3 \approx 30.5\%$); **$67.0\%$ kollektív megtartás** $k=32$-nél! |
+| **8. Fázis: 13-Qubites 2D Tér-Szövet** | 18 | `ibm_marrakesh` | `dbsap8ok09pc73avuql0` | **`CONFIRMED`** | 4-Magos 2D Szökőkút ($S_1 \approx 36.1\%, S_2 \approx 37.3\%, S_3 \approx 31.1\%$); **$83.4\%$ makroszkopikus kötött állapot** a teljes 13-qubites szöveten $k=32$-nél! |
+| **9. Fázis: Elosztott Memória Hálózat** | 21 | `ibm_marrakesh` | `dbsaruujjaos73ajvhtg` | **`CONFIRMED`** | **A HÁLÓZAT:** Írás (2D Sugárzás) $\rightarrow$ Globális Lekapcsolás $\rightarrow$ 3-Cellás Autonóm Tárolás. A leválasztott hálózat $P(\text{sat}) = \mathbf{72.1\%}$-ot tart $k=32$-nél; **$+26.2\%$ tiszta előny** a tétlen relaxációval szemben! |
 
 ---
 
