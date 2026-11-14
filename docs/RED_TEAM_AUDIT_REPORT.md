@@ -12,7 +12,7 @@
 
 This adversarial audit report investigates every methodological, physical, statistical, and cryptographic vector of vulnerability across the nine experimental phases conducted on IBM Quantum Heron r2 hardware (`ibm_marrakesh` and `ibm_kingston`). 
 
-Specifically, we subjected the dataset, documentation, commit history, and physical interpretations to an aggressive Red-Team stress test based on 8 critical attack vectors:
+Specifically, we subjected the dataset, documentation, commit history, and physical interpretations to an aggressive Red-Team stress test based on 10 critical attack vectors:
 1. **The "6 vs 9 Phases" Discrepancy Attack**
 2. **The Küszöb Job ID Mismatch Attack (`dbqt3...` vs `dbr1...`)**
 3. **The Csillag "Cancelled vs Executed" Attack**
@@ -21,6 +21,8 @@ Specifically, we subjected the dataset, documentation, commit history, and physi
 6. **The SPAM Readout & Thermalization Bias Attack**
 7. **The Dynamical Decoupling / Pulse Overhead Artifact Attack**
 8. **The "Quantum DRAM vs Excitation Trap" Semantic and Physical Attack**
+9. **The Excitation Non-Conservation & Multi-Excitation Noise Pumping Attack**
+10. **The Depolarizing Gate Noise Match & The $Z=13.63$ Differential Artifact Attack**
 
 All defects and conceptual inflations have been fully resolved in the repository code, documentation, and manuscript. Below is the detailed adversarial proof and verification record.
 
@@ -176,7 +178,49 @@ Using `scripts/diagnose_mechanism.py`, we executed full quantum state tomography
 
 ---
 
-## 10. Automated Audit Script Verification
+## 10. Attack Vector 9: Excitation Non-Conservation & Multi-Excitation Noise Pumping
+
+### The Adversarial Challenge:
+> *"In Phase 8, the sum of individual satellite core marginals is $S_1 + S_2 + S_3 = 36.1\% + 37.3\% + 31.1\% = 104.5\%$. Under single-excitation injection, this sum mathematically cannot exceed 100%. Furthermore, in Phase 9 the union is $72.1\%$ while the sum of marginals is $97.5\%$. This proves that multiple qubits are simultaneously in the $|1\rangle$ state in a large fraction of shots. Where did these extra excitations come from if only one was injected?"*
+
+### Empirical Finding and Direct Bitstring Census (`scripts/audit_excitation_and_aer.py`):
+Evaluating the raw hardware bitstrings reveals clear evidence of gate-induced noise pumping:
+1. **Phase 8 (Tri-Wheel, $k=32$, 3 cores):**
+   - In uncoupled `nosync`: Multi-excitation shots ($N_\text{exc} \ge 2$) account for only **$2.0\%$** (10/512 shots).
+   - In actively driven `sync`: Multi-excitation shots jump to **$25.4\%$** (130/512 shots).
+   - The $104.5\%$ marginal sum is directly caused by the fact that in over one quarter of all shots, multiple qubits are in $|1\rangle$.
+2. **Phase 9 (Distributed Mesh, $k=32$, 4 qubits):**
+   - In `hold_idle`: Multi-excitation shots are **$15.0\%$** (77/512).
+   - In `hold_mesh`: Multi-excitation shots reach **$32.8\%$** (168/512).
+   - In `continuous` drive: Multi-excitation shots reach **$55.7\%$** (285/512).
+3. **Physical Conclusion:**
+   - Active gate operations continuously pump incoherent energy from $|0\rangle \to |1\rangle$ via depolarizing noise.
+   - The apparent "collective retention" does not represent a single trapped excitation, but rather measures the accumulation of gate-pumped incoherent excitations.
+- **Status:** **DEFECT DOCUMENTED & ACCOUNTED FOR AS GATE-INDUCED NOISE PUMPING.**
+
+---
+
+## 11. Attack Vector 10: Depolarizing Noise Match & The $Z=13.63$ Artifact
+
+### The Adversarial Challenge:
+> *"The 37% retention plateau at $k=32$ is claimed as an anomaly ($Z=13.63, P < 10^{-15}$). But after 200 physical gates, depolarizing noise drives qubits toward the maximally mixed state $P(|1\rangle) \to 0.5$, whereas idle transmons decay toward 0 via $T_1$. Isn't this 37% plateau simply textbook depolarizing gate noise, and where did the $Z=13.63$ come from?"*
+
+### Numerical and Physical Resolution:
+1. **Aer Noisy Simulation Direct Comparison:**
+   - In Phase 4 (Kerék, $k=32$), the preregistered Qiskit Aer noisy simulation (`FakeMarrakesh` gate and readout noise, `wheel_freeze_data.json`) predicted a hub population of **$37.99\%$**.
+   - The hardware measured value on `ibm_marrakesh` was **$37.11\%$** (190/512 shots).
+   - The difference is $\Delta = -0.88\%$, well within $1\sigma$ shot noise.
+2. **Static (Zero-Flux) Control:**
+   - The non-rotating control circuit (`static`, zero Peierls flux) yielded **$45.51\%$** on hardware, outperforming the rotating `wheel` ($37.11\%$). This refutes any claim of synthetic flux or chiral advantage.
+3. **Origin of the $Z=13.63$ Metric:**
+   - The preregistered baseline simulation omitted realistic idle $T_1$ relaxation for the unanchored and idle control circuits, leaving them at ~55% in Aer.
+   - On physical hardware, idle transmons decayed naturally to ~9–11% via thermal relaxation.
+   - The statistical contrast compared a hardware difference ($+28.1\%$) against a mismatched simulation difference ($-17.0\%$), yielding an artificial $Z = (0.1609 - (-0.2598)) / 0.0308 = 13.63$.
+- **Status:** **DEFECT CLOSED: Documented as textbook depolarizing gate noise and baseline simulation artifact.**
+
+---
+
+## 12. Automated Audit Script Verification
 
 All 68 cryptographic hash files across `preregistration/`, `data/`, and `submission/` were audited with `scripts/audit_full_integrity.py`:
 - **Cryptographic Hash Consistency:** **68/68 PASS (100% byte-level match)**
@@ -187,7 +231,7 @@ All 68 cryptographic hash files across `preregistration/`, `data/`, and `submiss
 
 ---
 
-## 11. Final Summary of Deliverables
+## 13. Final Summary of Deliverables
 
 The repository and documentation have been stripped of marketing hype and established on bulletproof physical observables:
 1. `README.md` (Bilingual English/Hungarian, 9 phases, job provenances, grounded physical definitions)
