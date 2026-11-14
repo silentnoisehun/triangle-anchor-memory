@@ -1,0 +1,73 @@
+{
+  "status": "ELŐKÉSZÍTVE — NEM BEKÜLDVE",
+  "warning": "BEKÜLDÉS TILOS ezen státussal. A beküldésről külön tulajdonosi döntés szól. Az agent nem küld be, tokent nem kap.",
+  "version": "1.2",
+  "prepared_utc": "2026-11-14T02:45:00Z",
+  "prepared_by": "agent (Arena) — Gyűrű v1.2 beküldési előkészítés",
+  "backend": "ibm_kingston",
+  "channel": "ibm_quantum_platform",
+  "shots": 4096,
+  "circuit_count": 24,
+  "chunks": [
+    {
+      "job_id": null,
+      "from": 0,
+      "to": 24,
+      "note": "Gyűrű áramkörök k<=16 tartományban (24 áramkör)"
+    }
+  ],
+  "layout": {
+    "R1": 125,
+    "R2": 117,
+    "R3": 124,
+    "aux": 126
+  },
+  "routing": {
+    "initial_layout": [
+      125,
+      117,
+      124,
+      126
+    ],
+    "optimization_level": 0,
+    "basis_gates": [
+      "cz",
+      "rz",
+      "sx",
+      "x",
+      "delay",
+      "id"
+    ]
+  },
+  "order": [
+    "ring_p|k0",
+    "ring_p|k1",
+    "ring_p|k2",
+    "ring_p|k4",
+    "ring_p|k8",
+    "ring_p|k16",
+    "ring_m|k0",
+    "ring_m|k1",
+    "ring_m|k2",
+    "ring_m|k4",
+    "ring_m|k8",
+    "ring_m|k16",
+    "static|k0",
+    "static|k1",
+    "static|k2",
+    "static|k4",
+    "static|k8",
+    "static|k16",
+    "broken|k0",
+    "broken|k1",
+    "broken|k2",
+    "broken|k4",
+    "broken|k8",
+    "broken|k16"
+  ],
+  "snapshot_file": "data/snapshot.json",
+  "snapshot_sha256": "2acfda2e1fcaea483fbc638ed8259ef52041d8fe0d5005ebb985e60830d4e67e",
+  "frozen_params_file": "preregistration/frozen_ring_params_v1.2.json",
+  "frozen_params_sha256": "d4d8b6b83d6d32eaca457e9e24196b4cec55ddc1462009959ec239cbd551d108",
+  "note": "Gyűrű v1.2 beküldési csomag előkészítése (k<=16, max 176 CZ). Beküldés előtt preregisztrálva a repóban."
+}
