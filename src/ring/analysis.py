@@ -42,8 +42,18 @@ import sys
 import numpy as np
 
 ROOT = os.path.join(os.path.dirname(__file__), "..", "..")
-FROZEN = os.path.join(ROOT, "preregistration", "frozen_ring_params_v1.1.json")
-FROZEN_SHA = os.path.join(ROOT, "preregistration", "frozen_ring_params_v1.1.sha256")
+FROZEN_V12 = os.path.join(ROOT, "preregistration", "frozen_ring_params_v1.2.json")
+FROZEN_SHA_V12 = os.path.join(ROOT, "preregistration", "frozen_ring_params_v1.2.sha256")
+if os.path.exists(FROZEN_V12) and os.path.exists(FROZEN_SHA_V12):
+    FROZEN = FROZEN_V12
+    FROZEN_SHA = FROZEN_SHA_V12
+    FROZEN_NAME = "frozen_ring_params_v1.2.json"
+    EXPECTED_VERSION = "1.2"
+else:
+    FROZEN = os.path.join(ROOT, "preregistration", "frozen_ring_params_v1.1.json")
+    FROZEN_SHA = os.path.join(ROOT, "preregistration", "frozen_ring_params_v1.1.sha256")
+    FROZEN_NAME = "frozen_ring_params_v1.1.json"
+    EXPECTED_VERSION = "1.1"
 Z_995 = 2.5758293035489004  # Φ^{-1}(0.995)
 
 
@@ -57,22 +67,22 @@ def sha256_file(path):
 
 def check_frozen():
     if not (os.path.exists(FROZEN) and os.path.exists(FROZEN_SHA)):
-        raise SystemExit("HIBA: frozen_ring_params_v1.1.json / .sha256 hiányzik — az elemző nem futhat.")
+        raise SystemExit(f"HIBA: {FROZEN_NAME} / .sha256 hiányzik — az elemző nem futhat.")
     actual = sha256_file(FROZEN)
     recorded = None
-    for line in open(FROZEN_SHA):
+    for line in open(FROZEN_SHA, encoding="utf-8"):
         parts = line.split()
-        if len(parts) >= 2 and parts[-1] == "frozen_ring_params_v1.1.json":
+        if len(parts) >= 2 and parts[-1] == FROZEN_NAME:
             recorded = parts[0]
             break
     if recorded is None:
-        raise SystemExit("HIBA: a .sha256 fájlban nincs frozen_ring_params_v1.1.json bejegyzés.")
+        raise SystemExit(f"HIBA: a .sha256 fájlban nincs {FROZEN_NAME} bejegyzés.")
     if actual != recorded:
         raise SystemExit(f"HIBA: a fagyasztott fájl hash-e eltér!\n rögzített: {recorded}\n tényleges: {actual}")
-    with open(FROZEN) as f:
+    with open(FROZEN, encoding="utf-8") as f:
         fz = json.load(f)
-    if fz.get("version") != "1.1":
-        raise SystemExit("HIBA: version != '1.1' — a v1.0 (95% CI) érvénytelen a v1.1 óta.")
+    if fz.get("version") != EXPECTED_VERSION:
+        raise SystemExit(f"HIBA: version != '{EXPECTED_VERSION}' — a korábbi verzió érvénytelen.")
     if fz.get("bootstrap", {}).get("ci_level") != 0.99:
         raise SystemExit("HIBA: ci_level != 0.99 — a fagyasztott fájl nem egyezik.")
     if fz.get("correction") != "holm":

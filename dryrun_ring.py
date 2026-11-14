@@ -49,7 +49,7 @@ def main():
 
     # 1) frozen integritás
     fz = analysis.check_frozen()
-    check("frozen integritás v1.1 (sha256 + version=1.1 + ci_level=0.99 + holm + claim-család)", True,
+    check(f"frozen integritás v{fz.get('version')} (sha256 + ci_level=0.99 + holm + claim-család)", True,
           f"version={fz['version']}, ci={fz['bootstrap']['ci_level']}, {fz['correction']}, {fz['claim_family']}")
 
     # 2) zajtalan ellenőrzések
