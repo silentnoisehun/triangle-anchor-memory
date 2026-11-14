@@ -1,7 +1,7 @@
 """Elemző — D(k), BLP, csúcskeresés, bootstrap CI, ítélet (terv 4. fejezet).
 
-A DÖNTÉSI SZABÁLY FORRÁSA: ``preregistration/frozen_params_v1.3.json``
-(hash: ``preregistration/frozen_params_v1.3.sha256``). A v1.3 AMENDED —
+A DÖNTÉSI SZABÁLY FORRÁSA: ``preregistration/frozen_params_v1.4.json``
+(hash: ``preregistration/frozen_params_v1.4.sha256``). A v1.3 AMENDED —
 a v1.0/v1.1 (95% CI) és a v1.2 ELÉRVÉNYTELEN; minden döntési küszöb 99% CI + Holm.
 A kód NEM tartalmaz az ítéletet befolyásoló küszöböt "beégetve": minden
 küszöb (P1 1:0.71:0.58 ±20%, P2/P3/anomália 99% CI + Holm a claim-családon
@@ -44,15 +44,16 @@ import numpy as np
 from . import config
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-FROZEN_PARAMS_PATH = REPO_ROOT / "preregistration" / "frozen_params_v1.3.json"
-FROZEN_SHA256_PATH = REPO_ROOT / "preregistration" / "frozen_params_v1.3.sha256"
+FROZEN_PARAMS_PATH = REPO_ROOT / "preregistration" / "frozen_params_v1.4.json"
+FROZEN_SHA256_PATH = REPO_ROOT / "preregistration" / "frozen_params_v1.4.sha256"
 RAW_COUNTS_PATH = REPO_ROOT / "data" / "raw_counts.json"
 
 VERDICT_TEXTBOOK = "TEXTBOOK-MEGEROSITVE"
 VERDICT_NULL = "NULL"
 VERDICT_ANOMALIA = "ANOMALIA"
+VERDICT_NO_RETURN = "NINCS-VISSZATERES"
 VERDICT_ANALYSIS_ERROR = "ELEMZO-HIBA / ERVENYTELEN"
-VERDICTS = (VERDICT_TEXTBOOK, VERDICT_NULL, VERDICT_ANOMALIA, VERDICT_ANALYSIS_ERROR)
+VERDICTS = (VERDICT_TEXTBOOK, VERDICT_NULL, VERDICT_ANOMALIA, VERDICT_NO_RETURN, VERDICT_ANALYSIS_ERROR)
 
 
 # ---------------------------------------------------------------------------
@@ -99,9 +100,9 @@ def verify_frozen_params(frozen_path: Path = FROZEN_PARAMS_PATH, sha_path: Path 
 
 
 def verify_frozen_fields(frozen: dict) -> None:
-    """v1.3 módosítás-kötelező mezői — eltérés = RuntimeError (fail-closed)."""
-    if frozen.get("version") != "1.3":
-        raise RuntimeError("frozen_params_v1.3.json: version != '1.3' — a v1.0/v1.1/v1.2 (95%/99%) érvénytelen.")
+    """v1.4 módosítás-kötelező mezői — eltérés = RuntimeError (fail-closed)."""
+    if frozen.get("version") != "1.4":
+        raise RuntimeError("frozen_params_v1.4.json: version != '1.4' — a v1.0/v1.1/v1.2/v1.3 érvénytelen.")
     if frozen.get("correction") != "holm":
         raise RuntimeError("correction != 'holm' — a fagyasztott fájl nem egyezik.")
     if list(frozen.get("claim_family", [])) != ["P2", "P3", "anomaly"]:
@@ -114,7 +115,7 @@ def verify_frozen_fields(frozen: dict) -> None:
     # itt visszaellenőrizzük a munkaprogram fájljait (fail-closed).
     file_hashes = frozen.get("file_hashes")
     if not isinstance(file_hashes, dict) or not file_hashes:
-        raise RuntimeError("frozen_params_v1.3.json: hiányzó file_hashes (elemző és dryrun sha256).")
+        raise RuntimeError("frozen_params_v1.4.json: hiányzó file_hashes (elemző és dryrun sha256).")
     for rel_path, expected in sorted(file_hashes.items()):
         target = REPO_ROOT / rel_path
         if not target.exists():
@@ -426,13 +427,18 @@ def _analyze_dataset_impl(dataset: dict, frozen: dict) -> dict:
     t_n3 = point_pop["n3"]["t_vissza"]
     p3_height_rel = float(tol["p3_height_rel"])
     p3_shift_min = int(tol["p3_shift_min_steps"])
+    raw_shift_pairs = list(zip(boot["cut"]["t"], boot["n3"]["t"]))
+    raw_height_pairs = list(zip(boot["cut"]["A"], boot["n3"]["A"]))
+    p3_discarded_shift = sum(1 for c, n in raw_shift_pairs if c is None or n is None)
+    p3_discarded_height = sum(1 for c, n in raw_height_pairs if not (np.isfinite(c) and np.isfinite(n)))
     shift_samples = np.array(
-        [c - n for c, n in zip(boot["cut"]["t"], boot["n3"]["t"]) if (c is not None and n is not None)],
+        [c - n for c, n in raw_shift_pairs if (c is not None and n is not None)],
         dtype=float,
     )
+    # Maya 3. pont: ha a cut csucsa hianyzik a bootstrap-mintaban, alacsonyabb mintakent (c := 0.0) szamit:
     height_samples = np.array(
-        [c - (1.0 - p3_height_rel) * n for c, n in zip(boot["cut"]["A"], boot["n3"]["A"])
-         if (np.isfinite(c) and np.isfinite(n))],
+        [(c if np.isfinite(c) else 0.0) - (1.0 - p3_height_rel) * n for c, n in raw_height_pairs
+         if np.isfinite(n)],
         dtype=float,
     )
     shift_ci = (float(np.percentile(shift_samples, 100 * q)), float(np.percentile(shift_samples, 100 * (1 - q)))) if shift_samples.size else (float("nan"), float("nan"))
@@ -503,10 +509,10 @@ def _analyze_dataset_impl(dataset: dict, frozen: dict) -> dict:
 
     # --- Ítélet (csak a populációs ág!) — fail-closed: a csúcs nélküli csúcs-váró kar ELEMZO-HIBA ---
     if analysis_error:
-        verdict = VERDICT_ANALYSIS_ERROR
+        verdict = VERDICT_NO_RETURN
         verdict_reason = (
-            "ELEMZO-HIBA / ERVENYTELEN (fail-closed): a pontbecslésben nincs csúcs a csúcsot váró"
-            f" kar(ok)on: {', '.join(missing_peaks)} — az ítélet nem NULL, nem TEXTBOOK és nem ANOMALIA."
+            "NINCS-VISSZATERES (adatkimenet): a pontbecslésben nincs csúcs a csúcsot váró "
+            f"kar(ok)on: {', '.join(missing_peaks)} — az ítélet nem NULL, nem TEXTBOOK és nem ANOMALIA."
         )
     elif anom_sig:
         verdict = VERDICT_ANOMALIA
@@ -560,7 +566,7 @@ def format_report(results: dict, frozen_hash: str, dataset_label: str) -> str:
     lines.append("=" * 72)
     lines.append("triangle-anchor-memory — elemzés (D(k), bootstrap, preregisztrált ítélet)")
     lines.append(f"adatforrás: {dataset_label}")
-    lines.append(f"frozen_params_v1.3.json SHA-256: {frozen_hash}")
+    lines.append(f"frozen_params_v1.4.json SHA-256: {frozen_hash}")
     lines.append("=" * 72)
 
     pop = results["population"]

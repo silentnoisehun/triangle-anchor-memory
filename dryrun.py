@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""dryrun.py — QPU NÉLKÜL mindent végigfuttat (0. fázis, Csillag v1.3).
+"""dryrun.py — QPU NÉLKÜL mindent végigfuttat (0. fázis, Csillag v1.4).
 
 A feladat 5. lépése (agent_feladat_csillag_v13.txt). Lépések:
-  0. frozen_params_v1.3.json integritás-ellenőrzés (hash a preregistration/ mappában;
+  0. frozen_params_v1.4.json integritás-ellenőrzés (hash a preregistration/ mappában;
      v1.3 AMENDED: 99% CI + Holm; a file_hashes visszaellenőrzi az elemző és a
      dryrun tényleges sha256-ját a fagyasztott fájl ellen — fail-closed);
   1. ZAJTALAN szimuláció (Aer, lövés-zaj, seedelt, karhosszal kiegyenlített
@@ -87,7 +87,7 @@ def _verdict_counts(verdicts: list[str]) -> Counter:
 def main() -> int:
     t_start = time.time()
     print("=" * 72)
-    print("triangle-anchor-memory — DRY RUN (QPU nélkül, 0. fázis, Csillag v1.3)")
+    print("triangle-anchor-memory — DRY RUN (QPU nélkül, 0. fázis, Csillag v1.4)")
     print("=" * 72)
 
     # --- 0. lépés: a befagyasztott paraméterfájl integritása ---
@@ -97,7 +97,7 @@ def main() -> int:
         print(f"\nHIBA a befagyasztott paraméterfájl ellenőrzésekor:\n{exc}")
         print("ÁLLJ MEG ÉS JELENTSD — a döntési szabály forrása érvénytelen.")
         return 2
-    print(f"\n[0/5] Integritás OK — frozen_params_v1.3.json SHA-256: {frozen_hash}")
+    print(f"\n[0/5] Integritás OK — frozen_params_v1.4.json SHA-256: {frozen_hash}")
     print(f"      φ = π/16 ({frozen['phi']:.6f} rad), K = {frozen['K']}, "
           f"bootstrap = {frozen['bootstrap']['resamples']}× (seed {frozen['bootstrap']['seed']})")
     print(f"      version = {frozen['version']}, correction = {frozen['correction']}, "
