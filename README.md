@@ -52,11 +52,9 @@ A `data/` mappa szándékosan NINCS `.gitignore`-ban.
   snapshot.json behelyettesítése után ez megváltozhat; hardver-eredményként **soha**
   nem közölhető.
 - **frozen_params.json SHA-256 (v1.0, superseded, változatlan):** `e1d7a78888c531ba8ae7e5f84ed090649f5156774eabd763c8772d5d02d09429`
-- **Jelenleg irányadó (v1.2 AMENDED, 99% CI + Holm, 2026-11-12):** `frozen_params_v1.2.json` — SHA-256 a
-  `frozen_params_v1.2.sha256`-ben (ellenőrzés: `src/analysis.py` minden futtatáskor; a v1.0 fájlok byte-ra változatlanok)
-- A v1.2 a 0. fázis szimulációit nem érinti — csak a döntési magasságot emeli (a csapat döntési szabálya
-  minden kísérletre: ANOMALIA csak 99% CI + Holm után). A v1.2 dryrun-ja: **PASS** (zajtalan →
-  TEXTBOOK-MEGEROSITVE; φ=0 kontroll → NULL; null-próba 0/300 hamis ANOMALIA és 0/300 hamis TEXTBOOK)
+- **Jelenleg irányadó (v1.4 AMENDED, Maya-amendment, 2026-11-14):** `frozen_params_v1.4.json` — SHA-256 a
+  `frozen_params_v1.4.sha256`-ben (ellenőrzés: `src/analysis.py` és `src/submit_csillag.py` minden futtatáskor; a korábbi v1.0, v1.2, v1.3 fájlok byte-ra változatlanok).
+- A v1.4 bevezeti a NINCS-VISSZATERES adatkimeneti kategóriát, kezeli a P3 bootstrap mintákban a hiányzó cut csúcsokat, és szigorú ellenőrző kaput ad (`src/submit_csillag.py --check-only` PASS: karhossz |Δ| = 0 dt, mérés-kapu 1515 kivédve).
 - [x] Control Agent audit (2026-11-11) — a run.py/kalibráció/snapshot kellékek kódbeli javításai elkészültek (lásd „1. fázis előkészítése"); QPU-hívást továbbra sem indítunk
 - [x] `preregistration/ERRATA.md` — a PLAN_v1.0.md 195. sorának dokumentált eltérése (a fájlt nem módosítottuk)
 
@@ -124,7 +122,7 @@ az nem a Control Agent vagy az agent önálló döntése.
 A fagyasztott `preregistration/frozen_params.json` (v1.0, történeti) ettől érintetlen
 (hash: `e1d7a788…`); a `PLAN_v1.0.md` eltérését a
 [`preregistration/ERRATA.md`](preregistration/ERRATA.md) dokumentálja — a fájlt nem írtuk át.
-(A jelenleg irányadó fagyasztott fájl: `frozen_params_v1.2.json`, lásd fent.)
+(A jelenleg irányadó fagyasztott fájl: `frozen_params_v1.4.json`, lásd fent.)
 
 ## Gyors indítás (0. fázis, QPU nélkül)
 
@@ -144,7 +142,7 @@ src/config.py      φ, K, karok, referencia-döntési értékek, MINTA zajparam�
 src/circuits.py    kar-építők + kalibrációs áramkörök (T1, Hahn-T2, kiolvasás, φ_eff) + φ_eff párkörök
 src/sim.py         zajtalan + zajos (T1/T2/ε) szimuláció; várt görbék; pozitív kontroll
 src/analysis.py    D(k), BLP, csúcskeresés, bootstrap CI, ítélet — a döntési szabályt
-                   a preregistration/frozen_params_v1.2.json-ből olvassa (hash-ellenőrzéssel; fail-closed, v1.2 kötelező)
+                   a preregistration/frozen_params_v1.4.json-ből olvassa (hash-ellenőrzéssel; fail-closed, v1.4 kötelező)
 src/run.py         beküldő — tokent CSAK környezeti változóból olvas (Control Agent audit után futtatható)
 src/freeze.py      a 0. fázis fagyasztó-eszköze (egyszer fut le)
 dryrun.py          QPU nélkül minden végigfuttat
@@ -166,7 +164,7 @@ A `data/raw_counts.json` várt sémáját a [`data/README.md`](data/README.md) r
 2. A döntési szabály a preregisztrált fájlból olvasódik; utólag nem módosítható.
 3. `data/` sosem kerül `.gitignore`-ba.
 4. Szimulációs eredmény soha nem kap „HARDWARE" címkét.
-5. A 0. fázis eredményéig (φ, K, ablakok, görbék) a `frozen_params_v1.2.json` lezárja a paramétereket (v1.2 AMENDED: 99% CI + Holm; a v1.0 superseded).
+5. A 0. fázis eredményéig (φ, K, ablakok, görbék) a `frozen_params_v1.4.json` lezárja a paramétereket (v1.4 AMENDED: 99% CI + Holm, Maya-amendment; a v1.0-v1.3 superseded).
 
 ## A Kerék-menet (forgó gyűrű által tartott középpont)
 
@@ -258,11 +256,10 @@ terve elkészült:
   kötelező jelölése: „gep-alkalmassagi kapu, tankonyvi varakozas” —
   nem memória-teszt.
 
-## Gyűrű-menet (valós háromszög) — v1.1 AMENDED — terv + 0. fázis — QPU még NEM futott
+## Gyűrű-menet (valós háromszög) — v1.2 AMENDED — terv + 0. fázis — QPU még NEM futott
 
 **Beküldési tilalom:** a gyűrűcsomag (mint a Kerék és a küszöb-csomag)
-**nem mehet QPU-ra, amíg a 2026-11-12-i 99% CI + Holm amendment át nincs nézve
-(Maya) és a tulajdonos külön nem dönt** — az átnézésig TILOS. A csomag
+**nem mehet QPU-ra, amíg a v1.2 amendment át nincs nézve (Maya) és a tulajdonos külön nem dönt** — az átnézésig TILOS. A csomag
 „ELŐKÉSZÍTVE — NEM BEKÜLDVE".
 
 A csillag-menet (**2026-11-12-én tulajdonosi döntéssel visszavonva — semmilyen mérési
@@ -271,18 +268,15 @@ mellé a VALÓDI háromszögre vonatkozó önálló, új menet: a három gyűrű
 Peierls-fluxussal kering; az irányt a fázis hordozza, nem a populáció —
 a kérdés az, hogy a keringési irány maga mennyire tárolja a biteket.
 
-- **Terv (jelenlegi):** [`preregistration/PLAN_RING_v1.1.md`](preregistration/PLAN_RING_v1.1.md)
-  (**AMENDED**, a v1.0-t felülírja) — kiinduló kép, |k±⟩ sajátállapotok,
-  Loschmidt-echo kiolvasás indoklással, C(k) = P(000;+)−P(000;−) kontraszt,
-  kontrollok a/b/c/NC, pumpa §4, a döntési szabály bootstrap 2000 /
-  **ci = 0.99** / **Holm** a claim-családon [R1, R2, pump, NC]; az ANOMALIA
-  determinisztikus binomiális-sávos (z = Φ⁻¹(0.995) = 2.5758).
-  A v1.0 (`PLAN_RING_v1.0.md`) **byte-ra változatlanul megmarad** — superseded.
-- **Fagyasztott paraméterek (jelenlegi):** [`preregistration/frozen_ring_params_v1.1.json`](preregistration/frozen_ring_params_v1.1.json)
-  (SHA-256: `frozen_ring_params_v1.1.sha256`; ellenőrzés: `src/ring/analysis.py:check_frozen`).
-  `version = 1.1`, bootstrap ci = 0.99; `K = 32`, rács k ∈ {0,4,…,32}, kipróbálva és
-  fagyasztva mind a 7 pump-pár (0/0.1/0.2/0.3 × φ ∈ {0, π/2}); Ω = 0.1387 rad/kör
-  a kör-spektrumából. A v1.0 (`frozen_ring_params.json`) **superseded, változatlan**.
+- **Terv (jelenlegi):** [`preregistration/PLAN_RING_v1.2.md`](preregistration/PLAN_RING_v1.2.md)
+  (**AMENDED**, a v1.0-t és v1.1-et felülírja) — beküldés-napi kalibrációs jóslat (±20% T1/T2 sáv),
+  k ≤ 16 korlátozás (max 176 CZ @ k=16 a 341 CZ elkerülésére), R1-döntés és illesztett kontroll elvárás,
+  `run_ring.py` ellenőrző szkript (--check-only PASS).
+  A v1.0 (`PLAN_RING_v1.0.md`) és v1.1 (`PLAN_RING_v1.1.md`) **byte-ra változatlanul megmarad** — superseded.
+- **Fagyasztott paraméterek (jelenlegi):** [`preregistration/frozen_ring_params_v1.2.json`](preregistration/frozen_ring_params_v1.2.json)
+  (SHA-256: `frozen_ring_params_v1.2.sha256`; ellenőrzés: `src/ring/analysis.py:check_frozen` és `run_ring.py`).
+  `version = 1.2`, bootstrap ci = 0.99; k ≤ 16 korlát; kalibrációs jóslat szabály rögzítve.
+  A v1.0 és v1.1 **superseded, változatlan**.
 - **Kód:** `src/ring/` (áramkör-építők — Peierls-élek, prep/echo megosztva a
   kerék-modullal; szimuláció — exact + snapshot-zajú Aer (native
   illesztett-gyűrűbeli és heavy-hex-routolt recept); elemző — a fagyasztott
