@@ -1,0 +1,95 @@
+{
+  "label": "hardware_qpu_marrakesh",
+  "aucs": {
+    "wheel": 0.46151671006944445,
+    "wheel_rev": 0.4873830295138889,
+    "static": 0.45718088107638893,
+    "ring_only": 0.30058875868055557,
+    "alone": 0.3144851345486111,
+    "alone_DD": 0.6189364149305556,
+    "pump_blind": 0.46937000868055556,
+    "pump_dir": 0.4651909722222222,
+    "pump_wrong": 0.4913717447916667,
+    "cut": 0.4712163628472222,
+    "dark_m1": 0.4705283203125,
+    "dark_m0": 0.47393359375,
+    "dark_mm1": 0.4545592447916667
+  },
+  "claims": {
+    "W1": {
+      "p_static": 1.0,
+      "p_ring_only": 0.0,
+      "holm": {
+        "p_raw": 1.0,
+        "holm_threshold": 0.010000000000000009,
+        "significant": false
+      },
+      "note": "a W1 nullhipotézise továbbra is a nulla (1.25-ös előny-küszöb); az Aer-jóslat szerinti tankönyvi várakozás: AUC(wheel)≈AUC(static) és AUC(wheel)≪AUC(ring_only) — a tankönyv W1-et NULL-nak várja (szimuláció: 0.471 vs 0.730)"
+    },
+    "W2": {
+      "p_raw": 0.119,
+      "holm": {
+        "p_raw": 0.119,
+        "holm_threshold": 0.0025000000000000022,
+        "significant": false
+      },
+      "aer_null": -0.011366102430555525,
+      "measured_diff": -0.025866319444444442,
+      "ci99_lo": -0.05121527777777779,
+      "ci99_hi": -0.002170138888888895,
+      "tankonyvi_varakozas": "teljesul"
+    },
+    "W4_secondary": {
+      "p_raw": 0.543,
+      "holm": {
+        "p_raw": 0.543,
+        "holm_threshold": 0.0050000000000000044,
+        "significant": false
+      },
+      "aer_null": 0.009738498263888895,
+      "measured_diff": 0.0036742621527777767,
+      "ci99_lo": -0.022787543402777815,
+      "ci99_hi": 0.027996961805555467,
+      "tankonyvi_varakozas": "teljesul"
+    },
+    "sotetallapot": {
+      "p_m1_vs_m0": 0.072,
+      "p_mm1_vs_m0": 0.333,
+      "holm": {
+        "p_raw": 0.333,
+        "holm_threshold": 0.003333333333333336,
+        "significant": false
+      },
+      "d1": {
+        "aer_null": -0.021023220486111105,
+        "measured_diff": -0.0034052734374999997,
+        "ci99_lo": -0.02886393229166671,
+        "ci99_hi": 0.022137586805555522,
+        "tankonyvi_varakozas": "teljesul"
+      },
+      "d2": {
+        "aer_null": -0.00965711805555558,
+        "measured_diff": -0.019374348958333336,
+        "ci99_lo": -0.044708116319444435,
+        "ci99_hi": 0.0054264322916666285,
+        "tankonyvi_varakozas": "teljesul"
+      },
+      "tankonyvi_varakozas": "teljesul"
+    }
+  },
+  "contrasts": {
+    "wheel_minus_static": {
+      "observed": 0.004335828993055555,
+      "aer_predicted": -0.00499131944444442,
+      "band_99": 0.03386257490386819,
+      "z": 0.275441205046534
+    },
+    "wheel_minus_ring_only": {
+      "observed": 0.1609279513888889,
+      "aer_predicted": -0.259765625,
+      "band_99": 0.03085866245395346,
+      "z": 13.632916754465219
+    }
+  },
+  "verdict": "ANOMALIA"
+}
