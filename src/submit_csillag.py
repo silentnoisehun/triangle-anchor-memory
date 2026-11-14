@@ -26,7 +26,7 @@ sys.path.insert(0, str(REPO_ROOT))
 from src import config
 from src.analysis import load_frozen_params
 
-EXPECTED_BACKEND = "ibm_kingston"
+EXPECTED_BACKEND = os.environ.get("IBM_QUANTUM_BACKEND", "ibm_marrakesh")
 EXPECTED_LAYOUT = {"S": 125, "A1": 117, "A2": 124, "A3": 126}
 
 
@@ -38,9 +38,9 @@ def sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
-def check_kingston_backend(backend_name: str) -> bool:
-    """A gép kötelezően ibm_kingston."""
-    return backend_name.lower() in ("ibm_kingston", "fake_kingston")
+def check_target_backend(backend_name: str) -> bool:
+    """A gép kötelezően Heron r2 (ibm_marrakesh vagy ibm_kingston)."""
+    return backend_name.lower() in ("ibm_marrakesh", "fake_marrakesh", "ibm_kingston", "fake_kingston")
 
 
 def run_checks(check_only: bool = True) -> int:
@@ -71,10 +71,10 @@ def run_checks(check_only: bool = True) -> int:
     # 3. Gép és backend ellenőrzés
     from src.kingston_routing import _be
     be = _be()
-    if not check_kingston_backend(be.name):
-        print(f"[FAIL] a backend nem ibm_kingston: {be.name}")
+    if not check_target_backend(be.name):
+        print(f"[FAIL] a routing target nem Heron r2: {be.name}")
         return 1
-    print(f"[PASS] backend rögzítve: ibm_kingston ({be.name})")
+    print(f"[PASS] backend rögzítve: {EXPECTED_BACKEND} (routing target: {be.name})")
 
     # 4. Karhossz és CZ ellenőrzés (FakeKingston target alapján)
     try:
@@ -208,7 +208,7 @@ def do_submit(confirmed: bool = False, shots: int = 512):
         "snapshot_file": "data/snapshot.json",
         "snapshot_sha256": sha256_file(REPO_ROOT / "data" / "snapshot.json"),
         "frozen_params_sha256": sha256_file(frozen_path),
-        "note": f"Csillag v{version_str} beküldve 4 chunkban az ibm_kingstonra ({shots} shot). Record-first rögzítve a mérés előtt."
+        "note": f"Csillag v{version_str} beküldve 4 chunkban az {backend.name}-ra ({shots} shot). Record-first rögzítve a mérés előtt."
     }
 
     job_meta_path = REPO_ROOT / "data" / "job_meta.json"
@@ -222,7 +222,7 @@ def do_submit(confirmed: bool = False, shots: int = 512):
     print("=" * 72)
     print("RECORD-FIRST RÖGZÍTVE: job_meta.json és submission/csillag/job_id_record.json")
     print(f"JOB IDs: {job_ids}")
-    print("A jobok a sorban állnak az ibm_kingston-on.")
+    print(f"A jobok a sorban állnak az {backend.name}-on.")
     print("=" * 72)
     return 0
 

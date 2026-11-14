@@ -23,7 +23,7 @@ REPO_ROOT = Path(__file__).resolve().parent
 FROZEN_JSON = REPO_ROOT / "preregistration" / "frozen_ring_params_v1.2.json"
 FROZEN_SHA = REPO_ROOT / "preregistration" / "frozen_ring_params_v1.2.sha256"
 
-EXPECTED_BACKEND = "ibm_kingston"
+EXPECTED_BACKEND = os.environ.get("IBM_QUANTUM_BACKEND", "ibm_marrakesh")
 EXPECTED_LAYOUT = [125, 117, 124, 126]
 K_MAX = 16
 GRID_K = [0, 1, 2, 4, 8, 16]
@@ -208,7 +208,7 @@ def do_submit(confirmed: bool = False):
     print("=" * 72)
     print("RECORD-FIRST RÖGZÍTVE: data/ring_job_meta.json és submission/ring/job_id_record.json")
     print(f"JOB ID: {jid}")
-    print("A job a sorban áll az ibm_kingston-on.")
+    print(f"A job a sorban áll az {backend.name}-on.")
     print("=" * 72)
     return 0
 

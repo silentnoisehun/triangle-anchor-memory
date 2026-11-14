@@ -171,7 +171,9 @@ def bootstrap_family(obs, k_list, n_boot, seed):
 def compare(obs, fz, label="observed", model="routed"):
     """A fő ítélet. obs = {arm: {k: {'000': n|'1': n, 'shots': N}}}.
     model = 'routed' (alapértelmezett, ez dönt a terv §11 szerint) vagy 'native'."""
-    grid = fz["step_grid"]
+    grid = [k for k in fz["step_grid"] if str(k) in obs.get("ring_p", {})]
+    if not grid:
+        grid = fz["step_grid"]
     n_boot = fz["bootstrap"]["resamples"]
     seed = fz["bootstrap"]["seed"]
     out = {"label": label, "model": model, "metrics": {}, "verdict": None,

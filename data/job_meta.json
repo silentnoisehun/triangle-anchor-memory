@@ -1,35 +1,35 @@
 {
   "job_ids": [
-    "dbs5j8ok09pc73avpdfg",
-    "dbs5ja7v5hds73diivi0",
-    "dbs5jb7v5hds73diivjg",
-    "dbs5jb8k09pc73avpdig"
+    "dbs8j2habdes73fqs54g",
+    "dbs8j38k09pc73avsdh0",
+    "dbs8j47v5hds73diltlg",
+    "dbs8j48k09pc73avsdi0"
   ],
   "chunks": [
     {
-      "job_id": "dbs5j8ok09pc73avpdfg",
+      "job_id": "dbs8j2habdes73fqs54g",
       "from": 0,
       "to": 250
     },
     {
-      "job_id": "dbs5ja7v5hds73diivi0",
+      "job_id": "dbs8j38k09pc73avsdh0",
       "from": 250,
       "to": 500
     },
     {
-      "job_id": "dbs5jb7v5hds73diivjg",
+      "job_id": "dbs8j47v5hds73diltlg",
       "from": 500,
       "to": 750
     },
     {
-      "job_id": "dbs5jb8k09pc73avpdig",
+      "job_id": "dbs8j48k09pc73avsdi0",
       "from": 750,
       "to": 757
     }
   ],
-  "backend": "ibm_kingston",
+  "backend": "ibm_marrakesh",
   "channel": "ibm_quantum_platform",
-  "submitted_at": "2026-11-14T12:52:28.816352+00:00",
+  "submitted_at": "2026-11-14T16:16:51.525409+00:00",
   "shots": 512,
   "circuit_count": 757,
   "layout": {
@@ -802,5 +802,5 @@
   "snapshot_file": "data/snapshot.json",
   "snapshot_sha256": "2acfda2e1fcaea483fbc638ed8259ef52041d8fe0d5005ebb985e60830d4e67e",
   "frozen_params_sha256": "240785277678141cf550a2d00cfa4625414d184016261f6e298e292f72cb1db7",
-  "note": "Csillag v1.5 beküldve 4 chunkban az ibm_kingstonra (512 shot). Record-first rögzítve a mérés előtt."
+  "note": "Csillag v1.5 beküldve 4 chunkban az ibm_marrakesh-ra (512 shot). Record-first rögzítve a mérés előtt."
 }
