@@ -1,8 +1,13 @@
 # triangle-anchor-memory: Topological Phase-Locking & Quantum Mesh Memory
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24226150.svg)](https://doi.org/10.5281/zenodo.24226150)
+[![Release](https://img.shields.io/github/v/release/silentnoisehun/triangle-anchor-memory?color=blue)](https://github.com/silentnoisehun/triangle-anchor-memory/releases/tag/v2.2.0)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 **Topological Phase-Locking and Excitation Retention in IBM Heron Heavy-Hex Superconducting Qubits**  
 A Preregistered, Cryptographically Verified Quantum Memory Experiment Series on IBM Quantum Hardware.
 
+- **Permanent Archival DOI:** [10.5281/zenodo.24226150](https://doi.org/10.5281/zenodo.24226150)
 - **Author / Principal Investigator:** Róbert Máté ([ORCID: 0009-0003-3986-6039](https://orcid.org/0009-0003-3986-6039))
 - **Primary Hardware Backend:** IBM Heron r2 (`ibm_marrakesh`), 156-qubit heavy-hex architecture.
 - **Repository:** [github.com/silentnoisehun/triangle-anchor-memory](https://github.com/silentnoisehun/triangle-anchor-memory)
@@ -278,7 +283,9 @@ Ez a kutatási szoftver és adatcsomag nyílt forráskódú az MIT Licenc alatt.
   author = {Róbert Máté},
   title = {Topological Phase-Locking and Excitation Retention in IBM Heron Heavy-Hex Superconducting Qubits},
   year = {2026},
-  publisher = {GitHub},
+  publisher = {Zenodo},
+  doi = {10.5281/zenodo.24226150},
+  url = {https://doi.org/10.5281/zenodo.24226150},
   howpublished = {\url{https://github.com/silentnoisehun/triangle-anchor-memory}},
   note = {ORCID: 0009-0003-3986-6039}
 }

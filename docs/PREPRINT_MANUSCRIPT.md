@@ -1,6 +1,7 @@
 # Topological Phase-Locking and Autonomous Excitation Retention in IBM Heron Heavy-Hex Superconducting Qubits
 
 **Author:** Róbert Máté ([ORCID: 0009-0003-3986-6039](https://orcid.org/0009-0003-3986-6039))  
+**Permanent DOI:** [10.5281/zenodo.24226150](https://doi.org/10.5281/zenodo.24226150)  
 **Contact:** `silentnoisehun@gmail.com`  
 **Affiliation:** Independent Quantum Researcher, Budapest, Hungary  
 **Repository:** [github.com/silentnoisehun/triangle-anchor-memory](https://github.com/silentnoisehun/triangle-anchor-memory)  

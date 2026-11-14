@@ -53,5 +53,5 @@ All 6 experimental phases were cryptographically preregistered with SHA-256 lock
 ## 6. Open Science, Archiving & Dissemination
 * All raw hardware counts, transpiled QASM circuits, simulation engines, and sentinel evaluators are published open-source on GitHub under the MIT License.
 * Cryptographically preregistered with SHA-256 hashes before QPU execution.
-* Archived via CERN Zenodo with permanent DOI linked to PI ORCID (`0009-0003-3986-6039`).
+* Archived via CERN Zenodo with permanent DOI: [10.5281/zenodo.24226150](https://doi.org/10.5281/zenodo.24226150), directly linked to PI ORCID (`0009-0003-3986-6039`).
 * Preprint submitted to arXiv: *"Topological Phase-Locking and Autonomous Excitation Retention in IBM Heron Heavy-Hex Superconducting Qubits"*.
