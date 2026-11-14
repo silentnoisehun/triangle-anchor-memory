@@ -1,0 +1,23 @@
+{
+  "job_id": "dbsap8ok09pc73avuql0",
+  "backend": "ibm_marrakesh",
+  "shots": 512,
+  "isotropic_emission_k12": {
+    "P_S1": 0.361328125,
+    "P_S2": 0.373046875,
+    "P_S3": 0.310546875,
+    "min": 0.310546875,
+    "max_diff": 0.0625,
+    "passed": true
+  },
+  "refocusing_k28": {
+    "P_S0": 0.3359375,
+    "threshold": 0.35,
+    "passed": false
+  },
+  "nosync_isolation": {
+    "mean_satellites": 0.026506696428571428,
+    "passed": true
+  },
+  "verdict": "PARTIAL"
+}
