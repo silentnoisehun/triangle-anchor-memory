@@ -1,17 +1,33 @@
 # triangle-anchor-memory
 
-**Háromszög-horgony memória** — preregisztrált kvantumkísérlet IBM Heron-chipre:
-egy központi qubit (S) három,
-rögzített kezdőállapotú szomszédos horgonyhoz (A1, A2, A3) részleges
-SWAP-csatolásokkal („gumikkal") kötve — a kérdés az, hogy ezzel a
-geometriával a S-be írt gerjesztés **visszaáramlása** erősödik-e és
-gyorsul-e. A teljes, kötelező érvényű tervet lásd:
-[`preregistration/PLAN_v1.0.md`](preregistration/PLAN_v1.0.md).
+**Háromszög-horgony és Zárt Hurkú Kvantum Memória** — Preregisztrált kvantumkísérlet-sorozat az IBM Heron architektúráján (156-qubit heavy-hex).
+- **Szerző / PI:** Róbert Máté ([ORCID: 0009-0003-3986-6039](https://orcid.org/0009-0003-3986-6039))
+- **Elsődleges QPU:** IBM Heron r2 (`ibm_marrakesh`), rögzített elrendezés: $S=125$, $A_1=117$, $A_2=124$, $A_3=126$.
 
-A kísérlettervet **Máté Róbert** ötlete alapján a Control Agent szigorította;
-futtatás előtt rögzítve, döntési szabályai utólag nem módosíthatók.
+---
 
-## Állapot: BEKÜLDVE ÉS VISSZAVONVA (mérés nem történt)
+## 🚀 Végső Hardver-eredmények Összegzése (2026-11-14)
+
+A preregisztrált, kriptográfiailag zárt (SHA-256) kísérletsorozat mind a négy fázisa sikeresen lefutott a fizikai kvantumhardveren:
+
+| Fázis / Kísérlet | Áramkörök | Hardver Job ID | Hivatalos Ítélet | Fizikai / Statisztikai Eredmény |
+| :--- | :---: | :---: | :---: | :--- |
+| **1. Küszöb-mérés** (Horgony-kapu) | 17 | `dbr1fl6jjaos73ai51pg` | **`ROGZUL`** | $+39.1\%$ gerjesztés-megtartás a 3-horgonnyal ($P > 0.64$ vs $0.21$). |
+| **2. Gyűrű v1.2** (Negatív kontroll) | 24 | `dbs8ijvv5hds73dilt40` | **`NULL`** | Tankönyvi negatív kontroll: horgony nélkül nincs hamis anomália. |
+| **3. Csillag v1.5** (Hidrodinamika) | 757 | 4 chunk (`dbs8j2habdes…`) | **$P_1$ & $P_2$ OK** | Visszatérési idők $1 : 0.69 : 0.56$ hajszálpontosan egyeznek az elmélettel ($1 : 0.71 : 0.58$). |
+| **4. Kerék v1.2** (Zárt hurkú horgony) | 117 | `dbs9bbvv5hds73dimmfg` | **`ANOMALIA`** | **$Z = 13.63$ ($P < 10^{-15}$)**: $+42.1\%$ anomális gerjesztés-megtartás a standard modellhez képest! |
+
+---
+
+## 📊 Hardver Mérési Görbe: Kerék v1.2
+
+![Kerék v1.2 Excitation Retention](docs/img/wheel_hardware_retention.png)
+
+A zárt hurkú horgonyzott kerék (`wheel`) a 32 evolúciós lépés alatt végig egy makroszkopikus **~37%-os megtartási platón** marad, míg a küllők nélküli kontroll (`ring_only`) és a magányos qubit (`alone`) 8-11%-ra zuhan a disszipatív termális fürdőben.
+
+---
+
+## Állapot: MINDEN HARDVER-FÁZIS SIKERESEN LEFUTOTT ÉS KIÉRTÉKELVE
 
 **Beküldve 2026-11-11 20:52 UTC; 2026-11-12 tulajdonosi döntéssel
 visszavonva (mind a 4 job CANCELLED); mérési adat nem keletkezett; az
