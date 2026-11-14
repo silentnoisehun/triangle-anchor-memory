@@ -11,7 +11,7 @@ A Preregistered, Cryptographically Verified Quantum Memory Experiment Series on 
 - **Author / Principal Investigator:** Róbert Máté ([ORCID: 0009-0003-3986-6039](https://orcid.org/0009-0003-3986-6039))
 - **Primary Hardware Backend:** IBM Heron r2 (`ibm_marrakesh`), 156-qubit heavy-hex architecture.
 - **Repository:** [github.com/silentnoisehun/triangle-anchor-memory](https://github.com/silentnoisehun/triangle-anchor-memory)
-- **Status:** All 6 Hardware Phases Completed, Cryptographically Frozen & Verified on Hardware (2026-11-14).
+- **Status:** All 9 Hardware Phases Completed, Cryptographically Frozen & Verified on Hardware (2026-11-14).
 
 ---
 
@@ -19,14 +19,16 @@ A Preregistered, Cryptographically Verified Quantum Memory Experiment Series on 
 - [English Documentation](#-english-documentation)
   - [Executive Hardware Summary](#executive-hardware-summary)
   - [Hardware Evidence & Plots](#hardware-evidence--plots)
-  - [The 6 Experimental Phases](#the-6-experimental-phases)
+  - [The 9 Experimental Phases](#the-9-experimental-phases)
+  - [Topological Scaling Mechanism & Metric Definitions](#topological-scaling-mechanism--metric-definitions)
   - [Quantum DRAM Analogy: Write, Decouple, Hold](#quantum-dram-analogy-write-decouple-hold)
   - [Cryptographic Preregistration Protocol](#cryptographic-preregistration-protocol)
   - [Reproducibility & Verification](#reproducibility--verification)
 - [Magyar Dokumentáció](#-magyar-dokumentáció)
   - [Vezetői Hardver Összefoglaló](#vezetői-hardver-összefoglaló)
   - [Hardver Bizonyítékok és Grafikonok](#hardver-bizonyítékok-és-grafikonok)
-  - [A 6 Kísérleti Fázis Részletesen](#a-6-kísérleti-fázis-részletesen)
+  - [A 9 Kísérleti Fázis Részletesen](#a-9-kísérleti-fázis-részletesen)
+  - [Topológiai Skálázódási Mechanizmus és Metrikák](#topológiai-skálázódási-mechanizmus-és-metrikák)
   - [Kvantum DRAM Analógia: Írás, Lekapcsolás, Tárolás](#kvantum-dram-analógia-írás-lekapcsolás-tárolás)
   - [Kriptográfiai Preregisztrációs Protokoll](#kriptográfiai-preregisztrációs-protokoll)
   - [Reprodukálhatóság és Ellenőrzés](#reprodukálhatóság-és-ellenőrzés)
@@ -37,19 +39,26 @@ A Preregistered, Cryptographically Verified Quantum Memory Experiment Series on 
 
 ## Executive Hardware Summary
 
-All six experimental phases were preregistered with SHA-256 locks before QPU execution. Physical execution took place on IBM Quantum Heron r2 processors (`ibm_marrakesh` and `ibm_kingston`). Every quantitative prediction was satisfied on real hardware:
+The experimental campaign comprises **9 full hardware phases** structured into two prospective campaigns:
+- **Stage I: Core Discovery & Proof-of-Principle (Phases 1–6):** Initially formulated, cryptographically frozen with SHA-256 locks, and executed on hardware.
+- **Stage II: Multi-Node Topological Mesh Scaling (Phases 7–9):** Prospective escalation following the Phase 4–6 discoveries, with each phase individually locked with prospective SHA-256 parameter freezes committed to git *prior* to its QPU submission.
+
+Physical execution was performed on IBM Quantum Heron r2 processors (`ibm_marrakesh` and `ibm_kingston`). All quantitative predictions passed on real hardware:
 
 | Phase / Experiment | Circuits | Backend | Hardware Job ID | Verdict | Physical & Statistical Outcome |
 | :--- | :---: | :---: | :---: | :---: | :--- |
-| **Phase 1: Küszöb (Threshold)** | 17 | `ibm_kingston` | `dbr1fl6jjaos73ai51pg` | **`ROGZUL`** | $+39.1\%$ excitation retention with 3-anchor ($P > 0.64$ vs $0.21$). Hardware health gate passed. |
+| **Phase 1: Küszöb (Threshold)** [^1] | 17 | `ibm_kingston` | `dbr1fl6jjaos73ai51pg` | **`ROGZUL`** | $+39.1\%$ excitation retention with 3-anchor ($P > 0.64$ vs $0.21$). Hardware health gate passed. |
 | **Phase 2: Gyűrű v1.2 (Ring Control)** | 24 | `ibm_marrakesh` | `dbs8ijvv5hds73dilt40` | **`NULL`** | Textbook negative control: without hub-spoke coupling, bare ring collapses rapidly. |
-| **Phase 3: Csillag v1.5 (Hydrodynamics)** | 757 | `ibm_marrakesh` | `dbs8j2habdes…` (4 chunks) | **$P_1$ & $P_2$ OK** | Return ratios $1 : 0.69 : 0.56$ match theoretical hydrodynamic prediction ($1 : 0.71 : 0.58$). |
+| **Phase 3: Csillag v1.5 (Hydrodynamics)** [^2] | 757 | `ibm_marrakesh` | `dbs8j2habdes…` (4 chunks) | **$P_1$ & $P_2$ OK** | Return ratios $1 : 0.69 : 0.56$ match theoretical hydrodynamic prediction ($1 : 0.71 : 0.58$). |
 | **Phase 4: Kerék v1.2 (Wheel Anchor)** | 117 | `ibm_marrakesh` | `dbs9bbvv5hds73dimmfg` | **`ANOMALIA`** | **$Z = 13.63$ ($P < 10^{-15}$)**: macroscopic $+42.1\%$ plateau retention at $k=32$ vs unanchored ring. |
-| **Phase 5: Dual-Wheel Mesh** | 18 | `ibm_marrakesh` | `dbs9v0ujjaos73ajufr0` | **`CONFIRMED`** | Coherent conduction $P(S_2)=0.3586 \ge 0.15$; Equipartition $|P(S_1)-P(S_2)| = 0.0059 \le 0.15$; Collective retention $0.4805 \ge 0.35$. |
-| **Phase 6: Pump-and-Decouple** | 21 | `ibm_marrakesh` | `dbsa7vpabdes73fqts9g` | **`CONFIRMED`** | Handover at $k=8$: $|P(S_1)-P(S_2)|=0.0605$, $P(S_2)=0.3438$. Autonomous hold at $k=32$: $P(S_2)=0.2754$. **$+15.6\%$ protection advantage** over idle transmon decay! |
+| **Phase 5: Dual-Wheel Mesh** | 18 | `ibm_marrakesh` | `dbs9v0ujjaos73ajufr0` | **`CONFIRMED`** | Coherent conduction $P(S_2)=0.3586 \ge 0.15$; Equipartition $\|P(S_1)-P(S_2)\| = 0.0059 \le 0.15$; Collective retention $0.4805 \ge 0.35$. |
+| **Phase 6: Pump-and-Decouple (DRAM)** | 21 | `ibm_marrakesh` | `dbsa7vpabdes73fqts9g` | **`CONFIRMED`** | Handover at $k=8$: $\|P(S_1)-P(S_2)\|=0.0605$, $P(S_2)=0.3438$. Autonomous hold at $k=32$: $P(S_2)=0.2754$. **$+15.6\%$ protection advantage** over idle transmon decay! |
 | **Phase 7: Tri-Wheel Quantum Bus** | 18 | `ibm_marrakesh` | `dbsam57v5hds73dio4i0` | **`CONFIRMED`** | 10-Qubit Bus: End-to-end transport $P(S_3)=0.3008$ vs nosync $0.0170$; 3-way equipartition @ $k=16$ ($S_1 \approx 35.9\%, S_2 \approx 25.2\%, S_3 \approx 30.5\%$); **$67.0\%$ collective retention** at $k=32$! |
 | **Phase 8: 13-Qubit 2D Tér-Szövet** | 18 | `ibm_marrakesh` | `dbsap8ok09pc73avuql0` | **`CONFIRMED`** | 4-Hub Omni-Directional 2D Emission ($S_1 \approx 36.1\%, S_2 \approx 37.3\%, S_3 \approx 31.1\%$); **$83.4\%$ macroscopic bound state** across the entire 13-qubit fabric at $k=32$! |
-| **Phase 9: Elosztott Memória Hálózat** | 21 | `ibm_marrakesh` | `dbsaruujjaos73ajvhtg` | **`CONFIRMED`** | **A HÁLÓZAT:** Write (2D Broadcast) $\rightarrow$ Global Decouple $\rightarrow$ 3-Cell Autonomous Hold. A leválasztott hálózat $P(\text{sat}) = \mathbf{72.1\%}$-ot tart $k=32$-nél; **$+26.2\%$ védelem előny** a tétlen relaxációval szemben! |
+| **Phase 9: Elosztott Memória Hálózat** | 21 | `ibm_marrakesh` | `dbsaruujjaos73ajvhtg` | **`CONFIRMED`** | **A HÁLÓZAT:** Write (2D Broadcast) $\rightarrow$ Global Decouple $\rightarrow$ 3-Cell Autonomous Hold. Disconnected network holds $P(\text{mesh}) = \mathbf{72.1\%}$ at $k=32$; **$+26.2\%$ protection advantage** over idle decay! |
+
+[^1]: **Phase 1 Job Provenance:** The initial submission `dbqt3q9abdes73fosj8g` (17 circuits, `ibm_kingston`) on 2026-11-12 14:49 UTC failed at IBM server dispatch with Error 1515 (`Circuits without measurements are not allowed`) due to missing measure gates before transpilation; **zero measurement data was produced**. By owner decision (PLAN_KUSZOB_v1.3 §7), the script was patched with a mandatory G8 pre-execution measurement sentinel and resubmitted under `dbr1fl6jjaos73ai51pg` on 2026-11-12, executing to completion at 19:51 UTC (69,632 shots).
+[^2]: **Phase 3 Job Provenance:** On 2026-11-12, an initial 757-circuit submission on `ibm_kingston` was voluntarily cancelled before execution by owner decision for fair-share quota optimization (zero data produced). Under preregistered Amendment v1.5 FAST (`frozen_params_v1.5.json`), it was resubmitted on 2026-11-14 16:16 UTC to `ibm_marrakesh` across 4 execution chunks (jobs `dbs8j2habdes73fqs54g`, `dbs8j38k09pc73avsdh0`, `dbs8j47v5hds73diltlg`, `dbs8j48k09pc73avsdi0`), executing all 757 circuits to completion.
 
 ---
 
@@ -77,29 +86,32 @@ All six experimental phases were preregistered with SHA-256 locks before QPU exe
 
 ---
 
-## The 6 Experimental Phases
+## The 9 Experimental Phases
 
-### Phase 1: Küszöb (Hardware Threshold Gate)
+### Stage I: Core Discovery & Proof-of-Principle (Phases 1–6)
+
+#### Phase 1: Küszöb (Hardware Threshold Gate)
 - **Goal:** Verify machine eligibility on superconducting hardware without claiming memory effects.
 - **Topology:** Hub 125, Anchors 117, 124, 126 on `ibm_kingston`.
+- **Hardware Execution:** Initial dispatch `dbqt3q9abdes73fosj8g` failed with Error 1515 (missing measure gates before transpilation, zero data). Patched with G8 measurement sentinel; resubmitted job `dbr1fl6jjaos73ai51pg` ran to completion (69,632 shots).
 - **Verdict:** `ROGZUL` — Wilson 99% lower bound $P(m+1, k=8) = 0.6409 \ge 0.50$, contrast $+39.1\%$ over broken cut.
 
-### Phase 2: Gyűrű v1.2 (Negative Control Ring)
-- **Goal:** Prove that a unanchored ring does not produce false topological retention.
+#### Phase 2: Gyűrű v1.2 (Negative Control Ring)
+- **Goal:** Prove that an unanchored ring does not produce false topological retention.
 - **Topology:** 3 qubits on `ibm_marrakesh` in closed Peierls flux rotation without hub.
 - **Verdict:** `NULL` — Confirmed textbook baseline; absence of hub prevents topological locking.
 
-### Phase 3: Csillag v1.5 FAST (Star Hydrodynamic Recurrence)
+#### Phase 3: Csillag v1.5 FAST (Star Hydrodynamic Recurrence)
 - **Goal:** Test return wave ratios and non-Markovian memory recurrence.
-- **Circuits:** 757 circuits submitted across 4 chunks on `ibm_marrakesh`.
+- **Hardware Execution:** Initial 2026-11-12 submission on Kingston cancelled before execution for quota optimization (zero data). Resubmitted on 2026-11-14 under frozen Amendment v1.5 FAST on `ibm_marrakesh` across 4 chunks (757 circuits total, 512 shots/circuit).
 - **Verdict:** $P_1$ & $P_2$ Confirmed — Measured return ratios $1 : 0.69 : 0.56$ matched theoretical prediction ($1 : 0.71 : 0.58 \pm 20\%$).
 
-### Phase 4: Kerék v1.2 (Closed-Loop Wheel Anchor)
+#### Phase 4: Kerék v1.2 (Closed-Loop Wheel Anchor)
 - **Goal:** Test whether closed-loop star-spoke hub circulation locks phase and prevents transmon decay.
 - **Circuits:** 117 circuits, 512 shots per circuit on `ibm_marrakesh`.
 - **Verdict:** `ANOMALIA` with $Z = 13.63$ ($P < 10^{-15}$). Wheel held at $37.0\%$ vs ring collapse to $8.9\%$.
 
-### Phase 5: Dual-Wheel Synchronous Mesh
+#### Phase 5: Dual-Wheel Synchronous Mesh
 - **Goal:** Test inter-cell quantum conduction and Kuramoto-Huygens phase locking across two adjacent topological cells.
 - **Physical Topology (7 qubits):**
   - Wheel 1: Hub $S_1 = 125$, spokes $A_1 = 117$, $A_2 = 126$
@@ -107,10 +119,60 @@ All six experimental phases were preregistered with SHA-256 locks before QPU exe
   - Wheel 2: Hub $S_2 = 123$, spokes $B_1 = 122$, $B_2 = 136$
 - **Verdict:** `CONFIRMED` — Conduction $P(S_2) = 0.3586$, equipartition $|P(S_1) - P(S_2)| = 0.0059$, collective retention $0.4805$.
 
-### Phase 6: Pump-and-Decouple (Autonomous Memory Hold)
+#### Phase 6: Pump-and-Decouple (Autonomous Memory Hold)
 - **Goal:** Test the complete Write $\rightarrow$ Decouple $\rightarrow$ Hold cycle. After establishing synchronization at $k=8$, external drive and bridge are decoupled. Does Wheel 2 retain the transferred state autonomously?
 - **Circuits:** 21 circuits, 512 shots on `ibm_marrakesh`.
 - **Verdict:** `CONFIRMED` — Handover equipartition verified ($|P(S_1)-P(S_2)|=0.0605 \le 0.15$), autonomous hold at $k=32$ reached $27.5\%$, beating bare transmon relaxation ($11.9\%$) by **$+15.6\%$**.
+
+---
+
+### Stage II: Multi-Node Topological Mesh Scaling (Phases 7–9)
+
+*Note on Provenance:* Following the empirical confirmation of the bound state in Phase 4 and DRAM decoupling in Phase 6, Phases 7–9 were prospectively formulated. Each phase was individually locked with a prospective SHA-256 parameter freeze file committed to git *prior* to its QPU job submission.
+
+#### Phase 7: Tri-Wheel 10-Qubit Quantum Bus
+- **Goal:** Validate coherent multi-cell ballistic conduction and 3-way synchronization across a 10-qubit linear chain on the heavy-hex lattice.
+- **Physical Layout (10 qubits):** Hubs $S_1 = 105$, $S_2 = 125$, $S_3 = 123$ coupled via native bridge edges 117 and 124.
+- **Circuits & Execution:** 18 circuits, 512 shots on `ibm_marrakesh` (Job `dbsam57v5hds73dio4i0`).
+- **Verdict:** `CONFIRMED` — End-to-end transport into receiver $S_3$ reached $P(S_3) = 0.3008$ (vs decoupled control $0.0170$). 3-way equipartition achieved at $k=16$ ($S_1 \approx 35.9\%, S_2 \approx 25.2\%, S_3 \approx 30.5\%$), with **$67.0\%$ collective excitation retention** at $k=32$.
+
+#### Phase 8: 13-Qubit 2D Space-Fabric
+- **Goal:** Demonstrate 2D omni-directional quantum broadcast across the heavy-hex plane with $120^\circ$ isotropic symmetry.
+- **Physical Layout (13 qubits):** Central Hub $S_0 = 125$ radiating into 3 satellite cells: NW ($S_1 = 105$), NE ($S_2 = 127$), S ($S_3 = 123$) via native bridge transmons 117, 126, 124. Zero SWAP routing overhead.
+- **Circuits & Execution:** 18 circuits, 512 shots on `ibm_marrakesh` (Job `dbsap8ok09pc73avuql0`).
+- **Verdict:** `CONFIRMED` — Equalized 3-way 2D emission confirmed ($S_1 \approx 36.1\%, S_2 \approx 37.3\%, S_3 \approx 31.1\%$), establishing an **$83.4\%$ macroscopic bound state** across the entire 13-qubit fabric at $k=32$.
+
+#### Phase 9: A HÁLÓZAT (Distributed Autonomous Quantum Memory Mesh)
+- **Goal:** Realize a distributed quantum DRAM network across 13 qubits. Step 1: Write (2D broadcast from central hub to 3 satellites through $k=8$). Step 2: Global Decoupling (at $k=8$, hub and all 3 bridges are physically disconnected). Step 3: Distributed Autonomous Hold (the 3 disconnected satellite cells independently trap and sustain the excitation).
+- **Circuits & Execution:** 21 circuits, 512 shots on `ibm_marrakesh` (Job `dbsaruujjaos73ajvhtg`).
+- **Verdict:** `CONFIRMED` — Handover equipartition verified. At $k=32$, the disconnected mesh retains a collective population of **$72.07\%$**, providing a **$+26.17\%$ protection advantage** over the uncoupled idle relaxation baseline ($45.90\%$, $Z = 8.84\sigma$).
+
+---
+
+## Topological Scaling Mechanism & Metric Definitions
+
+A critical question for quantum hardware reviewers is: **Why does the distributed network (Phase 9) sustain $72.1\%$ retention while the single decoupled cell (Phase 6) sustains $27.5\%$?**
+
+### 1. Rigorous Metric Definitions
+- **Individual Satellite Retention ($P(S_i)$):**
+  $$P(S_i) \equiv \frac{1}{N_\text{shots}} \sum_{x \in \{0,1\}^N, x_{S_i}=1} \text{count}(x)$$
+  - In Phase 6 (Single satellite cell $S_2$): $P(S_2) = 27.54\%$ at $k=32$.
+  - In Phase 9 (Three satellite cells): $P(S_1) = 24.80\%$, $P(S_2) = 26.76\%$, $P(S_3) = 20.51\%$.
+  - **Notice the remarkable consistency:** The localized retention in *any individual satellite cell* remains precisely in the range $\sim 21\% - 27\%$. The physics of the individual cell did not change.
+
+- **Collective Network Retention ($P_\text{mesh}$):**
+  $$P_\text{mesh} \equiv \sum_{i=1}^M P(S_i)$$
+  In Phase 9, excitation is broadcast across all 3 satellite loops before bridge decoupling. Because single-excitation subspace is conserved, the probability of retaining the quantum excitation within the distributed satellite memory network is the sum of satellite projections:
+  $$P_\text{mesh} = 24.80\% + 26.76\% + 20.51\% = 72.07\%$$
+  The uncoupled reference control measures three idle transmons undergoing bare $T_1$ decay ($P_\text{idle, 3q} = 45.90\%$). Thus, the collective distributed mesh achieves a **$+26.17\%$ net quantum advantage** ($Z = 8.84\sigma$, $P < 10^{-18}$).
+
+- **Fabric Bound State (Phase 8, $83.4\%$):**
+  In Phase 8, the central hub remains actively coupled (no decoupling); the $83.4\%$ metric represents the total projection onto the entire 13-qubit connected cluster ($\sum P(S_i) + P(\text{Hub}) + P(\text{Bridges})$), reflecting the full non-Hermitian bound state in the continuum (BIC).
+
+### 2. Physical Mechanism of Topological Scaling
+1. **Subradiant Dark-State Formation:** Coupling $N$ transmons through engineered Peierls loop phases forms an asymmetric subradiant eigenstate orthogonal to symmetric radiative decay channels. The effective projection of local uncorrelated Markovian environmental noise (dielectric two-level systems, quasiparticle tunneling) onto the subradiant mode scales as $\sim 1/N_\text{nodes}$.
+2. **Topological Spatial Delocalization:** In Phase 9, quantum information is stored in a delocalized manifold spanned by three independent spatial cells. If an environmental dephasing or relaxation event affects one satellite cell, it does not destroy the coherent amplitude distributed across the orthogonal spatial modes of the remaining cells.
+3. **Decoupled Autonomous Trapping:** When bridges are disabled at $k=8$, each cell's internal cyclic Hamiltonian continues to recirculate amplitudes among its 3 local transmons, providing continuous dynamical protection without requiring global interconnects.
 
 ---
 
@@ -171,19 +233,26 @@ python scripts/plot_decouple_results.py
 
 ## Vezetői Hardver Összefoglaló
 
-A kísérletsorozat mind a hat fázisa előzetesen, SHA-256 hash-zárral preregisztrálva lett a QPU futtatások előtt. A fizikai végrehajtás az IBM Quantum Heron r2 processzorain (`ibm_marrakesh` és `ibm_kingston`) történt. Minden előre leírt számszerű jóslat maradéktalanul teljesült valós hardveren:
+A teljes kísérletsorozat **9 fizikai hardveres fázisból** áll, amelyek két tervezési és végrehajtási szakaszra tagolódnak:
+- **I. Szakasz: Alapvető Felfedezés és Elvi Bizonyítás (1–6. fázis):** Az eredeti kutatási terv szerint előre kidolgozott, SHA-256 hash-zárral fagyasztott kísérleti lánc.
+- **II. Szakasz: Többcellás Topológiai Hálózati Skálázás (7–9. fázis):** A 4. fázis ($Z=13.63$ kötött állapot) és a 6. fázis (DRAM leválasztás) hardveres sikere után célzottan megtervezett hálózati skálázás. **Minden egyes fázis (7, 8 és 9) egyedileg, a saját QPU beküldése ELŐTT rögzített SHA-256 paraméter-fagyasztással és git committal lett hitelesítve.**
+
+A fizikai végrehajtás az IBM Quantum Heron r2 processzorain (`ibm_marrakesh` és `ibm_kingston`) történt. Minden előre leírt számszerű jóslat maradéktalanul teljesült valós hardveren:
 
 | Fázis / Kísérlet | Áramkörök | Backend | Hardver Job ID | Hivatalos Ítélet | Fizikai és Statisztikai Eredmény |
 | :--- | :---: | :---: | :---: | :---: | :--- |
-| **1. Fázis: Küszöb-mérés** | 17 | `ibm_kingston` | `dbr1fl6jjaos73ai51pg` | **`ROGZUL`** | $+39.1\%$ gerjesztés-megtartás a 3-horgonnyal ($P > 0.64$ vs $0.21$). Gép-alkalmassági kapu átlépve. |
+| **1. Fázis: Küszöb-mérés** [^hu1] | 17 | `ibm_kingston` | `dbr1fl6jjaos73ai51pg` | **`ROGZUL`** | $+39.1\%$ gerjesztés-megtartás a 3-horgonnyal ($P > 0.64$ vs $0.21$). Gép-alkalmassági kapu átlépve. |
 | **2. Fázis: Gyűrű v1.2** (Negatív kontroll) | 24 | `ibm_marrakesh` | `dbs8ijvv5hds73dilt40` | **`NULL`** | Tankönyvi negatív kontroll: mag-küllő horgonyzás nélkül a gyűrű azonnal összeomlik. |
-| **3. Fázis: Csillag v1.5** (Hidrodinamika) | 757 | `ibm_marrakesh` | `dbs8j2habdes…` (4 chunk) | **$P_1$ & $P_2$ OK** | Visszatérési arányok $1 : 0.69 : 0.56$ hajszálpontosan egyeznek az elméleti predikcióval ($1 : 0.71 : 0.58$). |
+| **3. Fázis: Csillag v1.5** (Hidrodinamika) [^hu2] | 757 | `ibm_marrakesh` | `dbs8j2habdes…` (4 chunk) | **$P_1$ & $P_2$ OK** | Visszatérési arányok $1 : 0.69 : 0.56$ hajszálpontosan egyeznek az elméleti predikcióval ($1 : 0.71 : 0.58$). |
 | **4. Fázis: Kerék v1.2** (Zárt hurkú horgony) | 117 | `ibm_marrakesh` | `dbs9bbvv5hds73dimmfg` | **`ANOMALIA`** | **$Z = 13.63$ ($P < 10^{-15}$)**: $+42.1\%$ makroszkopikus plató-megtartás $k=32$-nél a gyűrűhöz képest! |
-| **5. Fázis: Kettős Kerék Szinkron Mesh** | 18 | `ibm_marrakesh` | `dbs9v0ujjaos73ajufr0` | **`CONFIRMED`** | Koherens vezetés $P(S_2)=0.3586 \ge 0.15$; Ekvipartíció $|P(S_1)-P(S_2)| = 0.0059 \le 0.15$; Kollektív retenció $0.4805 \ge 0.35$. |
-| **6. Fázis: Pump-and-Decouple** | 21 | `ibm_marrakesh` | `dbsa7vpabdes73fqts9g` | **`CONFIRMED`** | Kézfogás $k=8$-nál: $|P(S_1)-P(S_2)|=0.0605$, $P(S_2)=0.3438$. Autonóm tárolás $k=32$-nél: $P(S_2)=0.2754$. **$+15.6\%$ védelem-előny** a tétlen transzmon dekoherenciával szemben! |
+| **5. Fázis: Kettős Kerék Szinkron Mesh** | 18 | `ibm_marrakesh` | `dbs9v0ujjaos73ajufr0` | **`CONFIRMED`** | Koherens vezetés $P(S_2)=0.3586 \ge 0.15$; Ekvipartíció $\|P(S_1)-P(S_2)\| = 0.0059 \le 0.15$; Kollektív retenció $0.4805 \ge 0.35$. |
+| **6. Fázis: Pump-and-Decouple** | 21 | `ibm_marrakesh` | `dbsa7vpabdes73fqts9g` | **`CONFIRMED`** | Kézfogás $k=8$-nál: $\|P(S_1)-P(S_2)\|=0.0605$, $P(S_2)=0.3438$. Autonóm tárolás $k=32$-nél: $P(S_2)=0.2754$. **$+15.6\%$ védelem-előny** a tétlen transzmon dekoherenciával szemben! |
 | **7. Fázis: 10-Qubites Háromcellás Busz** | 18 | `ibm_marrakesh` | `dbsam57v5hds73dio4i0` | **`CONFIRMED`** | 10-Qubit Busz: Végpont-vezetés $P(S_3)=0.3008$ vs nosync $0.0170$; 3-oldalú ekvipartíció @ $k=16$ ($S_1 \approx 35.9\%, S_2 \approx 25.2\%, S_3 \approx 30.5\%$); **$67.0\%$ kollektív megtartás** $k=32$-nél! |
 | **8. Fázis: 13-Qubites 2D Tér-Szövet** | 18 | `ibm_marrakesh` | `dbsap8ok09pc73avuql0` | **`CONFIRMED`** | 4-Magos 2D Szökőkút ($S_1 \approx 36.1\%, S_2 \approx 37.3\%, S_3 \approx 31.1\%$); **$83.4\%$ makroszkopikus kötött állapot** a teljes 13-qubites szöveten $k=32$-nél! |
-| **9. Fázis: Elosztott Memória Hálózat** | 21 | `ibm_marrakesh` | `dbsaruujjaos73ajvhtg` | **`CONFIRMED`** | **A HÁLÓZAT:** Írás (2D Sugárzás) $\rightarrow$ Globális Lekapcsolás $\rightarrow$ 3-Cellás Autonóm Tárolás. A leválasztott hálózat $P(\text{sat}) = \mathbf{72.1\%}$-ot tart $k=32$-nél; **$+26.2\%$ tiszta előny** a tétlen relaxációval szemben! |
+| **9. Fázis: Elosztott Memória Hálózat** | 21 | `ibm_marrakesh` | `dbsaruujjaos73ajvhtg` | **`CONFIRMED`** | **A HÁLÓZAT:** Írás (2D Sugárzás) $\rightarrow$ Globális Lekapcsolás $\rightarrow$ 3-Cellás Autonóm Tárolás. A leválasztott hálózat $P(\text{mesh}) = \mathbf{72.1\%}$-ot tart $k=32$-nél; **$+26.2\%$ tiszta előny** a tétlen relaxációval szemben! |
+
+[^hu1]: **1. Fázis Eredet-történet:** Az első beküldés (`dbqt3q9abdes73fosj8g`, 17 áramkör, `ibm_kingston`, 2026-11-12 14:49 UTC) az IBM szerveroldali indításakor Error 1515 hibával leállt (`Circuits without measurements are not allowed`), mert a beküldő szkript korai verziója a mérési kapuk elhelyezése előtt transzpilált; **mérési adat NEM keletkezett**. Tulajdonosi döntéssel (PLAN_KUSZOB_v1.3 §7) a szkriptet kiegészítettük a kötelező G8 mérési ellenőrző kapuval, és a megismételt `dbr1fl6jjaos73ai51pg` futás 19:51 UTC-kor hiba nélkül lefutott (69 632 shot).
+[^hu2]: **3. Fázis Eredet-történet:** 2026-11-12-én az eredeti 757 áramkörös csillag-futás a Kingston sorban állásakor tulajdonosi döntéssel törölve lett a méltányos kvótahasználat és chunk-optimalizálás érdekében (adat nem keletkezett). A repóban előzetesen lefagyasztott v1.5 FAST módosítás alapján (`frozen_params_v1.5.json`) 2026-11-14 16:16 UTC-kor újra beküldésre került az `ibm_marrakesh` gépre 4 chunkban (`dbs8j2habdes...` - `dbs8j48k...`), és mind a 757 áramkör maradéktalanul lefutott.
 
 ---
 
@@ -201,29 +270,32 @@ A kísérletsorozat mind a hat fázisa előzetesen, SHA-256 hash-zárral preregi
 
 ---
 
-## A 6 Kísérleti Fázis Részletesen
+## A 9 Kísérleti Fázis Részletesen
 
-### 1. Fázis: Küszöb-mérés (Ring-Ramsey Echo)
+### I. Szakasz: Alapvető Felfedezés és Elvi Bizonyítás (1–6. Fázis)
+
+#### 1. Fázis: Küszöb-mérés (Ring-Ramsey Echo)
 - **Cél:** A gép-alkalmasság ellenőrzése szupravezető vason anélkül, hogy korai memória-állításokat tennénk.
 - **Topológia:** Mag: 125, Horgonyok: 117, 124, 126 az `ibm_kingston` chipen.
+- **Végrehajtás:** Az első beküldés (`dbqt3q9abdes73fosj8g`) Error 1515 miatt leállt (mérési kapuk hiánya transzpilálás előtt, adat nem keletkezett). A javított G8 őrszemmel ellátott `dbr1fl6jjaos73ai51pg` futás sikeresen lefutott (69 632 shot).
 - **Ítélet:** `ROGZUL` — Wilson 99% alsó korlát $P(m+1, k=8) = 0.6409 \ge 0.50$, kontraszt $+39.1\%$ a törött gyűrűhöz képest.
 
-### 2. Fázis: Gyűrű v1.2 (Negatív Kontroll)
+#### 2. Fázis: Gyűrű v1.2 (Negatív Kontroll)
 - **Cél:** Annak kizárása, hogy egy horgonyzatlan, önmagában forgó gyűrű hamis topológiai védelmet mutasson.
 - **Topológia:** 3 qubit az `ibm_marrakesh` chipen Peierls-fázisú forgásban mag nélkül.
 - **Ítélet:** `NULL` — Tankönyvi negatív kontroll; mag-küllő csatolás nélkül a topológiai reteszelés nem jön létre.
 
-### 3. Fázis: Csillag v1.5 FAST (Hidrodinamikai Visszatérés)
+#### 3. Fázis: Csillag v1.5 FAST (Hidrodinamikai Visszatérés)
 - **Cél:** Hullám-visszatérési arányok és nem-markovi kvantum-hidrodinamikai memória kimérése.
-- **Áramkörök:** 757 áramkör 4 különálló blokkban az `ibm_marrakesh` chipen.
+- **Végrehajtás:** A 2026-11-12-i Kingston futás törölve lett kvótakímélés miatt (adat nem keletkezett). A 2026-11-14-i v1.5 FAST futtatás az `ibm_marrakesh` gépen 4 chunkban (757 áramkör) maradéktalanul lefutott.
 - **Ítélet:** $P_1$ & $P_2$ Igazolva — A mért visszatérési arányok ($1 : 0.69 : 0.56$) hajszálpontosan egyeztek az analitikus modellel ($1 : 0.71 : 0.58 \pm 20\%$).
 
-### 4. Fázis: Kerék v1.2 (Zárt Hurkú Horgony)
+#### 4. Fázis: Kerék v1.2 (Zárt Hurkú Horgony)
 - **Cél:** Annak tesztelése, hogy a zárt hurkú mag-küllő keringés fáziszárba kényszeríti-e a gerjesztést, megvédve a transzmon lecsengéstől.
 - **Áramkörök:** 117 áramkör, 512 shot / áramkör az `ibm_marrakesh` chipen.
 - **Ítélet:** `ANOMALIA`, statisztikai szignifikancia: $Z = 13.63$ ($P < 10^{-15}$). A Kerék 37.0%-on tartotta a gerjesztést a gyűrű 8.9%-os leomlásával szemben.
 
-### 5. Fázis: Kettős Kerék Szinkron Mesh
+#### 5. Fázis: Kettős Kerék Szinkron Mesh
 - **Cél:** Inter-celláris kvantumvezetés és Kuramoto-Huygens fáziszár kimérése két szomszédos cella között.
 - **Fizikai Topológia (7 qubit a heavy-hex rácson):**
   - Kerék 1: Mag $S_1 = 125$, küllők $A_1 = 117$, $A_2 = 126$
@@ -231,10 +303,60 @@ A kísérletsorozat mind a hat fázisa előzetesen, SHA-256 hash-zárral preregi
   - Kerék 2: Mag $S_2 = 123$, küllők $B_1 = 122$, $B_2 = 136$
 - **Ítélet:** `CONFIRMED` — Koherens átfolyás $P(S_2) = 0.3586$, szinkron ekvipartíció $|P(S_1) - P(S_2)| = 0.0059$, kollektív retenció $0.4805$.
 
-### 6. Fázis: Pump-and-Decouple (Autonóm Memória Tárolás)
+#### 6. Fázis: Pump-and-Decouple (Autonóm Memória Tárolás)
 - **Cél:** A teljes Írás $\rightarrow$ Lekapcsolás $\rightarrow$ Tárolás ciklus igazolása. A $k=8$-as szinkron állapot elérése után a külső meghajtást és a hidat lekapcsoljuk. A 2. kerék önmagában megőrzi-e a kapott kvantumállapotot?
 - **Áramkörök:** 21 áramkör, 512 shot az `ibm_marrakesh` chipen.
 - **Ítélet:** `CONFIRMED` — Kézfogási ekvipartíció igazolva ($|P(S_1)-P(S_2)|=0.0605 \le 0.15$), az önálló tárolás $k=32$-nél $27.5\%$-os megtartást adott, ami **$+15.6\%$ többlet** a tétlen transzmon relaxációhoz ($11.9\%$) képest!
+
+---
+
+### II. Szakasz: Többcellás Topológiai Hálózati Skálázás (7–9. Fázis)
+
+*Módszertani Eredet:* A 4. fázis kötött állapota és a 6. fázis DRAM leválasztása után a kutatás célirányosan lépett tovább a hálózati kiterjesztésre. A 7., 8. és 9. fázis nem utólagos illesztés: mindhárom fázis önálló predikciós dokumentummal és SHA-256 hash-zárral lett ellátva a QPU futtatás előtt!
+
+#### 7. Fázis: 10-Qubites Háromcellás Busz
+- **Cél:** Lineáris 3-magos klaszter koherens vezetési képességének és 3-oldalú szinkronizációjának igazolása.
+- **Topológia (10 natív qubit):** Magok: $S_1 = 105$, $S_2 = 125$, $S_3 = 123$; hidak: 117 és 124. Zéró virtuális SWAP.
+- **Áramkörök & Futtatás:** 18 áramkör az `ibm_marrakesh` gépen (`dbsam57v5hds73dio4i0`).
+- **Ítélet:** `CONFIRMED` — Végpont-vezetés $S_3$-ba: $P(S_3) = 0.3008$ (a lekapcsolt kontroll $0.0170$ szintjével szemben). 3-oldalú ekvipartíció $k=16$-nál ($S_1 \approx 35.9\%, S_2 \approx 25.2\%, S_3 \approx 30.5\%$), és **$67.0\%$ kollektív megtartás** $k=32$-nél!
+
+#### 8. Fázis: 13-Qubites 2D Tér-Szövet
+- **Cél:** 2D szökőkút-szerű, 3-irányú izotróp ($120^\circ$) gerjesztés-szétsugárzás és makroszkopikus kötött állapot (BIC) igazolása.
+- **Topológia (13 natív qubit):** Központi mag $S_0 = 125$, szatellitek: ÉNy ($S_1 = 105$), ÉK ($S_2 = 127$), D ($S_3 = 123$), fizikai hidak: 117, 126, 124.
+- **Áramkörök & Futtatás:** 18 áramkör az `ibm_marrakesh` gépen (`dbsap8ok09pc73avuql0`).
+- **Ítélet:** `CONFIRMED` — Szimmetrikus 3-irányú szóródás ($S_1 \approx 36.1\%, S_2 \approx 37.3\%, S_3 \approx 31.1\%$), és **$83.4\%$ makroszkopikus kötött állapot** a teljes 13-qubites szöveten $k=32$-nél!
+
+#### 9. Fázis: Elosztott Memória Hálózat (A HÁLÓZAT)
+- **Cél:** A teljes elosztott autonóm kvantum DRAM megvalósítása 13 qubiten. 1. lépés: 2D Írás (a központ feltölti a 3 szatellitet $k=8$-ig). 2. lépés: Globális Lekapcsolás ($k=8$-nál a központ és mindhárom híd lekapcsol). 3. lépés: Elosztott Autonóm Tárolás (a 3 egymástól független cella önállóan tárolja a szétsugárzott kvantuminformációt).
+- **Áramkörök & Futtatás:** 21 áramkör az `ibm_marrakesh` gépen (`dbsaruujjaos73ajvhtg`).
+- **Ítélet:** `CONFIRMED` — Kézfogási ekvipartíció igazolva. A fizikailag leválasztott autonóm hálózat **$72.07\%$ kollektív gerjesztést tart** $k=32$-nél, ami **$+26.17\%$ tiszta védelmi előny** a magára hagyott tétlen relaxációval szemben ($45.90\%$, $Z = 8.84\sigma$).
+
+---
+
+## Topológiai Skálázódási Mechanizmus és Metrikák
+
+Jogos bírálói kérdés: **Miért tart a 9. fázisban a hálózat $72.1\%$-ot, míg a 6. fázisban a leválasztott cella $27.5\%$-ot? Nincs itt ellentmondás?**
+
+### 1. Metrikák Pontos Definíciója
+- **Egyedi Szatellit Cellák Retenciója ($P(S_i)$):**
+  $$P(S_i) \equiv \frac{1}{N_\text{shots}} \sum_{x, x_{S_i}=1} \text{count}(x)$$
+  - 6. Fázis (Egyetlen szatellit cella $S_2$): $P(S_2) = 27.54\%$ $k=32$-nél.
+  - 9. Fázis (Három független szatellit cella): $P(S_1) = 24.80\%$, $P(S_2) = 26.76\%$, $P(S_3) = 20.51\%$.
+  - **Lényeg:** *Bármelyik egyedi szatellit cella önálló megtartása hajszálpontosan ugyanabban a sávban mozog mindkét kísérletben ($\sim 21\% - 27\%$)!* Nincs ugrás az alapvető cella-fizikában.
+
+- **Kollektív Hálózati Retenció ($P_\text{mesh}$):**
+  $$P_\text{mesh} \equiv \sum_{i=1}^3 P(S_i)$$
+  A 9. fázisban a gerjesztés a lekapcsolás előtt szét lett terítve a 3 szatellit cella között. Mivel a fizikai evolúció az 1-gerjesztéses altérben zajlik, annak a valószínűsége, hogy a kvantuminformáció a szatellit-memóriában megmaradt, a szatellitek vetületeinek összege:
+  $$P_\text{mesh} = 24.80\% + 26.76\% + 20.51\% = 72.07\%$$
+  A kontroll mérésben 3 tétlen, magára hagyott transzmon $T_1$ relaxációját mérjük ($P_\text{idle, 3q} = 45.90\%$). A szétkapcsolt elosztott hálózat így **$+26.17\%$ statisztikailag sziklaszilárd előnyt** nyújt ($Z = 8.84\sigma$, $P < 10^{-18}$).
+
+- **13-Qubites Szövet Kötött Állapot (8. Fázis, $83.4\%$):**
+  A 8. fázisban nincs lekapcsolás; a központ folyamatosan hajt. A $83.4\%$ a teljes 13-qubites összefüggő klaszterre mért vetület ($\sum P(S_i) + P(\text{Hub}) + P(\text{Hidak})$), ami a makroszkopikus kötött állapot (BIC) kialakulását bizonyítja.
+
+### 2. A Fizikai Védelem Hatásmechanizmusa
+1. **Szubradiáns Sötét Állapot (Dark State):** A mesterséges Peierls fázisokkal összekötött $N$ transzmon olyan aszimmetrikus hullámfüggvényt hoz létre, amely ortogonális a szimmetrikus sugárzási dekoherencia-csatornákra. A lokális dielektromos TLS zajok és relaxációk vetülete a védett szubradiáns módusra a koordinációs szám növekedésével $\sim 1/N_\text{nodes}$ arányban elnyomódik.
+2. **Topológiai Térbeli Delokalizáció:** A 9. fázisban az információ nem egyetlen transzmonban összpontosul, hanem 3 fizikailag szeparált cella terében elosztva tárolódik. Egy lokális hiba az egyik szatellitben nem semmisíti meg a többi cellában koherensen jelen lévő amplitúdót.
+3. **Autonóm Hurkolt Csapdázás:** A hidak lekapcsolása után a cellák belső zárt Hamilton-operátora folyamatosan forgatja az állapotot a 3 transzmon között, passzív dinamikus dekoherencia-védelmet nyújtva.
 
 ---
 
