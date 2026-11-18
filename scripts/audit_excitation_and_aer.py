@@ -47,14 +47,14 @@ def audit_phase9():
                 print(f"Mode: {mode:<12} k={k:<2} | N=0: {hw.get(0,{}).get('pct',0):.1f}% | "
                       f"N=1: {hw.get(1,{}).get('pct',0):.1f}% | N>=2: {p_ge_2:.1f}% (shots: {n_ge_2}/{tot})")
 
-def audit_phase8():
+def audit_phase7():
     path = DATA_DIR / "tri_wheel_raw_counts.json"
     if not path.exists():
         return
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
     print("\n=======================================================")
-    print("AUDIT: Phase 8 (Tri-Wheel, 3 Satellite Cores: S1, S2, S3)")
+    print("AUDIT: Phase 7 (Tri-Wheel, 3 Satellite Cores: S1, S2, S3)")
     print("Injected state: exactly 1 excitation")
     print("=======================================================")
     for mode in ["nosync", "sync"]:
@@ -68,14 +68,14 @@ def audit_phase8():
                 print(f"Mode: {mode:<12} k={k:<2} | N=0: {hw.get(0,{}).get('pct',0):.1f}% | "
                       f"N=1: {hw.get(1,{}).get('pct',0):.1f}% | N>=2: {p_ge_2:.1f}% (shots: {n_ge_2}/{tot})")
 
-def audit_phase7():
+def audit_phase6():
     path = DATA_DIR / "dual_wheel_decouple_raw_counts.json"
     if not path.exists():
         return
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
     print("\n=======================================================")
-    print("AUDIT: Phase 7 (Dual-Wheel Decouple, S1 & S2)")
+    print("AUDIT: Phase 6 (Dual-Wheel Decouple, S1 & S2)")
     print("Injected state: exactly 1 excitation")
     print("=======================================================")
     for mode in ["decouple", "continuous", "idle"]:
@@ -102,7 +102,7 @@ def audit_kerek_aer():
         hw = json.load(f)
     
     print("\n=======================================================")
-    print("AUDIT: Phase 3 (Kerék) Hardware vs Aer Noisy Simulation")
+    print("AUDIT: Phase 4 (Kerék) Hardware vs Aer Noisy Simulation")
     print("=======================================================")
     checkpoints = [0, 4, 8, 12, 16, 20, 24, 28, 32]
     aer_wheel = fz["aer_prediction"]["wheel"]["curve"]
@@ -121,6 +121,6 @@ def audit_kerek_aer():
 
 if __name__ == "__main__":
     audit_phase9()
-    audit_phase8()
     audit_phase7()
+    audit_phase6()
     audit_kerek_aer()

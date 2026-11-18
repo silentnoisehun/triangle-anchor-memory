@@ -1,0 +1,3055 @@
+{
+  "phase_6_dual_wheel_decouple": {
+    "phase_num": 6,
+    "file": "dual_wheel_decouple_raw_counts.json",
+    "branches": {
+      "hold_wheel2": {
+        "8": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.283203125,
+              "stored": 0.283203125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.34375,
+              "stored": 0.34375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.626953125,
+          "expected_excitations_all": 0.626953125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 245,
+            "1": 213,
+            "2": 54
+          },
+          "multi_excitation_shots_ge_2": 54,
+          "multi_excitation_pct_ge_2": 10.546875
+        },
+        "12": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.140625,
+              "stored": 0.140625,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.2734375,
+              "stored": 0.2734375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.4140625,
+          "expected_excitations_all": 0.4140625,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 319,
+            "1": 174,
+            "2": 19
+          },
+          "multi_excitation_shots_ge_2": 19,
+          "multi_excitation_pct_ge_2": 3.7109375
+        },
+        "16": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.33984375,
+              "stored": 0.33984375,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.318359375,
+              "stored": 0.318359375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.658203125,
+          "expected_excitations_all": 0.658203125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 235,
+            "1": 217,
+            "2": 60
+          },
+          "multi_excitation_shots_ge_2": 60,
+          "multi_excitation_pct_ge_2": 11.71875
+        },
+        "20": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.275390625,
+              "stored": 0.275390625,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.2890625,
+              "stored": 0.2890625,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.564453125,
+          "expected_excitations_all": 0.564453125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 262,
+            "1": 211,
+            "2": 39
+          },
+          "multi_excitation_shots_ge_2": 39,
+          "multi_excitation_pct_ge_2": 7.6171875
+        },
+        "24": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.302734375,
+              "stored": 0.302734375,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.29296875,
+              "stored": 0.29296875,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.595703125,
+          "expected_excitations_all": 0.595703125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 248,
+            "1": 223,
+            "2": 41
+          },
+          "multi_excitation_shots_ge_2": 41,
+          "multi_excitation_pct_ge_2": 8.0078125
+        },
+        "28": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.26953125,
+              "stored": 0.26953125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.25390625,
+              "stored": 0.25390625,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.5234375,
+          "expected_excitations_all": 0.5234375,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 277,
+            "1": 202,
+            "2": 33
+          },
+          "multi_excitation_shots_ge_2": 33,
+          "multi_excitation_pct_ge_2": 6.4453125
+        },
+        "32": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.158203125,
+              "stored": 0.158203125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.275390625,
+              "stored": 0.275390625,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.43359375,
+          "expected_excitations_all": 0.43359375,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 307,
+            "1": 188,
+            "2": 17
+          },
+          "multi_excitation_shots_ge_2": 17,
+          "multi_excitation_pct_ge_2": 3.3203125
+        }
+      },
+      "hold_idle": {
+        "8": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.345703125,
+              "stored": 0.345703125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.37109375,
+              "stored": 0.37109375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.716796875,
+          "expected_excitations_all": 0.716796875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 201,
+            "1": 255,
+            "2": 56
+          },
+          "multi_excitation_shots_ge_2": 56,
+          "multi_excitation_pct_ge_2": 10.9375
+        },
+        "12": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.173828125,
+              "stored": 0.173828125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.26953125,
+              "stored": 0.26953125,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.443359375,
+          "expected_excitations_all": 0.443359375,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 309,
+            "1": 179,
+            "2": 24
+          },
+          "multi_excitation_shots_ge_2": 24,
+          "multi_excitation_pct_ge_2": 4.6875
+        },
+        "16": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.2265625,
+              "stored": 0.2265625,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.20703125,
+              "stored": 0.20703125,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.43359375,
+          "expected_excitations_all": 0.43359375,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 314,
+            "1": 174,
+            "2": 24
+          },
+          "multi_excitation_shots_ge_2": 24,
+          "multi_excitation_pct_ge_2": 4.6875
+        },
+        "20": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.134765625,
+              "stored": 0.134765625,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.083984375,
+              "stored": 0.083984375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.21875,
+          "expected_excitations_all": 0.21875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 405,
+            "1": 102,
+            "2": 5
+          },
+          "multi_excitation_shots_ge_2": 5,
+          "multi_excitation_pct_ge_2": 0.9765625
+        },
+        "24": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.109375,
+              "stored": 0.109375,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.31640625,
+              "stored": 0.31640625,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.42578125,
+          "expected_excitations_all": 0.42578125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 316,
+            "1": 174,
+            "2": 22
+          },
+          "multi_excitation_shots_ge_2": 22,
+          "multi_excitation_pct_ge_2": 4.296875
+        },
+        "28": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.0625,
+              "stored": 0.0625,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.078125,
+              "stored": 0.078125,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.140625,
+          "expected_excitations_all": 0.140625,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 442,
+            "1": 68,
+            "2": 2
+          },
+          "multi_excitation_shots_ge_2": 2,
+          "multi_excitation_pct_ge_2": 0.390625
+        },
+        "32": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.1875,
+              "stored": 0.1875,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.119140625,
+              "stored": 0.119140625,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.306640625,
+          "expected_excitations_all": 0.306640625,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 365,
+            "1": 137,
+            "2": 10
+          },
+          "multi_excitation_shots_ge_2": 10,
+          "multi_excitation_pct_ge_2": 1.953125
+        }
+      },
+      "continuous": {
+        "8": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.322265625,
+              "stored": 0.322265625,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.314453125,
+              "stored": 0.314453125,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.63671875,
+          "expected_excitations_all": 0.63671875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 233,
+            "1": 232,
+            "2": 47
+          },
+          "multi_excitation_shots_ge_2": 47,
+          "multi_excitation_pct_ge_2": 9.1796875
+        },
+        "12": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.34375,
+              "stored": 0.34375,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.38671875,
+              "stored": 0.38671875,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.73046875,
+          "expected_excitations_all": 0.73046875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 204,
+            "1": 242,
+            "2": 66
+          },
+          "multi_excitation_shots_ge_2": 66,
+          "multi_excitation_pct_ge_2": 12.890625
+        },
+        "16": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.26953125,
+              "stored": 0.26953125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.353515625,
+              "stored": 0.353515625,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.623046875,
+          "expected_excitations_all": 0.623046875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 240,
+            "1": 225,
+            "2": 47
+          },
+          "multi_excitation_shots_ge_2": 47,
+          "multi_excitation_pct_ge_2": 9.1796875
+        },
+        "20": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.357421875,
+              "stored": 0.357421875,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.275390625,
+              "stored": 0.275390625,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.6328125,
+          "expected_excitations_all": 0.6328125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 241,
+            "1": 218,
+            "2": 53
+          },
+          "multi_excitation_shots_ge_2": 53,
+          "multi_excitation_pct_ge_2": 10.3515625
+        },
+        "24": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.326171875,
+              "stored": 0.326171875,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.3359375,
+              "stored": 0.3359375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.662109375,
+          "expected_excitations_all": 0.662109375,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 226,
+            "1": 233,
+            "2": 53
+          },
+          "multi_excitation_shots_ge_2": 53,
+          "multi_excitation_pct_ge_2": 10.3515625
+        },
+        "28": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.279296875,
+              "stored": 0.279296875,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.34765625,
+              "stored": 0.34765625,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.626953125,
+          "expected_excitations_all": 0.626953125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 235,
+            "1": 233,
+            "2": 44
+          },
+          "multi_excitation_shots_ge_2": 44,
+          "multi_excitation_pct_ge_2": 8.59375
+        },
+        "32": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.27734375,
+              "stored": 0.27734375,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.3671875,
+              "stored": 0.3671875,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.64453125,
+          "expected_excitations_all": 0.64453125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 240,
+            "1": 214,
+            "2": 58
+          },
+          "multi_excitation_shots_ge_2": 58,
+          "multi_excitation_pct_ge_2": 11.328125
+        }
+      }
+    }
+  },
+  "phase_7_tri_wheel": {
+    "phase_num": 7,
+    "file": "tri_wheel_raw_counts.json",
+    "branches": {
+      "sync": {
+        "0": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.95703125,
+              "stored": 0.95703125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.0859375,
+              "stored": 0.0859375,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.033203125,
+              "stored": 0.033203125,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.076171875,
+          "expected_excitations_all": 1.076171875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 20,
+            "1": 437,
+            "2": 51,
+            "3": 4
+          },
+          "multi_excitation_shots_ge_2": 55,
+          "multi_excitation_pct_ge_2": 10.7421875
+        },
+        "4": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.439453125,
+              "stored": 0.439453125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.291015625,
+              "stored": 0.291015625,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.2421875,
+              "stored": 0.2421875,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.97265625,
+          "expected_excitations_all": 0.97265625,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 158,
+            "1": 229,
+            "2": 106,
+            "3": 19
+          },
+          "multi_excitation_shots_ge_2": 125,
+          "multi_excitation_pct_ge_2": 24.4140625
+        },
+        "8": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.271484375,
+              "stored": 0.271484375,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.3828125,
+              "stored": 0.3828125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.271484375,
+              "stored": 0.271484375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.92578125,
+          "expected_excitations_all": 0.92578125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 172,
+            "1": 227,
+            "2": 92,
+            "3": 21
+          },
+          "multi_excitation_shots_ge_2": 113,
+          "multi_excitation_pct_ge_2": 22.0703125
+        },
+        "12": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.443359375,
+              "stored": 0.443359375,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.314453125,
+              "stored": 0.314453125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.337890625,
+              "stored": 0.337890625,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.095703125,
+          "expected_excitations_all": 1.095703125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 131,
+            "1": 224,
+            "2": 134,
+            "3": 23
+          },
+          "multi_excitation_shots_ge_2": 157,
+          "multi_excitation_pct_ge_2": 30.6640625
+        },
+        "16": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.359375,
+              "stored": 0.359375,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.251953125,
+              "stored": 0.251953125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.3046875,
+              "stored": 0.3046875,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.916015625,
+          "expected_excitations_all": 0.916015625,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 168,
+            "1": 231,
+            "2": 101,
+            "3": 12
+          },
+          "multi_excitation_shots_ge_2": 113,
+          "multi_excitation_pct_ge_2": 22.0703125
+        },
+        "20": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.2890625,
+              "stored": 0.2890625,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.28515625,
+              "stored": 0.28515625,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.3359375,
+              "stored": 0.3359375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.91015625,
+          "expected_excitations_all": 0.91015625,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 180,
+            "1": 217,
+            "2": 96,
+            "3": 19
+          },
+          "multi_excitation_shots_ge_2": 115,
+          "multi_excitation_pct_ge_2": 22.4609375
+        },
+        "24": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.611328125,
+              "stored": 0.611328125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.328125,
+              "stored": 0.328125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.28125,
+              "stored": 0.28125,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.220703125,
+          "expected_excitations_all": 1.220703125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 95,
+            "1": 235,
+            "2": 156,
+            "3": 26
+          },
+          "multi_excitation_shots_ge_2": 182,
+          "multi_excitation_pct_ge_2": 35.546875
+        },
+        "28": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.201171875,
+              "stored": 0.201171875,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.28125,
+              "stored": 0.28125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.2890625,
+              "stored": 0.2890625,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.771484375,
+          "expected_excitations_all": 0.771484375,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 214,
+            "1": 210,
+            "2": 79,
+            "3": 9
+          },
+          "multi_excitation_shots_ge_2": 88,
+          "multi_excitation_pct_ge_2": 17.1875
+        },
+        "32": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.275390625,
+              "stored": 0.275390625,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.396484375,
+              "stored": 0.396484375,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.28515625,
+              "stored": 0.28515625,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.95703125,
+          "expected_excitations_all": 0.95703125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 169,
+            "1": 213,
+            "2": 113,
+            "3": 17
+          },
+          "multi_excitation_shots_ge_2": 130,
+          "multi_excitation_pct_ge_2": 25.390625
+        }
+      },
+      "nosync": {
+        "0": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.96484375,
+              "stored": 0.96484375,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.0703125,
+              "stored": 0.0703125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.009765625,
+              "stored": 0.009765625,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.044921875,
+          "expected_excitations_all": 1.044921875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 17,
+            "1": 455,
+            "2": 40
+          },
+          "multi_excitation_shots_ge_2": 40,
+          "multi_excitation_pct_ge_2": 7.8125
+        },
+        "4": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.451171875,
+              "stored": 0.451171875,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.04296875,
+              "stored": 0.04296875,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.025390625,
+              "stored": 0.025390625,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.51953125,
+          "expected_excitations_all": 0.51953125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 265,
+            "1": 228,
+            "2": 19
+          },
+          "multi_excitation_shots_ge_2": 19,
+          "multi_excitation_pct_ge_2": 3.7109375
+        },
+        "8": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.365234375,
+              "stored": 0.365234375,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.0390625,
+              "stored": 0.0390625,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.015625,
+              "stored": 0.015625,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.419921875,
+          "expected_excitations_all": 0.419921875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 305,
+            "1": 199,
+            "2": 8
+          },
+          "multi_excitation_shots_ge_2": 8,
+          "multi_excitation_pct_ge_2": 1.5625
+        },
+        "12": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.384765625,
+              "stored": 0.384765625,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.04296875,
+              "stored": 0.04296875,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.0234375,
+              "stored": 0.0234375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.451171875,
+          "expected_excitations_all": 0.451171875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 297,
+            "1": 199,
+            "2": 16
+          },
+          "multi_excitation_shots_ge_2": 16,
+          "multi_excitation_pct_ge_2": 3.125
+        },
+        "16": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.318359375,
+              "stored": 0.318359375,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.048828125,
+              "stored": 0.048828125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.017578125,
+              "stored": 0.017578125,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.384765625,
+          "expected_excitations_all": 0.384765625,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 324,
+            "1": 179,
+            "2": 9
+          },
+          "multi_excitation_shots_ge_2": 9,
+          "multi_excitation_pct_ge_2": 1.7578125
+        },
+        "20": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.3359375,
+              "stored": 0.3359375,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.04296875,
+              "stored": 0.04296875,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.01953125,
+              "stored": 0.01953125,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.3984375,
+          "expected_excitations_all": 0.3984375,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 320,
+            "1": 180,
+            "2": 12
+          },
+          "multi_excitation_shots_ge_2": 12,
+          "multi_excitation_pct_ge_2": 2.34375
+        },
+        "24": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.375,
+              "stored": 0.375,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.052734375,
+              "stored": 0.052734375,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.021484375,
+              "stored": 0.021484375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.44921875,
+          "expected_excitations_all": 0.44921875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 302,
+            "1": 190,
+            "2": 20
+          },
+          "multi_excitation_shots_ge_2": 20,
+          "multi_excitation_pct_ge_2": 3.90625
+        },
+        "28": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.388671875,
+              "stored": 0.388671875,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.052734375,
+              "stored": 0.052734375,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.01171875,
+              "stored": 0.01171875,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.453125,
+          "expected_excitations_all": 0.453125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 293,
+            "1": 206,
+            "2": 13
+          },
+          "multi_excitation_shots_ge_2": 13,
+          "multi_excitation_pct_ge_2": 2.5390625
+        },
+        "32": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S1": {
+              "computed": 0.36328125,
+              "stored": 0.36328125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.0234375,
+              "stored": 0.0234375,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.009765625,
+              "stored": 0.009765625,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.396484375,
+          "expected_excitations_all": 0.396484375,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 319,
+            "1": 183,
+            "2": 10
+          },
+          "multi_excitation_shots_ge_2": 10,
+          "multi_excitation_pct_ge_2": 1.953125
+        }
+      }
+    }
+  },
+  "phase_8_fabric_13q": {
+    "phase_num": 8,
+    "file": "fabric_13q_raw_counts.json",
+    "branches": {
+      "sync": {
+        "0": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.96484375,
+              "stored": 0.96484375,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.0,
+              "stored": 0.0,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.01953125,
+              "stored": 0.01953125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.009765625,
+              "stored": 0.009765625,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.994140625,
+          "expected_excitations_all": 0.994140625,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 17,
+            "1": 481,
+            "2": 14
+          },
+          "multi_excitation_shots_ge_2": 14,
+          "multi_excitation_pct_ge_2": 2.734375,
+          "satellites": {
+            "indices": [
+              1,
+              2,
+              3
+            ],
+            "names": [
+              "S1",
+              "S2",
+              "S3"
+            ],
+            "hw_sat": {
+              "0": 497,
+              "1": 15,
+              "2": 0,
+              "3": 0
+            },
+            "expected_n_sat": 0.029296875,
+            "sum_sat_marginals": 0.029296875,
+            "marginal_identity_holds": true,
+            "multi_satellite_shots_ge_2": 0,
+            "multi_satellite_pct_ge_2": 0.0
+          }
+        },
+        "4": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.4296875,
+              "stored": 0.4296875,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.25,
+              "stored": 0.25,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.267578125,
+              "stored": 0.267578125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.248046875,
+              "stored": 0.248046875,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.1953125,
+          "expected_excitations_all": 1.1953125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 115,
+            "1": 224,
+            "2": 133,
+            "3": 38,
+            "4": 2
+          },
+          "multi_excitation_shots_ge_2": 173,
+          "multi_excitation_pct_ge_2": 33.7890625,
+          "satellites": {
+            "indices": [
+              1,
+              2,
+              3
+            ],
+            "names": [
+              "S1",
+              "S2",
+              "S3"
+            ],
+            "hw_sat": {
+              "0": 213,
+              "1": 215,
+              "2": 75,
+              "3": 9
+            },
+            "expected_n_sat": 0.765625,
+            "sum_sat_marginals": 0.765625,
+            "marginal_identity_holds": true,
+            "multi_satellite_shots_ge_2": 84,
+            "multi_satellite_pct_ge_2": 16.40625
+          }
+        },
+        "8": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.427734375,
+              "stored": 0.427734375,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.375,
+              "stored": 0.375,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.33203125,
+              "stored": 0.33203125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.3671875,
+              "stored": 0.3671875,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.501953125,
+          "expected_excitations_all": 1.501953125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 62,
+            "1": 210,
+            "2": 168,
+            "3": 65,
+            "4": 7
+          },
+          "multi_excitation_shots_ge_2": 240,
+          "multi_excitation_pct_ge_2": 46.875,
+          "satellites": {
+            "indices": [
+              1,
+              2,
+              3
+            ],
+            "names": [
+              "S1",
+              "S2",
+              "S3"
+            ],
+            "hw_sat": {
+              "0": 126,
+              "1": 244,
+              "2": 120,
+              "3": 22
+            },
+            "expected_n_sat": 1.07421875,
+            "sum_sat_marginals": 1.07421875,
+            "marginal_identity_holds": true,
+            "multi_satellite_shots_ge_2": 142,
+            "multi_satellite_pct_ge_2": 27.734375
+          }
+        },
+        "12": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.423828125,
+              "stored": 0.423828125,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.361328125,
+              "stored": 0.361328125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.373046875,
+              "stored": 0.373046875,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.310546875,
+              "stored": 0.310546875,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.46875,
+          "expected_excitations_all": 1.46875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 88,
+            "1": 183,
+            "2": 166,
+            "3": 63,
+            "4": 12
+          },
+          "multi_excitation_shots_ge_2": 241,
+          "multi_excitation_pct_ge_2": 47.0703125,
+          "satellites": {
+            "indices": [
+              1,
+              2,
+              3
+            ],
+            "names": [
+              "S1",
+              "S2",
+              "S3"
+            ],
+            "hw_sat": {
+              "0": 136,
+              "1": 234,
+              "2": 125,
+              "3": 17
+            },
+            "expected_n_sat": 1.044921875,
+            "sum_sat_marginals": 1.044921875,
+            "marginal_identity_holds": true,
+            "multi_satellite_shots_ge_2": 142,
+            "multi_satellite_pct_ge_2": 27.734375
+          }
+        },
+        "16": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.404296875,
+              "stored": 0.404296875,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.30078125,
+              "stored": 0.30078125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.330078125,
+              "stored": 0.330078125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.291015625,
+              "stored": 0.291015625,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.326171875,
+          "expected_excitations_all": 1.326171875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 96,
+            "1": 213,
+            "2": 146,
+            "3": 54,
+            "4": 3
+          },
+          "multi_excitation_shots_ge_2": 203,
+          "multi_excitation_pct_ge_2": 39.6484375,
+          "satellites": {
+            "indices": [
+              1,
+              2,
+              3
+            ],
+            "names": [
+              "S1",
+              "S2",
+              "S3"
+            ],
+            "hw_sat": {
+              "0": 169,
+              "1": 228,
+              "2": 101,
+              "3": 14
+            },
+            "expected_n_sat": 0.921875,
+            "sum_sat_marginals": 0.921875,
+            "marginal_identity_holds": true,
+            "multi_satellite_shots_ge_2": 115,
+            "multi_satellite_pct_ge_2": 22.4609375
+          }
+        },
+        "20": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.416015625,
+              "stored": 0.416015625,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.353515625,
+              "stored": 0.353515625,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.38671875,
+              "stored": 0.38671875,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.333984375,
+              "stored": 0.333984375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.490234375,
+          "expected_excitations_all": 1.490234375,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 79,
+            "1": 184,
+            "2": 180,
+            "3": 57,
+            "4": 12
+          },
+          "multi_excitation_shots_ge_2": 249,
+          "multi_excitation_pct_ge_2": 48.6328125,
+          "satellites": {
+            "indices": [
+              1,
+              2,
+              3
+            ],
+            "names": [
+              "S1",
+              "S2",
+              "S3"
+            ],
+            "hw_sat": {
+              "0": 140,
+              "1": 220,
+              "2": 126,
+              "3": 26
+            },
+            "expected_n_sat": 1.07421875,
+            "sum_sat_marginals": 1.07421875,
+            "marginal_identity_holds": true,
+            "multi_satellite_shots_ge_2": 152,
+            "multi_satellite_pct_ge_2": 29.6875
+          }
+        },
+        "24": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.4375,
+              "stored": 0.4375,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.33203125,
+              "stored": 0.33203125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.396484375,
+              "stored": 0.396484375,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.34375,
+              "stored": 0.34375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.509765625,
+          "expected_excitations_all": 1.509765625,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 76,
+            "1": 193,
+            "2": 159,
+            "3": 74,
+            "4": 10
+          },
+          "multi_excitation_shots_ge_2": 243,
+          "multi_excitation_pct_ge_2": 47.4609375,
+          "satellites": {
+            "indices": [
+              1,
+              2,
+              3
+            ],
+            "names": [
+              "S1",
+              "S2",
+              "S3"
+            ],
+            "hw_sat": {
+              "0": 139,
+              "1": 224,
+              "2": 122,
+              "3": 27
+            },
+            "expected_n_sat": 1.072265625,
+            "sum_sat_marginals": 1.072265625,
+            "marginal_identity_holds": true,
+            "multi_satellite_shots_ge_2": 149,
+            "multi_satellite_pct_ge_2": 29.1015625
+          }
+        },
+        "28": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.3359375,
+              "stored": 0.3359375,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.361328125,
+              "stored": 0.361328125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.427734375,
+              "stored": 0.427734375,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.359375,
+              "stored": 0.359375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.484375,
+          "expected_excitations_all": 1.484375,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 85,
+            "1": 185,
+            "2": 163,
+            "3": 67,
+            "4": 12
+          },
+          "multi_excitation_shots_ge_2": 242,
+          "multi_excitation_pct_ge_2": 47.265625,
+          "satellites": {
+            "indices": [
+              1,
+              2,
+              3
+            ],
+            "names": [
+              "S1",
+              "S2",
+              "S3"
+            ],
+            "hw_sat": {
+              "0": 125,
+              "1": 211,
+              "2": 151,
+              "3": 25
+            },
+            "expected_n_sat": 1.1484375,
+            "sum_sat_marginals": 1.1484375,
+            "marginal_identity_holds": true,
+            "multi_satellite_shots_ge_2": 176,
+            "multi_satellite_pct_ge_2": 34.375
+          }
+        },
+        "32": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.474609375,
+              "stored": 0.474609375,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.322265625,
+              "stored": 0.322265625,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.30859375,
+              "stored": 0.30859375,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.310546875,
+              "stored": 0.310546875,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.416015625,
+          "expected_excitations_all": 1.416015625,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 85,
+            "1": 201,
+            "2": 160,
+            "3": 60,
+            "4": 6
+          },
+          "multi_excitation_shots_ge_2": 226,
+          "multi_excitation_pct_ge_2": 44.140625,
+          "satellites": {
+            "indices": [
+              1,
+              2,
+              3
+            ],
+            "names": [
+              "S1",
+              "S2",
+              "S3"
+            ],
+            "hw_sat": {
+              "0": 171,
+              "1": 213,
+              "2": 115,
+              "3": 13
+            },
+            "expected_n_sat": 0.94140625,
+            "sum_sat_marginals": 0.94140625,
+            "marginal_identity_holds": true,
+            "multi_satellite_shots_ge_2": 128,
+            "multi_satellite_pct_ge_2": 25.0
+          }
+        }
+      },
+      "nosync": {
+        "0": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.98046875,
+              "stored": 0.98046875,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.0,
+              "stored": 0.0,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.013671875,
+              "stored": 0.013671875,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.005859375,
+              "stored": 0.005859375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.0,
+          "expected_excitations_all": 1.0,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 10,
+            "1": 492,
+            "2": 10
+          },
+          "multi_excitation_shots_ge_2": 10,
+          "multi_excitation_pct_ge_2": 1.953125,
+          "satellites": {
+            "indices": [
+              1,
+              2,
+              3
+            ],
+            "names": [
+              "S1",
+              "S2",
+              "S3"
+            ],
+            "hw_sat": {
+              "0": 502,
+              "1": 10,
+              "2": 0,
+              "3": 0
+            },
+            "expected_n_sat": 0.01953125,
+            "sum_sat_marginals": 0.01953125,
+            "marginal_identity_holds": true,
+            "multi_satellite_shots_ge_2": 0,
+            "multi_satellite_pct_ge_2": 0.0
+          }
+        },
+        "4": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.35546875,
+              "stored": 0.35546875,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.005859375,
+              "stored": 0.005859375,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.00390625,
+              "stored": 0.00390625,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.0234375,
+              "stored": 0.0234375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.388671875,
+          "expected_excitations_all": 0.388671875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 325,
+            "1": 175,
+            "2": 12
+          },
+          "multi_excitation_shots_ge_2": 12,
+          "multi_excitation_pct_ge_2": 2.34375,
+          "satellites": {
+            "indices": [
+              1,
+              2,
+              3
+            ],
+            "names": [
+              "S1",
+              "S2",
+              "S3"
+            ],
+            "hw_sat": {
+              "0": 495,
+              "1": 17,
+              "2": 0,
+              "3": 0
+            },
+            "expected_n_sat": 0.033203125,
+            "sum_sat_marginals": 0.033203125,
+            "marginal_identity_holds": true,
+            "multi_satellite_shots_ge_2": 0,
+            "multi_satellite_pct_ge_2": 0.0
+          }
+        },
+        "8": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.263671875,
+              "stored": 0.263671875,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.00390625,
+              "stored": 0.00390625,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.0234375,
+              "stored": 0.0234375,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.0234375,
+              "stored": 0.0234375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.314453125,
+          "expected_excitations_all": 0.314453125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 360,
+            "1": 143,
+            "2": 9
+          },
+          "multi_excitation_shots_ge_2": 9,
+          "multi_excitation_pct_ge_2": 1.7578125,
+          "satellites": {
+            "indices": [
+              1,
+              2,
+              3
+            ],
+            "names": [
+              "S1",
+              "S2",
+              "S3"
+            ],
+            "hw_sat": {
+              "0": 487,
+              "1": 24,
+              "2": 1,
+              "3": 0
+            },
+            "expected_n_sat": 0.05078125,
+            "sum_sat_marginals": 0.05078125,
+            "marginal_identity_holds": true,
+            "multi_satellite_shots_ge_2": 1,
+            "multi_satellite_pct_ge_2": 0.1953125
+          }
+        },
+        "12": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.232421875,
+              "stored": 0.232421875,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.001953125,
+              "stored": 0.001953125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.01171875,
+              "stored": 0.01171875,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.0546875,
+              "stored": 0.0546875,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.30078125,
+          "expected_excitations_all": 0.30078125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 364,
+            "1": 142,
+            "2": 6
+          },
+          "multi_excitation_shots_ge_2": 6,
+          "multi_excitation_pct_ge_2": 1.171875,
+          "satellites": {
+            "indices": [
+              1,
+              2,
+              3
+            ],
+            "names": [
+              "S1",
+              "S2",
+              "S3"
+            ],
+            "hw_sat": {
+              "0": 477,
+              "1": 35,
+              "2": 0,
+              "3": 0
+            },
+            "expected_n_sat": 0.068359375,
+            "sum_sat_marginals": 0.068359375,
+            "marginal_identity_holds": true,
+            "multi_satellite_shots_ge_2": 0,
+            "multi_satellite_pct_ge_2": 0.0
+          }
+        },
+        "16": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.220703125,
+              "stored": 0.220703125,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.0,
+              "stored": 0.0,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.0078125,
+              "stored": 0.0078125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.0703125,
+              "stored": 0.0703125,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.298828125,
+          "expected_excitations_all": 0.298828125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 366,
+            "1": 139,
+            "2": 7
+          },
+          "multi_excitation_shots_ge_2": 7,
+          "multi_excitation_pct_ge_2": 1.3671875,
+          "satellites": {
+            "indices": [
+              1,
+              2,
+              3
+            ],
+            "names": [
+              "S1",
+              "S2",
+              "S3"
+            ],
+            "hw_sat": {
+              "0": 472,
+              "1": 40,
+              "2": 0,
+              "3": 0
+            },
+            "expected_n_sat": 0.078125,
+            "sum_sat_marginals": 0.078125,
+            "marginal_identity_holds": true,
+            "multi_satellite_shots_ge_2": 0,
+            "multi_satellite_pct_ge_2": 0.0
+          }
+        },
+        "20": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.197265625,
+              "stored": 0.197265625,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.0,
+              "stored": 0.0,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.013671875,
+              "stored": 0.013671875,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.095703125,
+              "stored": 0.095703125,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.306640625,
+          "expected_excitations_all": 0.306640625,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 364,
+            "1": 139,
+            "2": 9
+          },
+          "multi_excitation_shots_ge_2": 9,
+          "multi_excitation_pct_ge_2": 1.7578125,
+          "satellites": {
+            "indices": [
+              1,
+              2,
+              3
+            ],
+            "names": [
+              "S1",
+              "S2",
+              "S3"
+            ],
+            "hw_sat": {
+              "0": 457,
+              "1": 54,
+              "2": 1,
+              "3": 0
+            },
+            "expected_n_sat": 0.109375,
+            "sum_sat_marginals": 0.109375,
+            "marginal_identity_holds": true,
+            "multi_satellite_shots_ge_2": 1,
+            "multi_satellite_pct_ge_2": 0.1953125
+          }
+        },
+        "24": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.21875,
+              "stored": 0.21875,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.001953125,
+              "stored": 0.001953125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.015625,
+              "stored": 0.015625,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.068359375,
+              "stored": 0.068359375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.3046875,
+          "expected_excitations_all": 0.3046875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 368,
+            "1": 133,
+            "2": 10,
+            "3": 1
+          },
+          "multi_excitation_shots_ge_2": 11,
+          "multi_excitation_pct_ge_2": 2.1484375,
+          "satellites": {
+            "indices": [
+              1,
+              2,
+              3
+            ],
+            "names": [
+              "S1",
+              "S2",
+              "S3"
+            ],
+            "hw_sat": {
+              "0": 469,
+              "1": 42,
+              "2": 1,
+              "3": 0
+            },
+            "expected_n_sat": 0.0859375,
+            "sum_sat_marginals": 0.0859375,
+            "marginal_identity_holds": true,
+            "multi_satellite_shots_ge_2": 1,
+            "multi_satellite_pct_ge_2": 0.1953125
+          }
+        },
+        "28": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.216796875,
+              "stored": 0.216796875,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.001953125,
+              "stored": 0.001953125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.0078125,
+              "stored": 0.0078125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.0703125,
+              "stored": 0.0703125,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.296875,
+          "expected_excitations_all": 0.296875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 371,
+            "1": 130,
+            "2": 11
+          },
+          "multi_excitation_shots_ge_2": 11,
+          "multi_excitation_pct_ge_2": 2.1484375,
+          "satellites": {
+            "indices": [
+              1,
+              2,
+              3
+            ],
+            "names": [
+              "S1",
+              "S2",
+              "S3"
+            ],
+            "hw_sat": {
+              "0": 471,
+              "1": 41,
+              "2": 0,
+              "3": 0
+            },
+            "expected_n_sat": 0.080078125,
+            "sum_sat_marginals": 0.080078125,
+            "marginal_identity_holds": true,
+            "multi_satellite_shots_ge_2": 0,
+            "multi_satellite_pct_ge_2": 0.0
+          }
+        },
+        "32": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.205078125,
+              "stored": 0.205078125,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.0,
+              "stored": 0.0,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.0078125,
+              "stored": 0.0078125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.076171875,
+              "stored": 0.076171875,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.2890625,
+          "expected_excitations_all": 0.2890625,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 374,
+            "1": 128,
+            "2": 10
+          },
+          "multi_excitation_shots_ge_2": 10,
+          "multi_excitation_pct_ge_2": 1.953125,
+          "satellites": {
+            "indices": [
+              1,
+              2,
+              3
+            ],
+            "names": [
+              "S1",
+              "S2",
+              "S3"
+            ],
+            "hw_sat": {
+              "0": 469,
+              "1": 43,
+              "2": 0,
+              "3": 0
+            },
+            "expected_n_sat": 0.083984375,
+            "sum_sat_marginals": 0.083984375,
+            "marginal_identity_holds": true,
+            "multi_satellite_shots_ge_2": 0,
+            "multi_satellite_pct_ge_2": 0.0
+          }
+        }
+      }
+    }
+  },
+  "phase_9_dist_mesh": {
+    "phase_num": 9,
+    "file": "dist_mesh_raw_counts.json",
+    "branches": {
+      "hold_mesh": {
+        "8": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.46484375,
+              "stored": 0.46484375,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.361328125,
+              "stored": 0.361328125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.296875,
+              "stored": 0.296875,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.244140625,
+              "stored": 0.244140625,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.3671875,
+          "expected_excitations_all": 1.3671875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 92,
+            "1": 203,
+            "2": 159,
+            "3": 53,
+            "4": 5
+          },
+          "multi_excitation_shots_ge_2": 217,
+          "multi_excitation_pct_ge_2": 42.3828125
+        },
+        "12": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.412109375,
+              "stored": 0.412109375,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.40625,
+              "stored": 0.40625,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.306640625,
+              "stored": 0.306640625,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.359375,
+              "stored": 0.359375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.484375,
+          "expected_excitations_all": 1.484375,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 76,
+            "1": 181,
+            "2": 191,
+            "3": 59,
+            "4": 5
+          },
+          "multi_excitation_shots_ge_2": 255,
+          "multi_excitation_pct_ge_2": 49.8046875
+        },
+        "16": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.328125,
+              "stored": 0.328125,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.412109375,
+              "stored": 0.412109375,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.291015625,
+              "stored": 0.291015625,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.294921875,
+              "stored": 0.294921875,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.326171875,
+          "expected_excitations_all": 1.326171875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 95,
+            "1": 213,
+            "2": 151,
+            "3": 48,
+            "4": 5
+          },
+          "multi_excitation_shots_ge_2": 204,
+          "multi_excitation_pct_ge_2": 39.84375
+        },
+        "20": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.330078125,
+              "stored": 0.330078125,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.306640625,
+              "stored": 0.306640625,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.3203125,
+              "stored": 0.3203125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.2734375,
+              "stored": 0.2734375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.23046875,
+          "expected_excitations_all": 1.23046875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 124,
+            "1": 201,
+            "2": 138,
+            "3": 43,
+            "4": 6
+          },
+          "multi_excitation_shots_ge_2": 187,
+          "multi_excitation_pct_ge_2": 36.5234375
+        },
+        "24": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.296875,
+              "stored": 0.296875,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.31640625,
+              "stored": 0.31640625,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.33203125,
+              "stored": 0.33203125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.283203125,
+              "stored": 0.283203125,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.228515625,
+          "expected_excitations_all": 1.228515625,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 113,
+            "1": 211,
+            "2": 152,
+            "3": 30,
+            "4": 6
+          },
+          "multi_excitation_shots_ge_2": 188,
+          "multi_excitation_pct_ge_2": 36.71875
+        },
+        "28": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.287109375,
+              "stored": 0.287109375,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.328125,
+              "stored": 0.328125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.298828125,
+              "stored": 0.298828125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.3359375,
+              "stored": 0.3359375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.25,
+          "expected_excitations_all": 1.25,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 111,
+            "1": 209,
+            "2": 151,
+            "3": 35,
+            "4": 6
+          },
+          "multi_excitation_shots_ge_2": 192,
+          "multi_excitation_pct_ge_2": 37.5
+        },
+        "32": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.212890625,
+              "stored": 0.212890625,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.390625,
+              "stored": 0.390625,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.275390625,
+              "stored": 0.275390625,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.30859375,
+              "stored": 0.30859375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.1875,
+          "expected_excitations_all": 1.1875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 110,
+            "1": 234,
+            "2": 135,
+            "3": 28,
+            "4": 5
+          },
+          "multi_excitation_shots_ge_2": 168,
+          "multi_excitation_pct_ge_2": 32.8125
+        }
+      },
+      "hold_idle": {
+        "8": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.427734375,
+              "stored": 0.427734375,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.392578125,
+              "stored": 0.392578125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.275390625,
+              "stored": 0.275390625,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.341796875,
+              "stored": 0.341796875,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.4375,
+          "expected_excitations_all": 1.4375,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 79,
+            "1": 209,
+            "2": 156,
+            "3": 57,
+            "4": 11
+          },
+          "multi_excitation_shots_ge_2": 224,
+          "multi_excitation_pct_ge_2": 43.75
+        },
+        "12": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.44140625,
+              "stored": 0.44140625,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.353515625,
+              "stored": 0.353515625,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.236328125,
+              "stored": 0.236328125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.318359375,
+              "stored": 0.318359375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.349609375,
+          "expected_excitations_all": 1.349609375,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 96,
+            "1": 207,
+            "2": 152,
+            "3": 48,
+            "4": 9
+          },
+          "multi_excitation_shots_ge_2": 209,
+          "multi_excitation_pct_ge_2": 40.8203125
+        },
+        "16": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.130859375,
+              "stored": 0.130859375,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.298828125,
+              "stored": 0.298828125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.267578125,
+              "stored": 0.267578125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.37890625,
+              "stored": 0.37890625,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.076171875,
+          "expected_excitations_all": 1.076171875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 140,
+            "1": 222,
+            "2": 123,
+            "3": 25,
+            "4": 2
+          },
+          "multi_excitation_shots_ge_2": 150,
+          "multi_excitation_pct_ge_2": 29.296875
+        },
+        "20": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.267578125,
+              "stored": 0.267578125,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.201171875,
+              "stored": 0.201171875,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.216796875,
+              "stored": 0.216796875,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.171875,
+              "stored": 0.171875,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.857421875,
+          "expected_excitations_all": 0.857421875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 202,
+            "1": 204,
+            "2": 84,
+            "3": 21,
+            "4": 1
+          },
+          "multi_excitation_shots_ge_2": 106,
+          "multi_excitation_pct_ge_2": 20.703125
+        },
+        "24": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.287109375,
+              "stored": 0.287109375,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.314453125,
+              "stored": 0.314453125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.16796875,
+              "stored": 0.16796875,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.14453125,
+              "stored": 0.14453125,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.9140625,
+          "expected_excitations_all": 0.9140625,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 172,
+            "1": 237,
+            "2": 80,
+            "3": 21,
+            "4": 2
+          },
+          "multi_excitation_shots_ge_2": 103,
+          "multi_excitation_pct_ge_2": 20.1171875
+        },
+        "28": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.251953125,
+              "stored": 0.251953125,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.318359375,
+              "stored": 0.318359375,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.2265625,
+              "stored": 0.2265625,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.130859375,
+              "stored": 0.130859375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.927734375,
+          "expected_excitations_all": 0.927734375,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 165,
+            "1": 231,
+            "2": 104,
+            "3": 12
+          },
+          "multi_excitation_shots_ge_2": 116,
+          "multi_excitation_pct_ge_2": 22.65625
+        },
+        "32": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.248046875,
+              "stored": 0.248046875,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.259765625,
+              "stored": 0.259765625,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.142578125,
+              "stored": 0.142578125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.12109375,
+              "stored": 0.12109375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 0.771484375,
+          "expected_excitations_all": 0.771484375,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 201,
+            "1": 234,
+            "2": 70,
+            "3": 7
+          },
+          "multi_excitation_shots_ge_2": 77,
+          "multi_excitation_pct_ge_2": 15.0390625
+        }
+      },
+      "continuous": {
+        "8": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.431640625,
+              "stored": 0.431640625,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.330078125,
+              "stored": 0.330078125,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.234375,
+              "stored": 0.234375,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.33203125,
+              "stored": 0.33203125,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.328125,
+          "expected_excitations_all": 1.328125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 99,
+            "1": 200,
+            "2": 163,
+            "3": 46,
+            "4": 4
+          },
+          "multi_excitation_shots_ge_2": 213,
+          "multi_excitation_pct_ge_2": 41.6015625
+        },
+        "12": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.294921875,
+              "stored": 0.294921875,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.421875,
+              "stored": 0.421875,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.33984375,
+              "stored": 0.33984375,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.369140625,
+              "stored": 0.369140625,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.42578125,
+          "expected_excitations_all": 1.42578125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 84,
+            "1": 197,
+            "2": 170,
+            "3": 51,
+            "4": 10
+          },
+          "multi_excitation_shots_ge_2": 231,
+          "multi_excitation_pct_ge_2": 45.1171875
+        },
+        "16": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.453125,
+              "stored": 0.453125,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.478515625,
+              "stored": 0.478515625,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.462890625,
+              "stored": 0.462890625,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.3125,
+              "stored": 0.3125,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.70703125,
+          "expected_excitations_all": 1.70703125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 55,
+            "1": 166,
+            "2": 182,
+            "3": 92,
+            "4": 17
+          },
+          "multi_excitation_shots_ge_2": 291,
+          "multi_excitation_pct_ge_2": 56.8359375
+        },
+        "20": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.43359375,
+              "stored": 0.43359375,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.38671875,
+              "stored": 0.38671875,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.392578125,
+              "stored": 0.392578125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.3203125,
+              "stored": 0.3203125,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.533203125,
+          "expected_excitations_all": 1.533203125,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 70,
+            "1": 202,
+            "2": 156,
+            "3": 65,
+            "4": 19
+          },
+          "multi_excitation_shots_ge_2": 240,
+          "multi_excitation_pct_ge_2": 46.875
+        },
+        "24": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.4609375,
+              "stored": 0.4609375,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.373046875,
+              "stored": 0.373046875,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.396484375,
+              "stored": 0.396484375,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.32421875,
+              "stored": 0.32421875,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.5546875,
+          "expected_excitations_all": 1.5546875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 73,
+            "1": 186,
+            "2": 163,
+            "3": 76,
+            "4": 14
+          },
+          "multi_excitation_shots_ge_2": 253,
+          "multi_excitation_pct_ge_2": 49.4140625
+        },
+        "28": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.3671875,
+              "stored": 0.3671875,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.41796875,
+              "stored": 0.41796875,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.462890625,
+              "stored": 0.462890625,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.33984375,
+              "stored": 0.33984375,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.587890625,
+          "expected_excitations_all": 1.587890625,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 75,
+            "1": 173,
+            "2": 169,
+            "3": 78,
+            "4": 17
+          },
+          "multi_excitation_shots_ge_2": 264,
+          "multi_excitation_pct_ge_2": 51.5625
+        },
+        "32": {
+          "shots": 512,
+          "bit_order_valid": true,
+          "marginals": {
+            "S0": {
+              "computed": 0.369140625,
+              "stored": 0.369140625,
+              "matches_stored": true
+            },
+            "S1": {
+              "computed": 0.498046875,
+              "stored": 0.498046875,
+              "matches_stored": true
+            },
+            "S2": {
+              "computed": 0.39453125,
+              "stored": 0.39453125,
+              "matches_stored": true
+            },
+            "S3": {
+              "computed": 0.41015625,
+              "stored": 0.41015625,
+              "matches_stored": true
+            }
+          },
+          "sum_marginals_all": 1.671875,
+          "expected_excitations_all": 1.671875,
+          "marginal_identity_holds": true,
+          "hw_all": {
+            "0": 59,
+            "1": 168,
+            "2": 186,
+            "3": 80,
+            "4": 19
+          },
+          "multi_excitation_shots_ge_2": 285,
+          "multi_excitation_pct_ge_2": 55.6640625
+        }
+      }
+    }
+  },
+  "ideal_noiseless_conservation": {
+    "available": true,
+    "results": {
+      "12": {
+        "p_weight_1": 0.9999999999999992,
+        "p_s1": 0.20481380717410955,
+        "p_s2": 0.1900486556012214,
+        "p_s3": 0.1751149647945639,
+        "sum_satellite_marginals": 0.5699774275698948,
+        "excitation_strictly_conserved": true
+      },
+      "32": {
+        "p_weight_1": 0.9999999999999967,
+        "p_s1": 0.019003817310631606,
+        "p_s2": 0.034230108253208054,
+        "p_s3": 0.05073329918499918,
+        "sum_satellite_marginals": 0.10396722474883884,
+        "excitation_strictly_conserved": true
+      }
+    }
+  }
+}

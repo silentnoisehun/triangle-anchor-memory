@@ -22,13 +22,13 @@ This project executed a 9-phase preregistered experimental campaign (1011 physic
 Following rigorous post-execution physical auditing directly against the raw measurement bitstrings and textbook noisy Aer simulations, the experimental facts are:
 
 1. **The 37% "Retention Plateau" is Textbook Depolarizing Gate Noise:**  
-   In Phase 4 (Kerék, $k=32$, ~200 gate depth), the measured central qubit population on hardware is **$37.11\%$** (190/512 shots). The standard Qiskit Aer noisy simulation (`FakeMarrakesh` gate and readout noise) predicted **$37.99\%$** ($\Delta = -0.88\%$, within $1\sigma$ shot noise). The continuous drive depolarizes the qubit towards the mixed state ($P \to 0.5$) rather than sustaining an anomalous quantum bound state.
+   In Phase 4 (Kerék, $k=32$, ~200 gate depth), the measured central qubit population on hardware is **$37.11\%$** (190/512 shots). The preregistered Qiskit Aer noisy simulation predicted **$37.99\%$** ($\Delta = -0.88\%$, within $1\sigma$ shot noise). *Note on provenance:* This $37.99\%$ Aer prediction was computed using an `ibm_kingston` calibration snapshot (`2026-11-11 20:51:59 UTC`), not `FakeMarrakesh`. The hardware run executed on `ibm_marrakesh` (`dbs9bbvv5hds73dimmfg`), so the agreement is between Marrakesh hardware and a Kingston noise model, and it holds specifically at $k=32$: at $k=4$, hardware exceeds Aer by $+31.42$ pp ($50.00\%$ vs $18.58\%$), while at $k=8$ it undershoots by $-31.01$ pp ($37.30\%$ vs $68.31\%$). Continuous drive depolarizes the qubit towards the mixed state ($P \to 0.5$) rather than sustaining an anomalous quantum bound state.
 2. **Absence of Chiral Flux Advantage:**  
    The non-rotating static control (`static`, zero Peierls flux) yielded **$45.51\%$** (233/512) on hardware—higher than the rotating chiral drive ($37.11\%$). Driving the loop with synthetic flux provides no excitation trapping advantage over a static configuration.
 3. **The $Z = 13.63$ "Anomaly" is a Simulation Baseline Artifact:**  
    The $Z = 13.63$ statistical metric was produced because the preregistered baseline simulation lacked realistic idle $T_1$ relaxation for the idle/unanchored control circuits (leaving them at ~55% in Aer). On actual hardware, idle transmons suffered natural thermal decay down to ~9–11%. Comparing a hardware difference ($37\% - 9\% = +28\%$) against a mismatched simulation difference ($38\% - 55\% = -17\%$) generated a large, purely mathematical artifact.
 4. **Non-Conservation of Excitation Number (Noise-Pumped Excitations):**  
-   In multi-qubit readout phases (Phases 7, 8, 9), circuits initialized with **exactly one excitation** ($X$ gate) exhibit extensive multi-excitation bitstrings ($N_\text{exc} \ge 2$). In Phase 9 (`dist_mesh`, $k=32$), **$32.8\%$** of the shots contain 2, 3, or 4 simultaneous excitations (rising to **$55.7\%$** under continuous drive). The apparent "collective retention" ($72.1\%$) predominantly counts incoherent excitations pumped into the lattice by gate depolarizing errors.
+   In multi-qubit readout phases (Phases 7, 8, 9), circuits initialized with **exactly one excitation** ($X$ gate) exhibit extensive multi-excitation bitstrings ($N_\text{exc} \ge 2$). In Phase 7 (Tri-Wheel, $k=32$), multi-excitation shots reach **$25.4\%$** (130/512). In Phase 8 (Space-Fabric 13Q), multi-satellite excitations account for **$27.7\%$** (142/512), and multi-excitation across all 4 measured qubits reaches **$47.1\%$** at $k=12$ and **$44.1\%$** at $k=32$. In Phase 9 (`dist_mesh`, $k=32$), **$32.8\%$** of shots contain 2, 3, or 4 simultaneous excitations (rising to **$55.7\%$** under continuous drive). The apparent "collective retention" ($72.1\%$) predominantly counts incoherent excitations pumped into the lattice by gate depolarizing errors.
 5. **Loss of Transverse Phase Coherence:**  
    Transverse phase tomography ($|+\rangle$ initialization) demonstrates that phase coherence rapidly decays to $|\text{coh}_\perp| \approx 0.070$ at $k=32$. The circuit does not preserve quantum phase or arbitrary superpositions.
 
@@ -40,15 +40,18 @@ Following rigorous post-execution physical auditing directly against the raw mea
 *Audit script:* `scripts/audit_excitation_and_aer.py`  
 *Single excitation injected at $t=0$.*
 
-| Phase / Experiment | Mode ($k=32$) | $N=0$ (Lost) | $N=1$ (Single) | $N \ge 2$ (Noise-Pumped) | Total Shots |
+| Phase / Experiment | Mode | $N=0$ (Lost) | $N=1$ (Single) | $N \ge 2$ (Noise-Pumped) | Total Shots |
 |---|---|:---:|:---:|:---:|:---:|
-| **Phase 8 (Tri-Wheel, 3 Cores)** | `nosync` (idle) | 62.3% (319) | 35.7% (183) | **2.0%** (10) | 512 |
-| **Phase 8 (Tri-Wheel, 3 Cores)** | `sync` (driven) | 33.0% (169) | 41.6% (213) | **25.4%** (130) | 512 |
-| **Phase 9 (Mesh, 4 Qubits)** | `hold_idle` | 39.3% (201) | 45.7% (234) | **15.0%** (77) | 512 |
-| **Phase 9 (Mesh, 4 Qubits)** | `hold_mesh` | 21.5% (110) | 45.7% (234) | **32.8%** (168) | 512 |
-| **Phase 9 (Mesh, 4 Qubits)** | `continuous` | 11.5% (59) | 32.8% (168) | **55.7%** (285) | 512 |
+| **Phase 7 (Tri-Wheel, 3 Cores)** | `nosync` ($k=32$) | 62.3% (319) | 35.7% (183) | **2.0%** (10) | 512 |
+| **Phase 7 (Tri-Wheel, 3 Cores)** | `sync` ($k=32$) | 33.0% (169) | 41.6% (213) | **25.4%** (130) | 512 |
+| **Phase 8 (Space-Fabric, 4 Qubits)** | `nosync` ($k=32$) | 68.6% (351) | 29.5% (151) | **2.0%** (10) | 512 |
+| **Phase 8 (Space-Fabric, 4 Qubits)** | `sync` ($k=32$) | 16.6% (85) | 39.3% (201) | **44.1%** (226) | 512 |
+| **Phase 8 (Space-Fabric, 4 Qubits)** | `sync` ($k=12$) | 17.2% (88) | 35.7% (183) | **47.1%** (241) | 512 |
+| **Phase 9 (Mesh, 4 Qubits)** | `hold_idle` ($k=32$) | 39.3% (201) | 45.7% (234) | **15.0%** (77) | 512 |
+| **Phase 9 (Mesh, 4 Qubits)** | `hold_mesh` ($k=32$) | 21.5% (110) | 45.7% (234) | **32.8%** (168) | 512 |
+| **Phase 9 (Mesh, 4 Qubits)** | `continuous` ($k=32$) | 11.5% (59) | 32.8% (168) | **55.7%** (285) | 512 |
 
-*Finding:* Under active gate driving, multi-excitation generation escalates from 2.0% to 25.4% (Phase 8) and up to 55.7% (Phase 9). The "104.5% sum" ($S_1 + S_2 + S_3 = 36.1\% + 37.3\% + 31.1\%$) in Phase 8 is physically explained by the 25.4% multi-excitation occurrence.
+*Finding:* Under active gate driving, multi-excitation generation escalates across the network. The **104.5% marginal satellite sum** ($S_1 + S_2 + S_3 = 36.1\% + 37.3\% + 31.1\% = 104.49\%$) in Phase 8 ($k=12$ sync) is the exact average number of excited satellites: $(234 + 2\cdot 125 + 3\cdot 17)/512 = 535/512 = 104.49\%$. It is physically explained by Phase 8's own multi-excitation distribution: **142/512 shots (27.7%)** have at least two satellites in $|1\rangle$, and **241/512 shots (47.1%)** have at least two out of the four measured qubits in $|1\rangle$. (The 25.4% multi-excitation figure belongs to Phase 7 at $k=32$).
 
 ---
 
@@ -67,7 +70,7 @@ Following rigorous post-execution physical auditing directly against the raw mea
 | $k=28$ | 37.70% | 44.14% (226/512) | +6.45% |
 | **$k=32$** | **37.99%** | **37.11%** (190/512) | **−0.88%** |
 
-*Finding:* At step $k=32$, the hardware value is within 0.88% of the textbook Aer depolarizing noise simulation.
+*Finding:* At step $k=32$, the hardware value on `ibm_marrakesh` is within 0.88% of the Aer noise model derived from the `ibm_kingston` snapshot (2026-11-11 20:51:59 UTC). This agreement is isolated to $k=32$; large discrepancies appear at earlier steps ($+31.42\%$ at $k=4$, $-31.01\%$ at $k=8$).
 
 ---
 
@@ -75,14 +78,14 @@ Following rigorous post-execution physical auditing directly against the raw mea
 
 | Phase | Circuits | Backend | Hardware Job ID | Physical Verdict & Nature |
 | :--- | :---: | :---: | :---: | :--- |
-| **Phase 1: Küszöb** | 17 | `ibm_kingston` | `dbr1fl6jjaos73ai51pg` | **Passed:** Hardware contrast qualification gate ($+42.4\%$ raw contrast). |
-| **Phase 2: Gyűrű v1.2** | 24 | `ibm_marrakesh` | `dbs8ijvv5hds73dilt40` | **Textbook Null:** Bare unanchored loop decays rapidly ($P \le 0.26$ at $k=16$). |
-| **Phase 3: Csillag v1.5** | 757 | `ibm_marrakesh` | `dbs8j2habdes…` (4 chunks) | **Textbook Star:** Branching return ratios ($1 : 0.69 : 0.56$) match $1/\sqrt{N}$ lattice geometry. |
-| **Phase 4: Kerék v1.2** | 117 | `ibm_marrakesh` | `dbs9bbvv5hds73dimmfg` | **Textbook Noise:** Plató at $37.11\%$ matches Aer noise model ($37.99\%$). Static control gives $45.51\%$. $Z=13.63$ is a simulation baseline artifact. |
+| **Phase 1: Küszöb** | 17 | `ibm_kingston` | `dbr1fl6jjaos73ai51pg` | **Passed:** Hardware contrast qualification gate ($+42.4\%$ raw contrast). Executed on Kingston as planned. |
+| **Phase 2: Gyűrű v1.2** | 24 | `ibm_marrakesh`* | `dbs8ijvv5hds73dilt40` | **Textbook Null:** Bare unanchored loop decays rapidly ($P \le 0.26$ at $k=16$). (*Planned on Kingston; executed on Marrakesh). |
+| **Phase 3: Csillag v1.5** | 757 | `ibm_marrakesh`* | `dbs8j2habdes…` (4 chunks) | **Textbook Star:** Branching return ratios ($1 : 0.69 : 0.56$) match $1/\sqrt{N}$ lattice geometry. (*Planned on Kingston; executed on Marrakesh). |
+| **Phase 4: Kerék v1.2** | 117 | `ibm_marrakesh`* | `dbs9bbvv5hds73dimmfg` | **Textbook Noise:** Plató at $37.11\%$ matches Kingston-snapshot Aer noise model ($37.99\%$). Static control gives $45.51\%$. $Z=13.63$ is a simulation baseline artifact. (*Executed on Marrakesh). |
 | **Phase 5: Dual-Wheel** | 18 | `ibm_marrakesh` | `dbs9v0ujjaos73ajufr0` | **Conduction:** Driven inter-cell transfer observed; population spreads across nodes. |
 | **Phase 6: Decouple** | 21 | `ibm_marrakesh` | `dbsa7vpabdes73fqts9g` | **Driven Hold:** $P(S_2)=27.54\%$ ($141/512$). Coincidental integer identical to Phase 9. |
-| **Phase 7: Tri-Wheel Bus** | 18 | `ibm_marrakesh` | `dbsam57v5hds73dio4i0` | **Multi-Node Transport:** $P(S_3)=30.1\%$; multi-excitation accumulation observed. |
-| **Phase 8: Space-Fabric** | 18 | `ibm_marrakesh` | `dbsap8ok09pc73avuql0` | **Noise Pumping:** $S_1+S_2+S_3 = 104.5\%$ explained by $25.4\%$ multi-excitation shots. |
+| **Phase 7: Tri-Wheel Bus** | 18 | `ibm_marrakesh` | `dbsam57v5hds73dio4i0` | **Multi-Node Transport:** $P(S_3)=28.5\%$ ($146/512$); $25.4\%$ multi-excitation accumulation observed. |
+| **Phase 8: Space-Fabric** | 18 | `ibm_marrakesh` | `dbsap8ok09pc73avuql0` | **Noise Pumping:** $S_1+S_2+S_3 = 104.5\%$ explained by Phase 8 own multi-excitations ($27.7\%$ multi-satellite, $47.1\%$ multi-qubit). |
 | **Phase 9: Dist. Mesh** | 21 | `ibm_marrakesh` | `dbsaruujjaos73ajvhtg` | **Network Noise:** $72.07\%$ union retention driven by $32.8\%$ multi-excitation states. |
 
 ---
@@ -113,7 +116,7 @@ A 9 fázisból álló kísérletsorozat (1011 fizikai áramkör az IBM Heron `ib
 A mérési adatok (`counts`) és a zajos szimulációk összevetése alapján a fizikai valóság a következő:
 
 ### 1. A 37%-os plató tankönyvi kapuzaj
-A 4. fázisban (Kerék, $k=32$, ~200 kapu mélység) a hardveren mért mag-populáció **$37.11\%$** (190/512). A Qiskit Aer zajmodellje (depolarizáló kapuhiba és kiolvasási hiba) erre **$37.99\%$**-ot jósolt. Az eltérés mindössze **$-0.88\%$**, ami a statisztikai shot-zajon ($1\sigma$) belül van. A hajtás nem egy egzotikus kvantum-kötött állapotot tart fenn, hanem a depolarizáció a kevert állapot ($P \to 0.5$) felé húzza a qubitet.
+A 4. fázisban (Kerék, $k=32$, ~200 kapu mélység) a hardveren mért mag-populáció **$37.11\%$** (190/512). A Qiskit Aer zajmodellje erre **$37.99\%$**-ot jósolt ($\Delta = -0.88\%$). *Forrásjelölési megjegyzés:* Ez a 37,99%-os Aer-jóslat egy `ibm_kingston` kalibrációs pillanatképből készült (2026-11-11 20:51:59 UTC), míg a futás az `ibm_marrakesh` gépen történt (`dbs9bbvv5hds73dimmfg`), így az egyezés Marrakesh-hardver és Kingston-zajmodell között van, és kizárólag $k=32$-nél áll: $k=4$-nél $+31,42\%$, $k=8$-nál $-31,01\%$ az eltérés. A Gyűrű, a Csillag v1.5 és a Kerék v1.2 az eredetileg tervezett Kingston helyett Marrakesh-en futott le; a Küszöb (1. fázis) a tervnek megfelelően Kingstonon futott. A hajtás nem egy egzotikus kvantum-kötött állapotot tart fenn, hanem a depolarizáció a kevert állapot ($P \to 0.5$) felé húzza a qubitet.
 
 ### 2. Nincs királis fluxus-előny
 Az álló, nem forgó kontroll áramkör (`static`, nulla Peierls fluxus) a hardveren **$45.51\%$**-os értéket adott $k=32$-nél—magasabbat, mint a forgatott hurok ($37.11\%$). A szintetikus fluxus jelenléte semmilyen kimutatható többlettartást nem biztosít.
@@ -123,8 +126,9 @@ A $Z = 13.63$ érték abból adódott, hogy az előzetesen lefagyasztott Aer szi
 
 ### 4. A gerjesztésszám nem maradt meg (Parazita zajgerjesztések)
 A többqubites fázisokban (7., 8., 9. fázis), ahol a rendszerbe **egyetlen gerjesztést** írtunk be ($X$ kapu), a kimeneti eloszlásban tömegesen jelentek meg több-gerjesztéses állapotok ($N_\text{exc} \ge 2$). 
+- A 7. fázisban (Tri-Wheel, $k=32$) a többes gerjesztés **$25.4\%$** (130/512 lövés), és a magányos műhold $P(S_3) = \mathbf{28.5\%}$ ($146/512$, a korábbi elírásban szereplő 30,1% helyett).
+- A 8. fázisban (Space-Fabric 13Q) a műholdak összege azért adott **$104.5\%$**-ot ($104.49\%$), mert ez a gerjesztett műholdak várható száma: $(234 + 2\cdot 125 + 3\cdot 17)/512 = 535/512 = 1.0449$. A 8. fázis saját számaival: **142/512 lövésben (27.7%)** legalább két műhold 1-es, és **241/512 lövésben (47.1%)** a négy mért qubitből legalább kettő 1-es (míg $k=32$-nél $44.1\%$, üresjáratban pedig $2.0\%$).
 - A 9. fázisban a leválasztott hálózatnál a lövések **$32.8\%$**-ában, folyamatos hajtásnál **$55.7\%$**-ában 2, 3 vagy 4 gerjesztés volt jelen egyszerre.
-- A 8. fázisban a műholdak összege azért adott **$104.5\%$**-ot, mert a lövések **$25.4\%$**-ában egyszerre több qubit volt 1-es.
 A látszólagos "kollektív megtartás" tehát nem az eredeti gerjesztés tárolása, hanem a kapuzaj által pumpált parazita gerjesztések mérése.
 
 ### 5. Koherencia hiánya

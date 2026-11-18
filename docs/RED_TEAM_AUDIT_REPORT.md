@@ -183,17 +183,21 @@ Using `scripts/diagnose_mechanism.py`, we executed full quantum state tomography
 ### The Adversarial Challenge:
 > *"In Phase 8, the sum of individual satellite core marginals is $S_1 + S_2 + S_3 = 36.1\% + 37.3\% + 31.1\% = 104.5\%$. Under single-excitation injection, this sum mathematically cannot exceed 100%. Furthermore, in Phase 9 the union is $72.1\%$ while the sum of marginals is $97.5\%$. This proves that multiple qubits are simultaneously in the $|1\rangle$ state in a large fraction of shots. Where did these extra excitations come from if only one was injected?"*
 
-### Empirical Finding and Direct Bitstring Census (`scripts/audit_excitation_and_aer.py`):
+### Empirical Finding and Direct Bitstring Census (`scripts/audit_excitation_and_aer.py`, `scripts/audit_excitation_v2.py`):
 Evaluating the raw hardware bitstrings reveals clear evidence of gate-induced noise pumping:
-1. **Phase 8 (Tri-Wheel, $k=32$, 3 cores):**
+1. **Phase 7 (Tri-Wheel, $k=32$, 3 cores):**
    - In uncoupled `nosync`: Multi-excitation shots ($N_\text{exc} \ge 2$) account for only **$2.0\%$** (10/512 shots).
    - In actively driven `sync`: Multi-excitation shots jump to **$25.4\%$** (130/512 shots).
-   - The $104.5\%$ marginal sum is directly caused by the fact that in over one quarter of all shots, multiple qubits are in $|1\rangle$.
-2. **Phase 9 (Distributed Mesh, $k=32$, 4 qubits):**
+   - Single-node retention at satellite S3 is $P(S_3) = 28.5\%$ (146/512), not $30.1\%$.
+2. **Phase 8 (Space-Fabric 13Q, $k=12$ sync, 4 measured qubits S0..S3):**
+   - The $104.5\%$ marginal satellite sum ($S_1 + S_2 + S_3 = 36.1\% + 37.3\% + 31.1\% = 104.49\%$) is mathematically identical to the average number of excited satellites: $(234 + 2\cdot 125 + 3\cdot 17)/512 = 535/512 = 1.0449$.
+   - Multi-satellite shots ($N_\text{sat} \ge 2$ among S1..S3) account for **$27.7\%$** (142/512 shots).
+   - Across all 4 measured qubits (S0..S3), multi-excitation shots ($N \ge 2$) reach **$47.1\%$** (241/512 shots) at $k=12$, and **$44.1\%$** (226/512 shots) at $k=32$ (vs uncoupled `nosync` $k=32$ at **$2.0\%$**, 10/512).
+3. **Phase 9 (Distributed Mesh, $k=32$, 4 qubits):**
    - In `hold_idle`: Multi-excitation shots are **$15.0\%$** (77/512).
    - In `hold_mesh`: Multi-excitation shots reach **$32.8\%$** (168/512).
    - In `continuous` drive: Multi-excitation shots reach **$55.7\%$** (285/512).
-3. **Physical Conclusion:**
+4. **Physical Conclusion:**
    - Active gate operations continuously pump incoherent energy from $|0\rangle \to |1\rangle$ via depolarizing noise.
    - The apparent "collective retention" does not represent a single trapped excitation, but rather measures the accumulation of gate-pumped incoherent excitations.
 - **Status:** **DEFECT DOCUMENTED & ACCOUNTED FOR AS GATE-INDUCED NOISE PUMPING.**
@@ -206,10 +210,11 @@ Evaluating the raw hardware bitstrings reveals clear evidence of gate-induced no
 > *"The 37% retention plateau at $k=32$ is claimed as an anomaly ($Z=13.63, P < 10^{-15}$). But after 200 physical gates, depolarizing noise drives qubits toward the maximally mixed state $P(|1\rangle) \to 0.5$, whereas idle transmons decay toward 0 via $T_1$. Isn't this 37% plateau simply textbook depolarizing gate noise, and where did the $Z=13.63$ come from?"*
 
 ### Numerical and Physical Resolution:
-1. **Aer Noisy Simulation Direct Comparison:**
-   - In Phase 4 (Kerék, $k=32$), the preregistered Qiskit Aer noisy simulation (`FakeMarrakesh` gate and readout noise, `wheel_freeze_data.json`) predicted a hub population of **$37.99\%$**.
-   - The hardware measured value on `ibm_marrakesh` was **$37.11\%$** (190/512 shots).
-   - The difference is $\Delta = -0.88\%$, well within $1\sigma$ shot noise.
+1. **Aer Noisy Simulation Direct Comparison & Backend Provenance:**
+   - In Phase 4 (Kerék, $k=32$), the preregistered Qiskit Aer noisy simulation (`wheel_freeze_data.json`) predicted a hub population of **$37.99\%$**.
+   - *Provenance clarification:* This $37.99\%$ Aer prediction was computed from an `ibm_kingston` calibration snapshot (`2026-11-11 20:51:59 UTC`), not from `FakeMarrakesh`. The hardware run was subsequently executed on `ibm_marrakesh` on 2026-11-14 (`dbs9bbvv5hds73dimmfg`), yielding **$37.11\%$** (190/512 shots).
+   - While the $k=32$ point matches closely ($\Delta = -0.88\%$), the agreement does not hold across the trajectory: at $k=4$, the hardware exceeds the Aer model by $+31.4$ percentage points (50.00% vs 18.58%), while at $k=8$ it undershoots by $-31.0$ percentage points (37.30% vs 68.31%).
+   - Furthermore, while Phase 1 (Küszöb) executed on `ibm_kingston` as planned, Phases 2 (Gyűrű), 3 (Csillag v1.5), and 4 (Kerék v1.2) were dispatched to `ibm_marrakesh`, constituting a documented backend deviation from earlier Kingston planning drafts.
 2. **Static (Zero-Flux) Control:**
    - The non-rotating control circuit (`static`, zero Peierls flux) yielded **$45.51\%$** on hardware, outperforming the rotating `wheel` ($37.11\%$). This refutes any claim of synthetic flux or chiral advantage.
 3. **Origin of the $Z=13.63$ Metric:**
