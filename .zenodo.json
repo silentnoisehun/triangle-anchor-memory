@@ -1,23 +1,32 @@
 {
-  "title": "Persistent Chiral Excitation Pinning and Distributed Reservoir Confinement on IBM Heron Processors",
-  "description": "Preregistered hardware experimental data across 9 phases (1011 physical circuits) verifying chiral current inversion, non-equilibrium excitation pinning (Z = 13.63), and distributed reservoir decoupling on IBM Heron r2 superconducting processors (ibm_marrakesh and ibm_kingston).",
+  "title": "triangle-anchor-memory: Nine-Phase Quantum Hardware Experiment Series and Noise Audit on IBM Heron",
+  "description": "Nine-phase preregistered experiment series (1011 circuits) on IBM Heron r2 processors testing driven loop topologies (ring, star, wheel, multi-cell networks) for excitation retention. Phase 1 (threshold gate) ran on ibm_kingston; the other phases ran on ibm_marrakesh, although some plans named ibm_kingston.\n\nResult: consistent with textbook gate noise; no memory effect is demonstrated. The wheel's 37.11% central population (Phase 4, k = 32) matches a noisy Aer prediction of 37.99%, computed from an ibm_kingston calibration snapshot, and only at k = 32 (at k = 4 and k = 8 the deviation is about +31 and −31 percentage points). The static, non-rotating control gave 45.51%, higher than the rotating drive. The earlier Z = 13.63 \"anomaly\" is withdrawn: it came from a simulation baseline without idle T1 relaxation. In the multi-qubit phases, circuits prepared with one excitation show many multi-excitation shots (e.g. Phase 8, k = 12: 27.7% of shots have two or more excited satellites, which is why the satellite marginals sum to 104.5%). The apparent 72.1% collective retention mostly counts incoherent excitations from gate errors. Transverse coherence decays to about 0.07 at k = 32.\n\nErratum 2026-11-18: corrected audit phase labels, the multi-excitation census, Phase 7 P(S3) (28.5%, not 30.1%) and backend provenance. Raw counts, job IDs and frozen preregistrations are unchanged.",
+  "keywords": [
+    "superconducting qubits",
+    "IBM Heron",
+    "noise audit",
+    "excitation retention",
+    "preregistered experiment",
+    "negative result",
+    "reproducibility"
+  ],
+  "license": "MIT",
+  "version": "3.1.1",
+  "publication_date": "2026-11-18",
   "creators": [
     {
-      "name": "Máté, Róbert",
+      "name": "Róbert, Máté",
+      "affiliation": "Silent Coder Labs",
       "orcid": "0009-0003-3986-6039"
     }
   ],
   "access_right": "open",
-  "license": "MIT",
-  "keywords": [
-    "superconducting qubits",
-    "ibm heron",
-    "ibm marrakesh",
-    "excitation pinning",
-    "chiral current",
-    "non-equilibrium dynamics",
-    "reservoir engineering",
-    "preregistered experiment"
-  ],
-  "upload_type": "software"
+  "upload_type": "software",
+  "related_identifiers": [
+    {
+      "relation": "isSupplementTo",
+      "identifier": "https://github.com/silentnoisehun/triangle-anchor-memory",
+      "resource_type": "software"
+    }
+  ]
 }

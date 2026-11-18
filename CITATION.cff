@@ -1,20 +1,43 @@
 cff-version: 1.2.0
 message: "If you use this work or its experimental quantum hardware data, please cite it as below."
-title: "Persistent Chiral Excitation Pinning and Distributed Reservoir Confinement on IBM Heron Processors"
-authors:
-  - family-names: "Máté"
-    given-names: "Róbert"
-    orcid: "https://orcid.org/0009-0003-3986-6039"
-version: "3.1.0"
-date-released: "2026-11-14"
+title: "triangle-anchor-memory: Nine-Phase Quantum Hardware Experiment Series and Noise Audit on IBM Heron"
+version: "3.1.1"
+date-released: "2026-11-18"
 repository-code: "https://github.com/silentnoisehun/triangle-anchor-memory"
-license: "MIT"
+license: MIT
+authors:
+  - name: "Róbert, Máté"
+    family-names: "Róbert"
+    given-names: "Máté"
+    affiliation: "Silent Coder Labs"
+    orcid: "0009-0003-3986-6039"
+abstract: >-
+  Nine-phase preregistered experiment series (1011 circuits) on IBM Heron r2
+  processors testing driven loop topologies (ring, star, wheel, multi-cell networks)
+  for excitation retention. Phase 1 (threshold gate) ran on ibm_kingston; the
+  other phases ran on ibm_marrakesh, although some plans named ibm_kingston.
+
+  Result: consistent with textbook gate noise; no memory effect is demonstrated.
+  The wheel's 37.11% central population (Phase 4, k = 32) matches a noisy Aer
+  prediction of 37.99%, computed from an ibm_kingston calibration snapshot, and
+  only at k = 32 (at k = 4 and k = 8 the deviation is about +31 and −31 percentage
+  points). The static, non-rotating control gave 45.51%, higher than the rotating
+  drive. The earlier Z = 13.63 "anomaly" is withdrawn: it came from a simulation
+  baseline without idle T1 relaxation. In the multi-qubit phases, circuits
+  prepared with one excitation show many multi-excitation shots (e.g. Phase 8,
+  k = 12: 27.7% of shots have two or more excited satellites, which is why the
+  satellite marginals sum to 104.5%). The apparent 72.1% collective retention
+  mostly counts incoherent excitations from gate errors. Transverse coherence
+  decays to about 0.07 at k = 32.
+
+  Erratum 2026-11-18: corrected audit phase labels, the multi-excitation census,
+  Phase 7 P(S3) (28.5%, not 30.1%) and backend provenance. Raw counts, job IDs
+  and frozen preregistrations are unchanged.
 keywords:
   - "superconducting qubits"
-  - "ibm heron"
-  - "ibm marrakesh"
-  - "excitation pinning"
-  - "chiral current"
-  - "non-equilibrium dynamics"
-  - "reservoir engineering"
+  - "IBM Heron"
+  - "noise audit"
+  - "excitation retention"
   - "preregistered experiment"
+  - "negative result"
+  - "reproducibility"
